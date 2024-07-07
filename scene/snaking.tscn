@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://oun5bmabme7x"]
+
+[ext_resource type="Script" path="res://render/Grid.gd" id="1_i3img"]
+[ext_resource type="Script" path="res://object/Snake.gd" id="2_5qcsd"]
+[ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="2_smvfp"]
+
+[node name="Snaking" type="Node2D"]
+
+[node name="SnakingState" type="Node" parent="."]
+
+[node name="Grid" type="Node2D" parent="SnakingState"]
+script = ExtResource("1_i3img")
+font = ExtResource("2_smvfp")
+
+[node name="Snake" type="Node2D" parent="SnakingState/Grid"]
+script = ExtResource("2_5qcsd")
+pos = Vector2i(5, 5)
