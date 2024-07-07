@@ -11,10 +11,6 @@ extends Node2D
 @export var font : Font
 ## Represents an empty cell
 @export var empty_char : String = '.'
-## Color of the grid
-@export var char_color : Color = Color.DARK_BLUE
-## Background color
-@export var bg_color : Color = Color.BLACK
 
 @onready var char_offset := Vector2i(cell_size / 4, cell_size - cell_size / 4)
 
@@ -23,7 +19,7 @@ func _ready():
 	assert(font is Font)
 	for y in rows:
 		for x in cols:
-			var cell = Cell.new(empty_char, char_color)
+			var cell = Cell.new(empty_char, Palette.SECONDARY)
 			add_child(cell)
 
 
@@ -39,7 +35,7 @@ func _draw():
 	var i: int = 0
 	for cell : Cell in get_children():
 		var pos = pos_from_idx(i) * cell_size
-		draw_rect(Rect2(pos.x, pos.y, cell_size, cell_size,), bg_color)
+		draw_rect(Rect2(pos.x, pos.y, cell_size, cell_size,), Palette.BACKGROUND)
 		draw_char(font, pos + char_offset, cell._char, cell_size, cell._color)
 		i += 1
 
@@ -47,7 +43,7 @@ func _draw():
 func clear():
 	for cell: Cell in get_children():
 		cell._char = empty_char
-		cell._color = char_color
+		cell._color = Palette.SECONDARY
 
 
 func in_grid(pos: Vector2i) -> bool:

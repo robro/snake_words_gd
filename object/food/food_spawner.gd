@@ -24,7 +24,7 @@ func spawn_food(text: String):
 		if pos < Vector2i.ZERO:
 			print("no free space")
 			return
-		var food = Food.new(pos, t, Color.RED)
+		var food = Food.new(pos, t, Palette.PRIMARY)
 		add_child(food)
 
 

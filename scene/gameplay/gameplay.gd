@@ -1,10 +1,26 @@
+class_name Gameplay
 extends Node2D
+
+@export_group("Colors")
+@export var primary := Color.RED
+@export var secondary := Color.DARK_RED
+@export var background := Color.BLACK
+@export var highlight := Color.WHITE_SMOKE
+@export var shadow := Color.DIM_GRAY
 
 @onready var food_spawner : FoodSpawner = $FoodSpawner
 @onready var snake : Snake = $Snake
 
 var target_word := "snake"
 var partial_word := ""
+
+
+func _init():
+	Palette.HIGHLIGHT = highlight
+	Palette.PRIMARY = primary
+	Palette.SECONDARY = secondary
+	Palette.BACKGROUND = background
+	Palette.SHADOW = shadow
 
 
 func _ready():
@@ -15,7 +31,7 @@ func _ready():
 
 func _on_food_spawner_no_food():
 	food_spawner.spawn_food(target_word)
-	var color = Color.WHITE if partial_word == target_word else Color.DARK_GRAY
+	var color = Palette.HIGHLIGHT if partial_word == target_word else Palette.SHADOW
 	for i in range(len(partial_word)):
 		snake.parts[-i - 1]._color = color
 	partial_word = ""

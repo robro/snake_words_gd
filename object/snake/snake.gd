@@ -2,7 +2,6 @@ class_name Snake
 extends Node2D
 
 @export var text : String = "snake"
-@export var color : Color = Color.WHITE
 @export var facing : Facing = Facing.RIGHT
 @export var tick : float = 0.5
 @export var start_pos : Vector2i = Vector2i.ZERO
@@ -32,14 +31,15 @@ signal moved_to(p: Vector2i)
 
 func _ready():
 	for i in len(text):
-		parts.append(Cell.new(text[i], color))
+		parts.append(Cell.new(text[i], Palette.HIGHLIGHT))
+		print(Palette.PRIMARY)
 		_positions.append(start_pos + offset[facing] * -i)
 
 	timer = Timer.new()
-	add_child(timer)
 	timer.wait_time = tick
+	timer.autostart = true
 	timer.timeout.connect(move)
-	timer.start()
+	add_child(timer)
 
 
 func _process(_delta):

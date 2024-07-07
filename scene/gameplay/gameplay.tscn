@@ -10,7 +10,6 @@
 script = ExtResource("1_dewvt")
 
 [node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
-position = Vector2(16, 48)
 script = ExtResource("5_lgauy")
 
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
