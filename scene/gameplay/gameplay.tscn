@@ -11,6 +11,7 @@ script = ExtResource("1_dewvt")
 
 [node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_lgauy")
+inedible_time = 5.0
 
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_56jgj")

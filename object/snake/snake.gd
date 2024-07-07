@@ -42,13 +42,7 @@ func _ready():
 	add_child(timer)
 
 
-func _process(_delta):
-	pass
-
-
 func _input(event):
-	if not event is InputEvent:
-		return
 	if event.is_action_pressed("Up") and facing != Facing.DOWN:
 		next_facing = Facing.UP
 	elif event.is_action_pressed("Down") and facing != Facing.UP:

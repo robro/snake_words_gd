@@ -10,6 +10,7 @@ extends Node2D
 
 @onready var food_spawner : FoodSpawner = $FoodSpawner
 @onready var snake : Snake = $Snake
+@onready var grid : Grid = $Grid
 
 var target_word := "snake"
 var partial_word := ""
@@ -30,7 +31,7 @@ func _ready():
 
 
 func _on_food_spawner_no_food():
-	food_spawner.spawn_food(target_word)
+	food_spawner.spawn_food(target_word, grid)
 	var color = Palette.HIGHLIGHT if partial_word == target_word else Palette.SHADOW
 	for i in range(len(partial_word)):
 		snake.parts[-i - 1]._color = color
@@ -39,7 +40,7 @@ func _on_food_spawner_no_food():
 
 func _on_snake_moved_to(pos: Vector2i):
 	for food : Food in food_spawner.get_children():
-		if food._pos == pos:
+		if food.is_edible() and food._pos == pos:
 			snake.add_part(food)
 			food_spawner.remove(food)
 			partial_word += food._char

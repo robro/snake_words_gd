@@ -1,7 +1,7 @@
 class_name FoodSpawner
 extends Node2D
 
-@onready var _grid : Grid = $"../Grid"
+@export var inedible_time : float = 0.5
 
 signal no_food
 
@@ -15,21 +15,21 @@ func positions() -> Array:
 
 func draw_to(grid: Grid):
 	for food : Food in get_children():
-		grid.set_cell(food._pos, food._char, food._color)
+		grid.set_cell(food._pos, food.char(), food._color)
 
 
-func spawn_food(text: String):
-	for t in text:
-		var pos : Vector2i = _grid.get_free_pos()
+func spawn_food(text: String, grid: Grid):
+	for char_ in text:
+		var pos : Vector2i = grid.get_free_pos()
 		if pos < Vector2i.ZERO:
 			print("no free space")
 			return
-		var food = Food.new(pos, t, Palette.PRIMARY)
-		add_child(food)
+
+		add_child(Food.new(pos, char_, Palette.PRIMARY, inedible_time))
 
 
 func clear():
-	for food: Food in get_children():
+	for food : Food in get_children():
 		food.queue_free()
 
 
