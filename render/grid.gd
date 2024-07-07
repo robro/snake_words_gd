@@ -25,7 +25,9 @@ func _ready():
 
 func _process(_delta):
 	clear()
-	for node in get_tree().get_nodes_in_group("drawable"):
+	var drawables = get_tree().get_nodes_in_group("drawable")
+	drawables.sort_custom(func(a, b): return a.z_index < b.z_index)
+	for node in drawables:
 		node.draw_to(self)
 
 	queue_redraw()
