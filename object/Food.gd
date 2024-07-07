@@ -9,11 +9,3 @@ func _init(pos: Vector2i, text: String, color: Color):
 	position = pos
 	_char = text
 	_color = color
-
-
-func _ready():
-	pass # Replace with function body.
-
-
-func _process(_delta):
-	pass

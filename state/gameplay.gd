@@ -1,8 +1,7 @@
-class_name Snaking
 extends Node2D
 
 @onready var timer := Timer.new()
-@onready var food_spawner : FoodSpawner = get_node("Grid/FoodSpawner")
+@onready var food_spawner : FoodSpawner = $Grid/FoodSpawner
 
 signal spawn_food(text: String)
 

@@ -10,10 +10,6 @@ func _ready():
 	assert(_grid is Grid)
 
 
-func _process(_delta):
-	pass
-
-
 func get_positions() -> Array[Vector2i]:
 	return positions
 

@@ -57,7 +57,7 @@ func get_free_pos() -> Vector2i:
 		if child.has_method("get_positions"):
 			for pos in child.get_positions():
 				if in_grid(pos):
-					occupied.append(get_idx_from_pos(pos))
+					occupied.append(idx_from_pos(pos))
 
 	var free := range(cols * rows)
 	for idx in occupied:
@@ -66,21 +66,21 @@ func get_free_pos() -> Vector2i:
 	if free.is_empty():
 		return Vector2i(-1, -1)
 
-	return get_pos_from_idx(free[randi_range(0, len(free) - 1)])
+	return pos_from_idx(free[randi_range(0, len(free) - 1)])
 
 
-func get_idx_from_pos(pos : Vector2i) -> int:
+func idx_from_pos(pos : Vector2i) -> int:
 	return pos.y * cols + pos.x
 
 
-func get_pos_from_idx(idx: int) -> Vector2i:
+func pos_from_idx(idx: int) -> Vector2i:
 	return Vector2i(idx % cols, idx / cols)
 
 
 func set_color(pos: Vector2i, color: Color) -> void:
 	if not in_grid(pos):
 		return
-	var cell := cells[get_idx_from_pos(pos)]
+	var cell := cells[idx_from_pos(pos)]
 	cell._color = color
 
 
@@ -88,7 +88,7 @@ func set_char(pos: Vector2i, text: String) -> void:
 	assert(len(text) == 1)
 	if not in_grid(pos):
 		return
-	var cell := cells[get_idx_from_pos(pos)]
+	var cell := cells[idx_from_pos(pos)]
 	cell.text = text
 
 
@@ -96,6 +96,6 @@ func set_cell(pos: Vector2i, text: String, color: Color) -> void:
 	assert(len(text) == 1)
 	if not in_grid(pos):
 		return
-	var cell := cells[get_idx_from_pos(pos)]
+	var cell := cells[idx_from_pos(pos)]
 	cell._char = text
 	cell._color = color

@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://oun5bmabme7x"]
+
+[ext_resource type="Script" path="res://state/gameplay.gd" id="1_jtfr1"]
+[ext_resource type="Script" path="res://render/grid.gd" id="2_jydiw"]
+[ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="3_dl80b"]
+[ext_resource type="Script" path="res://object/snake.gd" id="4_yhvru"]
+[ext_resource type="Script" path="res://object/food_spawner.gd" id="5_8f8ek"]
+
+[node name="Gameplay" type="Node2D"]
+script = ExtResource("1_jtfr1")
+
+[node name="Grid" type="Node2D" parent="."]
+position = Vector2(16, 48)
+script = ExtResource("2_jydiw")
+font = ExtResource("3_dl80b")
+
+[node name="Snake" type="Node2D" parent="Grid"]
+script = ExtResource("4_yhvru")
+tick = 0.1
+
+[node name="FoodSpawner" type="Node2D" parent="Grid"]
+script = ExtResource("5_8f8ek")
+
+[connection signal="spawn_food" from="." to="Grid/FoodSpawner" method="_on_spawn_food"]
