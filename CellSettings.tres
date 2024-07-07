@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dgdtnhb62taff"]
+
+[ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="1_t5qx7"]
+
+[resource]
+font = ExtResource("1_t5qx7")
+font_size = 64
