@@ -12,7 +12,6 @@ extends Node2D
 ## Represents an empty cell
 @export var empty_char : String = '.'
 
-var cells : Array[Cell]
 var grid_color : Color
 
 
@@ -20,29 +19,33 @@ func _ready():
 	assert(font is Font)
 	for y in rows:
 		for x in cols:
-			var cell = Cell.new()
-			cells.append(cell)
-			cell._char = empty_char
-			cell._color = grid_color
-			cell.position = Vector2(x * cell_size, y * cell_size)
+			var cell = Cell.new(empty_char, grid_color)
+			add_child(cell)
 
 
 func _process(_delta):
 	clear()
-	for child in get_children():
-		if child.has_method("draw_to_grid"):
-			child.draw_to_grid(self)
+	for node in get_tree().get_nodes_in_group("drawable"):
+		node.draw_to(self)
 
 	queue_redraw()
 
 
 func _draw():
-	for cell in cells:
-		draw_char(font, cell.position, cell._char, cell_size, cell._color)
+	var i: int = 0
+	for cell : Cell in get_children():
+		draw_char(
+			font,
+			pos_from_idx(i) * cell_size,
+			cell._char,
+			cell_size,
+			cell._color
+		)
+		i += 1
 
 
 func clear():
-	for cell in cells:
+	for cell: Cell in get_children():
 		cell._char = empty_char
 		cell._color = grid_color
 
@@ -53,9 +56,11 @@ func in_grid(pos: Vector2i) -> bool:
 
 func get_free_pos() -> Vector2i:
 	var occupied : Array[int] = []
-	for child in get_children().filter(func(c): return c.has_method("get_positions")):
-		for pos in child.get_positions().filter(func(p): return in_grid(p)):
-			occupied.append(idx_from_pos(pos))
+	for node in get_tree().get_nodes_in_group("drawable"):
+		if node.has_method("positions"):
+			for pos in node.positions():
+				if in_grid(pos):
+					occupied.append(idx_from_pos(pos))
 
 	var free := range(cols * rows)
 	for idx in occupied:
@@ -78,7 +83,7 @@ func pos_from_idx(idx: int) -> Vector2i:
 func set_color_at(pos: Vector2i, color: Color) -> void:
 	if not in_grid(pos):
 		return
-	var cell := cells[idx_from_pos(pos)]
+	var cell : Cell = get_children()[idx_from_pos(pos)]
 	cell._color = color
 
 
@@ -86,7 +91,7 @@ func set_char_at(pos: Vector2i, text: String) -> void:
 	assert(len(text) == 1)
 	if not in_grid(pos):
 		return
-	var cell := cells[idx_from_pos(pos)]
+	var cell : Cell = get_children()[idx_from_pos(pos)]
 	cell.text = text
 
 
@@ -94,6 +99,6 @@ func set_cell(pos: Vector2i, text: String, color: Color) -> void:
 	assert(len(text) == 1)
 	if not in_grid(pos):
 		return
-	var cell := cells[idx_from_pos(pos)]
+	var cell : Cell = get_children()[idx_from_pos(pos)]
 	cell._char = text
 	cell._color = color

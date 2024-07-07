@@ -5,7 +5,7 @@ extends Node2D
 @export var color : Color = Color.WHITE
 @export var facing : Facing = Facing.RIGHT
 @export var tick : float = 0.5
-@export var pos : Vector2i = Vector2i.ZERO
+@export var start_pos : Vector2i = Vector2i.ZERO
 
 enum Facing {
 	UP,
@@ -22,19 +22,19 @@ const offset = {
 }
 
 var timer : Timer
-var parts : Array[SnakePart]
-var positions : Array[Vector2i]
-var tail : Vector2i = pos
+var parts : Array[Cell]
+var _positions : Array[Vector2i]
+var tail : Vector2i = start_pos
 var next_facing := facing
 
-
-func _init():
-	for i in len(text):
-		parts.append(SnakePart.new(text[i], color))
-		positions.append(offset[facing] * -i)
+signal moved_to(p: Vector2i)
 
 
 func _ready():
+	for i in len(text):
+		parts.append(Cell.new(text[i], color))
+		_positions.append(start_pos + offset[facing] * -i)
+
 	timer = Timer.new()
 	add_child(timer)
 	timer.wait_time = tick
@@ -61,14 +61,21 @@ func _input(event):
 
 func move():
 	facing = next_facing
-	tail = positions.pop_back()
-	positions.insert(0, positions[0] + offset[facing])
+	var next_pos = _positions[0] + offset[facing]
+	_positions.insert(0, next_pos)
+	tail = _positions.pop_back()
+	emit_signal("moved_to", next_pos)
 
 
-func draw_to_grid(grid: Grid):
+func add_part(food: Food):
+	parts.append(Cell.new(food._char, food._color))
+	_positions.append(tail)
+
+
+func draw_to(grid: Grid):
 	for i in len(parts):
-		grid.set_cell(positions[i] + pos, parts[i].text, parts[i].color)
+		grid.set_cell(_positions[i], parts[i]._char, parts[i]._color)
 
 
-func get_positions() -> Array[Vector2i]:
-	return positions
+func positions() -> Array[Vector2i]:
+	return _positions

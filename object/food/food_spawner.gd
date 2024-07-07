@@ -1,30 +1,26 @@
 class_name FoodSpawner
 extends Node2D
 
-@onready var parent_grid : Grid = get_parent()
+@onready var _grid : Grid = $"../Grid"
 
-signal food_eaten(pos: Vector2i)
+signal no_food
 
 
 func _ready():
-	assert(parent_grid is Grid)
+	child_order_changed.connect(_on_child_order_changed)
+
+func positions() -> Array:
+	return get_children().map(func(c): return c._pos)
 
 
-func get_positions() -> Array:
-	return (get_children()
-		.filter(func(c): return c is Food)
-		.map(func(c): return c._pos)
-	)
-
-
-func draw_to_grid(grid: Grid):
-	for food : Food in get_children().filter(func(c): return c is Food):
+func draw_to(grid: Grid):
+	for food : Food in get_children():
 		grid.set_cell(food._pos, food._char, food._color)
 
 
-func _on_spawn_food(text: String):
+func spawn_food(text: String):
 	for t in text:
-		var pos : Vector2i = parent_grid.get_free_pos()
+		var pos : Vector2i = _grid.get_free_pos()
 		if pos < Vector2i.ZERO:
 			print("no free space")
 			return
@@ -32,5 +28,10 @@ func _on_spawn_food(text: String):
 		add_child(food)
 
 
-func _on_food_eaten(pos: Vector2i):
-	food_eaten.emit(pos)
+func remove(food: Food):
+	food.queue_free()
+
+
+func _on_child_order_changed():
+	if get_children().is_empty():
+		emit_signal("no_food")
