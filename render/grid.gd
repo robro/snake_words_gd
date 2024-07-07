@@ -53,11 +53,9 @@ func in_grid(pos: Vector2i) -> bool:
 
 func get_free_pos() -> Vector2i:
 	var occupied : Array[int] = []
-	for child in get_children():
-		if child.has_method("get_positions"):
-			for pos in child.get_positions():
-				if in_grid(pos):
-					occupied.append(idx_from_pos(pos))
+	for child in get_children().filter(func(c): return c.has_method("get_positions")):
+		for pos in child.get_positions().filter(func(p): return in_grid(p)):
+			occupied.append(idx_from_pos(pos))
 
 	var free := range(cols * rows)
 	for idx in occupied:

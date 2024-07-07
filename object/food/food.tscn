@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://clrpu17edpum8"]
+
+[ext_resource type="Script" path="res://object/food/food.gd" id="1_xw2oo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i4dnb"]
+size = Vector2(21, 20)
+
+[node name="Food" type="StaticBody2D"]
+script = ExtResource("1_xw2oo")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_i4dnb")
