@@ -28,6 +28,11 @@ func spawn_food(text: String):
 		add_child(food)
 
 
+func clear():
+	for food: Food in get_children():
+		food.queue_free()
+
+
 func remove(food: Food):
 	food.queue_free()
 

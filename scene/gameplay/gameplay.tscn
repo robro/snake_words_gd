@@ -15,10 +15,9 @@ script = ExtResource("5_lgauy")
 
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_56jgj")
-tick = 0.125
+tick = 0.15
 start_pos = Vector2i(5, 5)
 
 [node name="Grid" type="Node2D" parent="."]
-position = Vector2(16, 48)
 script = ExtResource("2_6iphj")
 font = ExtResource("3_pr5mj")
