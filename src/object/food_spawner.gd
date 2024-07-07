@@ -1,13 +1,13 @@
 class_name FoodSpawner
 extends Node2D
 
-@onready var _grid : Grid = get_parent()
+@onready var parent_grid : Grid = get_parent()
 var food_list : Array[Food]
 var positions : Array[Vector2i]
 
 
 func _ready():
-	assert(_grid is Grid)
+	assert(parent_grid is Grid)
 
 
 func get_positions() -> Array[Vector2i]:
@@ -21,7 +21,7 @@ func draw_to_grid(grid: Grid):
 
 func _on_spawn_food(text: String):
 	for chararcter in text:
-		var pos := _grid.get_free_pos()
+		var pos : Vector2i = parent_grid.get_free_pos()
 		if pos < Vector2i.ZERO:
 			print("no free space")
 			return

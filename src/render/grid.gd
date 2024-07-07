@@ -77,14 +77,14 @@ func pos_from_idx(idx: int) -> Vector2i:
 	return Vector2i(idx % cols, idx / cols)
 
 
-func set_color(pos: Vector2i, color: Color) -> void:
+func set_color_at(pos: Vector2i, color: Color) -> void:
 	if not in_grid(pos):
 		return
 	var cell := cells[idx_from_pos(pos)]
 	cell._color = color
 
 
-func set_char(pos: Vector2i, text: String) -> void:
+func set_char_at(pos: Vector2i, text: String) -> void:
 	assert(len(text) == 1)
 	if not in_grid(pos):
 		return
