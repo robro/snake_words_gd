@@ -68,3 +68,7 @@ func move():
 func draw_to_grid(grid: Grid):
 	for i in len(parts):
 		grid.set_cell(positions[i] + pos, parts[i].text, parts[i].color)
+
+
+func get_positions() -> Array[Vector2i]:
+	return positions

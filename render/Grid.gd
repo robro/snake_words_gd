@@ -22,6 +22,8 @@ func _ready():
 		for x in cols:
 			var cell = Cell.new()
 			cells.append(cell)
+			cell._char = empty_char
+			cell._color = grid_color
 			cell.position = Vector2(x * cell_size, y * cell_size)
 
 
@@ -49,8 +51,30 @@ func in_grid(pos: Vector2i) -> bool:
 	return Rect2i(0, 0, cols, rows).has_point(pos)
 
 
+func get_free_pos() -> Vector2i:
+	var occupied : Array[int] = []
+	for child in get_children():
+		if child.has_method("get_positions"):
+			for pos in child.get_positions():
+				if in_grid(pos):
+					occupied.append(get_idx_from_pos(pos))
+
+	var free := range(cols * rows)
+	for idx in occupied:
+		free.erase(idx)
+
+	if free.is_empty():
+		return Vector2i(-1, -1)
+
+	return get_pos_from_idx(free[randi_range(0, len(free) - 1)])
+
+
 func get_idx_from_pos(pos : Vector2i) -> int:
 	return pos.y * cols + pos.x
+
+
+func get_pos_from_idx(idx: int) -> Vector2i:
+	return Vector2i(idx % cols, idx / cols)
 
 
 func set_color(pos: Vector2i, color: Color) -> void:
