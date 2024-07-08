@@ -9,6 +9,7 @@ signal no_food
 func _ready():
 	child_order_changed.connect(_on_child_order_changed)
 
+
 func positions() -> Array:
 	return get_children().map(func(c): return c._pos)
 

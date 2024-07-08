@@ -11,7 +11,10 @@ func _ready():
 
 
 func _process(_delta):
-	text = "█".lpad(Global.partial_word.length() + 1).rpad(Global.target_word.length())
+	var new_text = "█".lpad(Global.partial_word.length() + 1).rpad(Global.target_word.length())
+	if new_text != text:
+		text = new_text
+		reset()
 
 
 func blink():

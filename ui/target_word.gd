@@ -1,9 +1,10 @@
 extends Label
 
-@onready var food_spawner = $"../../FoodSpawner"
+@export var food_spawner : FoodSpawner
 
 
 func _ready():
+	assert(food_spawner is FoodSpawner)
 	add_theme_color_override("font_color", Palette.secondary)
 
 
@@ -13,6 +14,6 @@ func _process(_delta):
 			.lpad(Global.target_word.length()))
 	else:
 		var scrambled = ""
-		for food : Food in food_spawner.get_children():
-			scrambled += food.char()
+		for _i in Global.target_word.length():
+			scrambled += char(randi_range(0, 25) + 97)
 		text = scrambled

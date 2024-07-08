@@ -4,7 +4,6 @@ extends Node2D
 @onready var food_spawner : FoodSpawner = $FoodSpawner
 @onready var snake : Snake = $Snake
 @onready var grid : Grid = $Grid
-@onready var cursor : Label = $WordContainer/Cursor
 
 
 func _init():
@@ -40,16 +39,29 @@ func _on_snake_moved_to(pos: Vector2i):
 		snake.append(Cell.new(food._char, food._color))
 		Global.partial_word += food._char
 		food_spawner.remove(food)
-		cursor.reset()
 
 		if not Global.target_word.begins_with(Global.partial_word):
 			food_spawner.clear()
 			# go to wrong word state
+			Global.multiplier = 1
+			Global.combo = 0
 			init_board()
 		elif Global.partial_word == Global.target_word:
+			Global.multiplier = min(Global.multiplier * 2, Global.max_multiplier)
+			Global.combo += 1
+			Global.max_combo = max(Global.combo, Global.max_combo)
+			Global.score += Global.base_points * Global.multiplier
 			# go to correct word state
 			init_board()
+		else:
+			Global.combo += 1
+			Global.max_combo = max(Global.combo, Global.max_combo)
+			Global.score += Global.base_points * Global.multiplier
 
 
 func _on_snake_collided():
+	Global.score = 0
+	Global.combo = 0
+	Global.max_combo = 0
+	Global.multiplier = 1
 	get_tree().reload_current_scene()

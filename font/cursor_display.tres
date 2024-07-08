@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://ks11ym86ydqj"]
+
+[ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="1_1l0i3"]
+
+[resource]
+base_font = ExtResource("1_1l0i3")
+variation_transform = Transform2D(1, 0, 0, 0.9, 0, 0)
+spacing_glyph = 58
