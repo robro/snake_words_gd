@@ -31,6 +31,10 @@ window/size/viewport_width=768
 window/size/viewport_height=1152
 window/size/resizable=false
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg")
+
 [input]
 
 Up={
