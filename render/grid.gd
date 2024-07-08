@@ -47,7 +47,7 @@ func clear():
 		cell._color = Palette.SECONDARY
 
 
-func in_grid(pos: Vector2i) -> bool:
+func contains(pos: Vector2i) -> bool:
 	return Rect2i(0, 0, cols, rows).has_point(pos)
 
 
@@ -55,7 +55,7 @@ func get_free_pos() -> Vector2i:
 	var occupied : Array[int] = []
 	for node in get_tree().get_nodes_in_group("drawable"):
 		for pos in node.positions():
-			if in_grid(pos):
+			if contains(pos):
 				occupied.append(idx_from_pos(pos))
 
 	var free := range(cols * rows)
@@ -77,7 +77,7 @@ func pos_from_idx(idx: int) -> Vector2i:
 
 
 func set_color_at(pos: Vector2i, color: Color) -> void:
-	if not in_grid(pos):
+	if not contains(pos):
 		return
 	var cell : Cell = get_children()[idx_from_pos(pos)]
 	cell._color = color
@@ -85,7 +85,7 @@ func set_color_at(pos: Vector2i, color: Color) -> void:
 
 func set_char_at(pos: Vector2i, text: String) -> void:
 	assert(len(text) == 1)
-	if not in_grid(pos):
+	if not contains(pos):
 		return
 	var cell : Cell = get_children()[idx_from_pos(pos)]
 	cell.text = text
@@ -93,7 +93,7 @@ func set_char_at(pos: Vector2i, text: String) -> void:
 
 func set_cell(pos: Vector2i, text: String, color: Color) -> void:
 	assert(len(text) == 1)
-	if not in_grid(pos):
+	if not contains(pos):
 		return
 	var cell : Cell = get_children()[idx_from_pos(pos)]
 	cell._char = text

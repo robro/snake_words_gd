@@ -24,6 +24,7 @@ func _init():
 
 func _ready():
 	snake.connect("moved_to", _on_snake_moved_to)
+	snake.connect("collided", _on_snake_collided)
 	init_board()
 
 
@@ -59,3 +60,7 @@ func _on_snake_moved_to(pos: Vector2i):
 		elif Global.partial_word == Global.target_word:
 			# go to correct word state
 			init_board()
+
+
+func _on_snake_collided():
+	get_tree().reload_current_scene()

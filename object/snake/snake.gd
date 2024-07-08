@@ -7,6 +7,7 @@ extends Node2D
 @export var start_pos : Vector2i = Vector2i.ZERO
 @onready var next_facing := facing
 @onready var tail : Vector2i = start_pos
+@onready var grid : Grid = $"../Grid"
 
 enum Facing {
 	UP,
@@ -27,6 +28,7 @@ var parts : Array[Cell]
 var _positions : Array[Vector2i]
 
 signal moved_to(p: Vector2i)
+signal collided
 
 
 func _ready():
@@ -37,7 +39,7 @@ func _ready():
 	timer = Timer.new()
 	timer.wait_time = tick
 	timer.autostart = true
-	timer.timeout.connect(move)
+	timer.timeout.connect(try_to_move)
 	add_child(timer)
 
 
@@ -52,9 +54,18 @@ func _input(event):
 		next_facing = Facing.RIGHT
 
 
-func move():
+func try_to_move():
 	facing = next_facing
 	var next_pos = _positions[0] + offset[facing]
+	if not grid.contains(next_pos):
+		emit_signal("collided")
+		return
+
+	for pos in _positions.slice(1, _positions.size()):
+		if next_pos == pos:
+			emit_signal("collided")
+			return
+
 	_positions.insert(0, next_pos)
 	tail = _positions.pop_back()
 	emit_signal("moved_to", next_pos)
@@ -65,9 +76,9 @@ func append(cell: Cell):
 	_positions.append(tail)
 
 
-func draw_to(grid: Grid):
+func draw_to(_grid: Grid):
 	for i in parts.size():
-		grid.set_cell(_positions[i], parts[i]._char, parts[i]._color)
+		_grid.set_cell(_positions[i], parts[i]._char, parts[i]._color)
 
 
 func positions() -> Array[Vector2i]:
