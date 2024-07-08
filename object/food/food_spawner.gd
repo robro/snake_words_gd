@@ -37,6 +37,10 @@ func remove(food: Food):
 	food.queue_free()
 
 
+func all_edible() -> bool:
+	return get_children().all(func(f): return f.is_edible())
+
+
 func _on_child_order_changed():
 	if get_children().is_empty():
 		emit_signal("no_food")
