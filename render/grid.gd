@@ -17,10 +17,9 @@ extends Node2D
 
 func _ready():
 	assert(font is Font)
-	for y in rows:
-		for x in cols:
-			var cell = Cell.new(empty_char, Palette.SECONDARY)
-			add_child(cell)
+	for i in range(rows * cols):
+		var cell = Cell.new(empty_char, Palette.SECONDARY)
+		add_child(cell)
 
 
 func _process(_delta):
@@ -43,7 +42,7 @@ func _draw():
 
 
 func clear():
-	for cell: Cell in get_children():
+	for cell : Cell in get_children():
 		cell._char = empty_char
 		cell._color = Palette.SECONDARY
 
@@ -55,10 +54,9 @@ func in_grid(pos: Vector2i) -> bool:
 func get_free_pos() -> Vector2i:
 	var occupied : Array[int] = []
 	for node in get_tree().get_nodes_in_group("drawable"):
-		if node.has_method("positions"):
-			for pos in node.positions():
-				if in_grid(pos):
-					occupied.append(idx_from_pos(pos))
+		for pos in node.positions():
+			if in_grid(pos):
+				occupied.append(idx_from_pos(pos))
 
 	var free := range(cols * rows)
 	for idx in occupied:

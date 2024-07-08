@@ -18,10 +18,10 @@ var timer := Timer.new()
 
 
 func _init():
-	Palette.HIGHLIGHT = highlight
 	Palette.PRIMARY = primary
 	Palette.SECONDARY = secondary
 	Palette.BACKGROUND = background
+	Palette.HIGHLIGHT = highlight
 	Palette.SHADOW = shadow
 
 
@@ -30,9 +30,18 @@ func _ready():
 	food_spawner.connect("no_food", _on_food_spawner_no_food)
 	timer.wait_time = 1
 	timer.one_shot = true
-	timer.timeout.connect(_on_timer_timeout)
+	timer.timeout.connect(init_board)
 	add_child(timer)
-	_on_timer_timeout()
+	init_board()
+
+
+func init_board():
+	food_spawner.spawn_food(target_word, grid)
+	var color = Palette.HIGHLIGHT if partial_word == target_word else Palette.SHADOW
+	for i in range(len(partial_word)):
+		snake.parts[-i - 1]._color = color
+
+	partial_word = ""
 
 
 func _on_food_spawner_no_food():
@@ -41,17 +50,14 @@ func _on_food_spawner_no_food():
 
 func _on_snake_moved_to(pos: Vector2i):
 	for food : Food in food_spawner.get_children():
-		if food.is_edible() and food._pos == pos:
-			snake.add_part(food)
-			food_spawner.remove(food)
-			partial_word += food._char
-			if not target_word.begins_with(partial_word):
-				food_spawner.clear()
+		if not food.is_edible():
+			continue
+		if food._pos != pos:
+			continue
 
+		snake.append(Cell.new(food._char, food._color))
+		partial_word += food._char
+		food_spawner.remove(food)
 
-func _on_timer_timeout():
-	food_spawner.spawn_food(target_word, grid)
-	var color = Palette.HIGHLIGHT if partial_word == target_word else Palette.SHADOW
-	for i in range(len(partial_word)):
-		snake.parts[-i - 1]._color = color
-	partial_word = ""
+		if not target_word.begins_with(partial_word):
+			food_spawner.clear()

@@ -23,7 +23,8 @@ func _init(pos: Vector2i, text: String, color: Color, wait: float):
 func char() -> String:
 	if (timer.time_left):
 		return char(randi_range(0, 26) + 97)
-	return _char
+	else:
+		return _char
 
 
 func is_edible() -> bool:

@@ -61,13 +61,13 @@ func move():
 	emit_signal("moved_to", next_pos)
 
 
-func add_part(food: Food):
-	parts.append(Cell.new(food._char, food._color))
+func append(cell: Cell):
+	parts.append(cell)
 	_positions.append(tail)
 
 
 func draw_to(grid: Grid):
-	for i in len(parts):
+	for i in parts.size():
 		grid.set_cell(_positions[i], parts[i]._char, parts[i]._color)
 
 
