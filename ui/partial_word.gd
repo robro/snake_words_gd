@@ -5,4 +5,4 @@ func _ready():
 
 
 func _process(_delta):
-	text = Global.partial_word.rpad(5)
+	text = Global.partial_word.rpad(Global.target_word.length())
