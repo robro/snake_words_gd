@@ -5,6 +5,8 @@ extends Node2D
 @export var facing : Facing = Facing.RIGHT
 @export var tick : float = 0.5
 @export var start_pos : Vector2i = Vector2i.ZERO
+@onready var next_facing := facing
+@onready var tail : Vector2i = start_pos
 
 enum Facing {
 	UP,
@@ -23,8 +25,6 @@ const offset = {
 var timer : Timer
 var parts : Array[Cell]
 var _positions : Array[Vector2i]
-var tail : Vector2i = start_pos
-var next_facing := facing
 
 signal moved_to(p: Vector2i)
 
