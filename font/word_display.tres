@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://b0nb7fckni6g4"]
+
+[ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="1_vwnmc"]
+
+[resource]
+base_font = ExtResource("1_vwnmc")
+spacing_glyph = 58

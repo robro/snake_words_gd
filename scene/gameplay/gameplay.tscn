@@ -1,17 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://oun5bmabme7x"]
+[gd_scene load_steps=10 format=3 uid="uid://oun5bmabme7x"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
 [ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="3_pr5mj"]
 [ext_resource type="Script" path="res://object/snake/snake.gd" id="5_56jgj"]
 [ext_resource type="Script" path="res://object/food/food_spawner.gd" id="5_lgauy"]
+[ext_resource type="Script" path="res://ui/cursor.gd" id="6_ea0cs"]
+[ext_resource type="Script" path="res://ui/target_word.gd" id="6_lmplr"]
+[ext_resource type="FontVariation" uid="uid://b0nb7fckni6g4" path="res://font/word_display.tres" id="6_ykckc"]
+[ext_resource type="Script" path="res://ui/partial_word.gd" id="7_0cymb"]
 
 [node name="Gameplay" type="Node2D"]
 script = ExtResource("1_dewvt")
 
-[node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
-z_index = 1
-script = ExtResource("5_lgauy")
+[node name="Grid" type="Node2D" parent="."]
+script = ExtResource("2_6iphj")
+font = ExtResource("3_pr5mj")
 
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_56jgj")
@@ -19,6 +23,40 @@ facing = 0
 tick = 0.15
 start_pos = Vector2i(5, 5)
 
-[node name="Grid" type="Node2D" parent="."]
-script = ExtResource("2_6iphj")
-font = ExtResource("3_pr5mj")
+[node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
+z_index = 1
+script = ExtResource("5_lgauy")
+
+[node name="WordContainer" type="CenterContainer" parent="."]
+offset_top = 800.0
+offset_right = 768.0
+offset_bottom = 929.0
+
+[node name="Cursor" type="Label" parent="WordContainer"]
+z_index = 2
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ykckc")
+theme_override_font_sizes/font_size = 128
+text = "█    "
+script = ExtResource("6_ea0cs")
+
+[node name="PartialWord" type="Label" parent="WordContainer"]
+z_index = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ykckc")
+theme_override_font_sizes/font_size = 128
+text = "snake"
+script = ExtResource("7_0cymb")
+
+[node name="TargetWord" type="Label" parent="WordContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ykckc")
+theme_override_font_sizes/font_size = 128
+text = "snake"
+script = ExtResource("6_lmplr")
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -5
+offset_right = 768.0
+offset_bottom = 1152.0
+color = Color(0, 0, 0, 1)
