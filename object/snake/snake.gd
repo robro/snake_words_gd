@@ -32,7 +32,6 @@ signal moved_to(p: Vector2i)
 func _ready():
 	for i in len(text):
 		parts.append(Cell.new(text[i], Palette.HIGHLIGHT))
-		print(Palette.PRIMARY)
 		_positions.append(start_pos + offset[facing] * -i)
 
 	timer = Timer.new()
