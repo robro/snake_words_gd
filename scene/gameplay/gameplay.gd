@@ -14,6 +14,7 @@ extends Node2D
 
 var target_word := "snake"
 var partial_word := ""
+var timer := Timer.new()
 
 
 func _init():
@@ -27,15 +28,15 @@ func _init():
 func _ready():
 	snake.connect("moved_to", _on_snake_moved_to)
 	food_spawner.connect("no_food", _on_food_spawner_no_food)
-	_on_food_spawner_no_food()
+	timer.wait_time = 1
+	timer.one_shot = true
+	timer.timeout.connect(_on_timer_timeout)
+	add_child(timer)
+	_on_timer_timeout()
 
 
 func _on_food_spawner_no_food():
-	food_spawner.spawn_food(target_word, grid)
-	var color = Palette.HIGHLIGHT if partial_word == target_word else Palette.SHADOW
-	for i in range(len(partial_word)):
-		snake.parts[-i - 1]._color = color
-	partial_word = ""
+	timer.start()
 
 
 func _on_snake_moved_to(pos: Vector2i):
@@ -47,4 +48,10 @@ func _on_snake_moved_to(pos: Vector2i):
 			if not target_word.begins_with(partial_word):
 				food_spawner.clear()
 
-			return
+
+func _on_timer_timeout():
+	food_spawner.spawn_food(target_word, grid)
+	var color = Palette.HIGHLIGHT if partial_word == target_word else Palette.SHADOW
+	for i in range(len(partial_word)):
+		snake.parts[-i - 1]._color = color
+	partial_word = ""
