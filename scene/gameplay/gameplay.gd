@@ -1,13 +1,6 @@
 class_name Gameplay
 extends Node2D
 
-@export_group("Colors")
-@export var primary := Color.RED
-@export var secondary := Color.DARK_RED
-@export var background := Color.BLACK
-@export var highlight := Color.WHITE_SMOKE
-@export var shadow := Color.DIM_GRAY
-
 @onready var food_spawner : FoodSpawner = $FoodSpawner
 @onready var snake : Snake = $Snake
 @onready var grid : Grid = $Grid
@@ -15,11 +8,7 @@ extends Node2D
 
 
 func _init():
-	Palette.PRIMARY = primary
-	Palette.SECONDARY = secondary
-	Palette.BACKGROUND = background
-	Palette.HIGHLIGHT = highlight
-	Palette.SHADOW = shadow
+	Palette.next_palette()
 
 
 func _ready():
@@ -30,11 +19,11 @@ func _ready():
 
 func init_board():
 	var color = (
-		Palette.HIGHLIGHT
+		Palette.highlight
 		if Global.partial_word == Global.target_word
-		else Palette.SHADOW
+		else Palette.shadow
 	)
-	for i in range(len(Global.partial_word)):
+	for i in Global.partial_word.length():
 		snake.parts[-i - 1]._color = color
 
 	food_spawner.spawn_food(Global.target_word, grid)

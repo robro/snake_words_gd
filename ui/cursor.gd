@@ -16,13 +16,13 @@ func _process(_delta):
 
 func blink():
 	var color = (
-		Palette.BACKGROUND
-		if get_theme_color("font_color") == Palette.PRIMARY
-		else Palette.PRIMARY
+		Palette.background
+		if get_theme_color("font_color") == Palette.primary
+		else Palette.primary
 	)
 	add_theme_color_override("font_color", color)
 
 
 func reset():
-	add_theme_color_override("font_color", Palette.PRIMARY)
+	add_theme_color_override("font_color", Palette.primary)
 	blink_timer.start()

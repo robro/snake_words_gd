@@ -19,9 +19,9 @@ font = ExtResource("3_pr5mj")
 
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_56jgj")
-facing = 0
+facing = 2
 tick = 0.15
-start_pos = Vector2i(5, 5)
+start_pos = Vector2i(6, 6)
 
 [node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
 z_index = 1

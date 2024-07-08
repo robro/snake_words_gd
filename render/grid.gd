@@ -18,7 +18,7 @@ extends Node2D
 func _ready():
 	assert(font is Font)
 	for i in range(rows * cols):
-		var cell = Cell.new(empty_char, Palette.SECONDARY)
+		var cell = Cell.new(empty_char, Palette.secondary)
 		add_child(cell)
 
 
@@ -36,7 +36,7 @@ func _draw():
 	var i: int = 0
 	for cell : Cell in get_children():
 		var pos = pos_from_idx(i) * cell_size
-		draw_rect(Rect2(pos.x, pos.y, cell_size, cell_size,), Palette.BACKGROUND)
+		draw_rect(Rect2(pos.x, pos.y, cell_size, cell_size,), Palette.background)
 		draw_char(font, pos + char_offset, cell._char, cell_size, cell._color)
 		i += 1
 
@@ -44,7 +44,7 @@ func _draw():
 func clear():
 	for cell : Cell in get_children():
 		cell._char = empty_char
-		cell._color = Palette.SECONDARY
+		cell._color = Palette.secondary
 
 
 func contains(pos: Vector2i) -> bool:
