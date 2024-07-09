@@ -8,19 +8,23 @@ extends Node
 @onready var state_chart : StateChart = $StateChart
 
 var game_over_timer := Timer.new()
+var word_idx : int = 0
 
 
 func _ready() -> void:
 	game_over_timer.wait_time = 0.5
 	game_over_timer.one_shot = true
 	add_child(game_over_timer)
+	Words.words.shuffle()
 
 
 func _on_seeking_state_entered() -> void:
-	Global.target_word = "snake"
-	Global.partial_word = ""
 	Palette.next_palette()
+	Global.target_word = Words.words[word_idx]
+	Global.partial_word = ""
 	food_spawner.spawn_food(Global.target_word, grid)
+	word_idx += 1
+	word_idx %= Words.words.size()
 
 
 func add_points() -> void:

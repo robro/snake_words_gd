@@ -40,16 +40,14 @@ func _process(_delta: float) -> void:
 
 
 func _draw() -> void:
-	var i: int = 0
-	for cell in cells:
+	for i in cells.size():
 		draw_char(
 			font,
 			pos_from_idx(i) * cell_size + char_offset,
-			cell._char,
+			cells[i]._char,
 			cell_size,
-			Palette.color[cell._color] + cell._add_color
+			Palette.color[cells[i]._color] + cells[i]._add_color
 		)
-		i += 1
 
 
 func clear() -> void:
