@@ -62,7 +62,7 @@ func _on_word_failed_state_entered():
 
 func _on_word_failed_state_exited():
 	for i in Global.partial_word.length():
-		snake.parts[-i - 1]._color = Palette.Type.SHADOW
+		snake.parts[-i - 1]._color = Palette.SHADOW
 
 
 func _on_word_finished_state_entered():
@@ -74,7 +74,7 @@ func _on_word_finished_state_entered():
 
 func _on_word_finished_state_exited():
 	for i in Global.partial_word.length():
-		snake.parts[-i - 1]._color = Palette.Type.HIGHLIGHT
+		snake.parts[-i - 1]._color = Palette.HIGHLIGHT
 
 
 func _on_game_over_state_entered():

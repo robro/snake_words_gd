@@ -20,7 +20,7 @@ func spawn_food(text: String, grid: Grid):
 			print("no free space")
 			return
 
-		add_child(Food.new(pos, char_, Palette.Type.PRIMARY, inedible_time))
+		add_child(Food.new(pos, char_, Palette.PRIMARY, inedible_time))
 
 
 func clear():

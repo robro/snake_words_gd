@@ -29,6 +29,7 @@ font = ExtResource("3_pr5mj")
 
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_56jgj")
+text = null
 facing = 2
 tick = 0.125
 start_pos = Vector2i(6, 6)
@@ -36,6 +37,7 @@ start_pos = Vector2i(6, 6)
 [node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
 z_index = 1
 script = ExtResource("5_lgauy")
+inedible_time = null
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3

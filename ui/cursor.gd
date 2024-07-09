@@ -4,7 +4,7 @@ extends Label
 
 var blink_timer := Timer.new()
 var blinking := false
-var color := Palette.Type.PRIMARY
+var color := Palette.PRIMARY
 
 
 func _ready():
@@ -22,8 +22,8 @@ func _on_timer_timeout():
 
 
 func set_color():
-	color = Palette.Type.BACKGROUND if blinking else Palette.Type.PRIMARY
-	add_theme_color_override("font_color", Palette.colors[color])
+	color = Palette.BACKGROUND if blinking else Palette.PRIMARY
+	add_theme_color_override("font_color", Palette.color[color])
 
 
 func reset():

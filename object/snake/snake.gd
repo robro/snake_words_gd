@@ -37,7 +37,7 @@ func _ready():
 	assert(grid is Grid)
 
 	for i in len(text):
-		parts.append(Cell.new(text[i], Palette.Type.HIGHLIGHT))
+		parts.append(Cell.new(text[i], Palette.HIGHLIGHT))
 		_positions.append(start_pos + offset[facing] * -i)
 
 	timer = Timer.new()

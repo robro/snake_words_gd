@@ -3,11 +3,11 @@ extends Node2D
 
 var _pos : Vector2i
 var _char : String
-var _color : Palette.Type
+var _color : int
 var timer : Timer
 
 
-func _init(pos: Vector2i, text: String, color: Palette.Type, wait: float):
+func _init(pos: Vector2i, text: String, color: int, wait: float):
 	assert(len(text) == 1)
 	_pos = pos
 	_char = text

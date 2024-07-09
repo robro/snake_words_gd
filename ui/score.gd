@@ -16,7 +16,7 @@ func _process(delta):
 
 
 func _on_palette_change():
-	add_theme_color_override("font_color", Palette.colors[Palette.Type.SECONDARY])
+	add_theme_color_override("font_color", Palette.color[Palette.SECONDARY])
 
 
 func _on_game_over_state_entered():
