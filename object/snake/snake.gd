@@ -9,6 +9,8 @@ extends Node2D
 @onready var tail : Vector2i = start_pos
 @onready var grid : Grid = $"../Grid"
 
+var alive := true
+
 enum Facing {
 	UP,
 	DOWN,
@@ -46,6 +48,9 @@ func _ready():
 
 
 func _input(event):
+	if not alive:
+		return
+		
 	if event.is_action_pressed("Up") and facing != Facing.DOWN:
 		next_facing = Facing.UP
 	elif event.is_action_pressed("Down") and facing != Facing.UP:

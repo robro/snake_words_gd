@@ -1,5 +1,7 @@
 extends Label
 
+@export var blink_speed := 0.5
+
 var blink_timer := Timer.new()
 var blinking := false
 var color := Palette.Type.PRIMARY
@@ -7,7 +9,7 @@ var color := Palette.Type.PRIMARY
 
 func _ready():
 	Palette.connect("palette_change", _on_palette_change)
-	blink_timer.wait_time = 0.5
+	blink_timer.wait_time = blink_speed
 	blink_timer.timeout.connect(_on_timer_timeout)
 	blink_timer.autostart = true
 	add_child(blink_timer)

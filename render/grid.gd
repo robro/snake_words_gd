@@ -14,6 +14,8 @@ extends Node2D
 
 @onready var char_offset := Vector2i(cell_size / 4, cell_size - cell_size / 4)
 
+var grid_color := Palette.Type.SECONDARY
+
 
 func _ready():
 	assert(font is Font)
@@ -44,7 +46,7 @@ func _draw():
 func clear():
 	for cell : Cell in get_children():
 		cell._char = empty_char
-		cell._color = Palette.Type.SECONDARY
+		cell._color = grid_color
 
 
 func contains(pos: Vector2i) -> bool:
@@ -98,3 +100,7 @@ func set_cell(pos: Vector2i, text: String, color: Palette.Type) -> void:
 	var cell : Cell = get_children()[idx_from_pos(pos)]
 	cell._char = text
 	cell._color = color
+
+
+func _on_game_over_state_entered():
+	grid_color = Palette.Type.BACKGROUND
