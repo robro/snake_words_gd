@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://oun5bmabme7x"]
+[gd_scene load_steps=19 format=3 uid="uid://oun5bmabme7x"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
@@ -13,6 +13,11 @@
 [ext_resource type="Script" path="res://ui/score.gd" id="10_ruwr3"]
 [ext_resource type="Script" path="res://ui/combo.gd" id="11_rfld5"]
 [ext_resource type="Script" path="res://ui/multiplier.gd" id="12_rj7ui"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="14_ciwxs"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="15_buh1x"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="16_1o62w"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="17_c1peq"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="18_8g61y"]
 
 [node name="Gameplay" type="Node2D"]
 script = ExtResource("1_dewvt")
@@ -24,7 +29,7 @@ font = ExtResource("3_pr5mj")
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_56jgj")
 facing = 2
-tick = 0.15
+tick = 0.125
 start_pos = Vector2i(6, 6)
 
 [node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
@@ -105,3 +110,87 @@ z_index = -5
 offset_right = 768.0
 offset_bottom = 1152.0
 color = Color(0, 0, 0, 1)
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("14_ciwxs")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("15_buh1x")
+initial_state = NodePath("Seeking")
+
+[node name="Seeking" type="Node" parent="StateChart/Root"]
+script = ExtResource("16_1o62w")
+
+[node name="ToFailed" type="Node" parent="StateChart/Root/Seeking"]
+script = ExtResource("17_c1peq")
+to = NodePath("../../WordFailed")
+event = &"word_failed"
+delay_in_seconds = "0.0"
+
+[node name="ToFinished" type="Node" parent="StateChart/Root/Seeking"]
+script = ExtResource("17_c1peq")
+to = NodePath("../../WordFinished")
+event = &"word_finished"
+delay_in_seconds = "0.0"
+
+[node name="ToGameOver" type="Node" parent="StateChart/Root/Seeking"]
+script = ExtResource("17_c1peq")
+to = NodePath("../../GameOver")
+event = &"game_over"
+delay_in_seconds = "0.0"
+
+[node name="WordFailed" type="Node" parent="StateChart/Root"]
+script = ExtResource("16_1o62w")
+
+[node name="ToSeeking" type="Node" parent="StateChart/Root/WordFailed"]
+script = ExtResource("17_c1peq")
+to = NodePath("../../Seeking")
+delay_in_seconds = "1"
+
+[node name="ToGameOver" type="Node" parent="StateChart/Root/WordFailed"]
+script = ExtResource("17_c1peq")
+to = NodePath("../../GameOver")
+event = &"game_over"
+delay_in_seconds = "0.0"
+
+[node name="WordFinished" type="Node" parent="StateChart/Root"]
+script = ExtResource("16_1o62w")
+
+[node name="ToSeeking" type="Node" parent="StateChart/Root/WordFinished"]
+script = ExtResource("17_c1peq")
+to = NodePath("../../Seeking")
+delay_in_seconds = "1"
+
+[node name="ToGameOver" type="Node" parent="StateChart/Root/WordFinished"]
+script = ExtResource("17_c1peq")
+to = NodePath("../../GameOver")
+event = &"game_over"
+delay_in_seconds = "0.0"
+
+[node name="GameOver" type="Node" parent="StateChart/Root"]
+script = ExtResource("16_1o62w")
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("18_8g61y")]
+visible = false
+z_index = 4
+offset_left = 326.0
+offset_top = 458.0
+offset_right = 714.0
+offset_bottom = 766.0
+enabled = false
+initial_node_to_watch = NodePath("../StateChart")
+
+[connection signal="collided" from="Snake" to="." method="_on_snake_collided"]
+[connection signal="moved_to" from="Snake" to="." method="_on_snake_moved_to"]
+[connection signal="state_entered" from="StateChart/Root/Seeking" to="." method="_on_seeking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/Stack/Split/Multiplier" method="_on_seeking_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Seeking" to="HUD/Stack/Word/Cursor" method="_on_seeking_state_exited"]
+[connection signal="state_processing" from="StateChart/Root/Seeking" to="HUD/Stack/Word/Cursor" method="_on_seeking_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/WordFinished" to="HUD/Stack/Split/Multiplier" method="_on_word_finished_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_processing"]
+[connection signal="state_processing" from="StateChart/Root/GameOver" to="HUD/Stack/Split/Stack/Combo" method="_on_game_over_state_processing"]

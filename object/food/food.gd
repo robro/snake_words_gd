@@ -3,11 +3,11 @@ extends Node2D
 
 var _pos : Vector2i
 var _char : String
-var _color : Color
+var _color : Palette.Type
 var timer : Timer
 
 
-func _init(pos: Vector2i, text: String, color: Color, wait: float):
+func _init(pos: Vector2i, text: String, color: Palette.Type, wait: float):
 	assert(len(text) == 1)
 	_pos = pos
 	_char = text
@@ -22,7 +22,7 @@ func _init(pos: Vector2i, text: String, color: Color, wait: float):
 
 func char() -> String:
 	if (timer.time_left):
-		return char(randi_range(0, 26) + 97)
+		return char(randi_range(0, 25) + 97)
 	else:
 		return _char
 
