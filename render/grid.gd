@@ -21,7 +21,7 @@ var cells : Array[Cell]
 func _ready() -> void:
 	assert(font is Font)
 	for i in range(rows * cols):
-		cells.append(Cell.new(empty_char, Palette.SECONDARY))
+		cells.append(Cell.new(empty_char, grid_color))
 
 
 func _process(_delta: float) -> void:
@@ -87,19 +87,6 @@ func idx_from_pos(pos : Vector2i) -> int:
 
 func pos_from_idx(idx: int) -> Vector2i:
 	return Vector2i(idx % cols, idx / cols)
-
-
-func set_color_at(pos: Vector2i, color: int) -> void:
-	if not contains(pos):
-		return
-	cells[idx_from_pos(pos)]._color = color
-
-
-func set_char_at(pos: Vector2i, text: String) -> void:
-	assert(len(text) == 1)
-	if not contains(pos):
-		return
-	cells[idx_from_pos(pos)].text = text
 
 
 func set_cell(pos: Vector2i, text: String, color: int, add_color: Color = Color.BLACK) -> void:
