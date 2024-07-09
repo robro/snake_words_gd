@@ -15,7 +15,7 @@ func _process(_delta: float) -> void:
 	else:
 		var scrambled := ""
 		for _i in Global.target_word.length():
-			scrambled += char(randi_range(0, 25) + 97)
+			scrambled += Global.rand_char()
 		text = scrambled
 
 

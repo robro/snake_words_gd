@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://oun5bmabme7x"]
+[gd_scene load_steps=21 format=3 uid="uid://oun5bmabme7x"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
@@ -9,6 +9,7 @@
 [ext_resource type="FontVariation" uid="uid://ks11ym86ydqj" path="res://font/cursor_display.tres" id="6_cf0q0"]
 [ext_resource type="Script" path="res://ui/cursor.gd" id="6_ea0cs"]
 [ext_resource type="Script" path="res://ui/target_word.gd" id="6_lmplr"]
+[ext_resource type="Script" path="res://object/particle/trail.gd" id="6_shy8r"]
 [ext_resource type="FontVariation" uid="uid://b0nb7fckni6g4" path="res://font/word_display.tres" id="6_ykckc"]
 [ext_resource type="Script" path="res://ui/partial_word.gd" id="7_0cymb"]
 [ext_resource type="Script" path="res://ui/score.gd" id="10_ruwr3"]
@@ -36,6 +37,11 @@ start_pos = Vector2i(6, 6)
 [node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
 z_index = 1
 script = ExtResource("5_lgauy")
+
+[node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("snake")]
+script = ExtResource("6_shy8r")
+lifetime = 1.0
+snake = NodePath("../Snake")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -127,7 +133,6 @@ script = ExtResource("12_rj7ui")
 
 [node name="Background" type="ColorRect" parent="."]
 z_index = -5
-offset_top = 768.0
 offset_right = 768.0
 offset_bottom = 1152.0
 color = Color(0, 0, 0, 1)

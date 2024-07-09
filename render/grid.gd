@@ -15,38 +15,48 @@ extends Node2D
 @onready var char_offset := Vector2i(cell_size / 4, cell_size - cell_size / 4)
 
 var grid_color := Palette.SECONDARY
+var cells : Array[Cell]
 
 
 func _ready() -> void:
 	assert(font is Font)
 	for i in range(rows * cols):
-		var cell := Cell.new(empty_char, Palette.SECONDARY)
-		add_child(cell)
+		cells.append(Cell.new(empty_char, Palette.SECONDARY))
 
 
 func _process(_delta: float) -> void:
 	clear()
+	for p in get_tree().get_nodes_in_group("particles"):
+		if p is Particle and contains(p._pos):
+			cells[idx_from_pos(p._pos)]._add_color = p.get_color()
+
 	var drawables := get_tree().get_nodes_in_group("drawable")
 	drawables.sort_custom(func(a: Node2D, b: Node2D) -> bool: return a.z_index < b.z_index)
 	for node in drawables:
-		node.draw_to(self)
+		if node.has_method("draw_to"):
+			node.draw_to(self)
 
 	queue_redraw()
 
 
 func _draw() -> void:
 	var i: int = 0
-	for cell : Cell in get_children():
-		var pos := pos_from_idx(i) * cell_size
-		draw_rect(Rect2(pos.x, pos.y, cell_size, cell_size,), Palette.color[Palette.BACKGROUND])
-		draw_char(font, pos + char_offset, cell._char, cell_size, Palette.color[cell._color])
+	for cell in cells:
+		draw_char(
+			font,
+			pos_from_idx(i) * cell_size + char_offset,
+			cell._char,
+			cell_size,
+			Palette.color[cell._color] + cell._add_color
+		)
 		i += 1
 
 
 func clear() -> void:
-	for cell : Cell in get_children():
+	for cell in cells:
 		cell._char = empty_char
 		cell._color = grid_color
+		cell._add_color = Color.BLACK
 
 
 func contains(pos: Vector2i) -> bool:
@@ -82,25 +92,24 @@ func pos_from_idx(idx: int) -> Vector2i:
 func set_color_at(pos: Vector2i, color: int) -> void:
 	if not contains(pos):
 		return
-	var cell : Cell = get_children()[idx_from_pos(pos)]
-	cell._color = color
+	cells[idx_from_pos(pos)]._color = color
 
 
 func set_char_at(pos: Vector2i, text: String) -> void:
 	assert(len(text) == 1)
 	if not contains(pos):
 		return
-	var cell : Cell = get_children()[idx_from_pos(pos)]
-	cell.text = text
+	cells[idx_from_pos(pos)].text = text
 
 
-func set_cell(pos: Vector2i, text: String, color: int) -> void:
+func set_cell(pos: Vector2i, text: String, color: int, add_color: Color = Color.BLACK) -> void:
 	assert(len(text) == 1)
 	if not contains(pos):
 		return
-	var cell : Cell = get_children()[idx_from_pos(pos)]
+	var cell := cells[idx_from_pos(pos)]
 	cell._char = text
 	cell._color = color
+	cell._add_color = add_color
 
 
 func _on_game_over_state_entered() -> void:

@@ -2,36 +2,47 @@ class_name FoodSpawner
 extends Node2D
 
 @export var inedible_time : float = 0.5
+@export_enum(
+	"primary",
+	"secondary",
+	"background",
+	"highlight",
+	"shadow"
+) var color : int
+
+var foods : Array[Food]
 
 
 func positions() -> Array:
-	return get_children().map(func(c: Food) -> Vector2i: return c._pos)
+	return foods.map(func(c: Food) -> Vector2i: return c._pos)
 
 
 func draw_to(grid: Grid) -> void:
-	for food : Food in get_children():
+	for food in foods:
 		grid.set_cell(food._pos, food.char(), food._color)
 
 
 func spawn_food(text: String, grid: Grid) -> void:
 	for char_ in text:
-		var pos : Vector2i = grid.get_free_pos()
+		var pos := grid.get_free_pos()
 		if pos < Vector2i.ZERO:
 			print("no free space")
 			return
 
-		add_child(Food.new(pos, char_, Palette.PRIMARY, inedible_time))
+		var food := Food.new(pos, char_, color, inedible_time)
+		foods.append(food)
+		add_child(food)
 
 
 func clear() -> void:
-	for food : Food in get_children():
-		remove(food)
+	foods.clear()
 
 
 func remove(food: Food) -> void:
-	food.queue_free()
-	remove_child(food)
+	var idx : int = foods.find(food)
+	if idx >= 0:
+		foods.remove_at(idx)
 
 
 func all_edible() -> bool:
-	return get_children().all(func(f: Food) -> bool: return f.is_edible())
+	return foods.all(func(f: Food) -> bool: return f.is_edible())

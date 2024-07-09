@@ -4,6 +4,7 @@ extends Node
 @onready var food_spawner : FoodSpawner = $FoodSpawner
 @onready var snake : Snake = $Snake
 @onready var grid : Grid = $Grid
+@onready var trail : Trail = $Trail
 @onready var state_chart : StateChart = $StateChart
 
 var game_over_timer := Timer.new()
@@ -29,10 +30,8 @@ func add_points() -> void:
 
 
 func _on_snake_moved_to(pos: Vector2i) -> void:
-	for food : Food in food_spawner.get_children():
-		if not food.is_edible():
-			continue
-		if food._pos != pos:
+	for food in food_spawner.foods:
+		if not food.is_edible() or food._pos != pos:
 			continue
 
 		snake.append(Cell.new(food._char, food._color))
@@ -78,6 +77,9 @@ func _on_word_finished_state_exited() -> void:
 
 
 func _on_game_over_state_entered() -> void:
+	for p in get_tree().get_nodes_in_group("particles"):
+		p.queue_free()
+
 	snake.alive = false
 	Global.target_word = ""
 	Global.partial_word = "udied"
@@ -85,11 +87,11 @@ func _on_game_over_state_entered() -> void:
 
 
 func _on_game_over_state_processing(_delta: float) -> void:
-	for food : Food in food_spawner.get_children():
-		food._char = char(randi_range(0, 25) + 97)
+	for food in food_spawner.foods:
+		food._char = Global.rand_char()
 
-	for cell : Cell in snake.parts:
-		cell._char = char(randi_range(0, 25) + 97)
+	for cell in snake.parts:
+		cell._char = Global.rand_char()
 
 
 func _on_game_over_state_input(event: InputEvent) -> void:

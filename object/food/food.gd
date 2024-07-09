@@ -21,8 +21,8 @@ func _init(pos: Vector2i, text: String, color: int, wait: float) -> void:
 
 
 func char() -> String:
-	if (timer.time_left):
-		return char(randi_range(0, 25) + 97)
+	if timer.time_left:
+		return Global.rand_char()
 	else:
 		return _char
 

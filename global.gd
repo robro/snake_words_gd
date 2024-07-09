@@ -9,3 +9,7 @@ var score : int = 0
 var combo : int = 0
 var max_combo : int = 0
 var multiplier : int = 1
+
+
+func rand_char() -> String:
+    return char(randi_range(0, 25) + 97)
