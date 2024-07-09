@@ -49,7 +49,7 @@ func _on_word_finished_state_exited():
 
 func _on_word_failed_state_entered():
 	flashing = true
-	add_theme_color_override("font_color", Palette.colors[Palette.Type.SECONDARY])
+	add_theme_color_override("font_color", Palette.colors[Palette.Type.BACKGROUND])
 	failed_timer.start()
 
 

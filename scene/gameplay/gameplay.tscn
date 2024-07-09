@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://oun5bmabme7x"]
+[gd_scene load_steps=20 format=3 uid="uid://oun5bmabme7x"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
 [ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="3_pr5mj"]
 [ext_resource type="Script" path="res://object/snake/snake.gd" id="5_56jgj"]
 [ext_resource type="Script" path="res://object/food/food_spawner.gd" id="5_lgauy"]
+[ext_resource type="Script" path="res://ui/eval_bar.gd" id="6_76kbb"]
 [ext_resource type="FontVariation" uid="uid://ks11ym86ydqj" path="res://font/cursor_display.tres" id="6_cf0q0"]
 [ext_resource type="Script" path="res://ui/cursor.gd" id="6_ea0cs"]
 [ext_resource type="Script" path="res://ui/target_word.gd" id="6_lmplr"]
@@ -36,23 +37,40 @@ start_pos = Vector2i(6, 6)
 z_index = 1
 script = ExtResource("5_lgauy")
 
-[node name="HUD" type="MarginContainer" parent="."]
-offset_top = 768.0
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 780.0
 offset_right = 768.0
 offset_bottom = 1152.0
+
+[node name="EvalBar" type="ColorRect" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 135.0
+grow_horizontal = 2
+color = Color(8.66354e-07, 0.556885, 0.55959, 1)
+script = ExtResource("6_76kbb")
+
+[node name="Margins" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 321.0
+grow_horizontal = 2
 theme_override_constants/margin_left = 64
-theme_override_constants/margin_top = 24
+theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 64
 
-[node name="Stack" type="VBoxContainer" parent="HUD"]
+[node name="Stack" type="VBoxContainer" parent="HUD/Margins"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 20
 
-[node name="Word" type="CenterContainer" parent="HUD/Stack"]
+[node name="Word" type="CenterContainer" parent="HUD/Margins/Stack"]
 layout_mode = 2
-size_flags_vertical = 0
 
-[node name="Cursor" type="Label" parent="HUD/Stack/Word"]
+[node name="Cursor" type="Label" parent="HUD/Margins/Stack/Word"]
 z_index = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_cf0q0")
@@ -60,7 +78,7 @@ theme_override_font_sizes/font_size = 128
 text = "█    "
 script = ExtResource("6_ea0cs")
 
-[node name="PartialWord" type="Label" parent="HUD/Stack/Word"]
+[node name="PartialWord" type="Label" parent="HUD/Margins/Stack/Word"]
 z_index = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_ykckc")
@@ -68,35 +86,37 @@ theme_override_font_sizes/font_size = 128
 text = "snake"
 script = ExtResource("7_0cymb")
 
-[node name="TargetWord" type="Label" parent="HUD/Stack/Word" node_paths=PackedStringArray("food_spawner")]
+[node name="TargetWord" type="Label" parent="HUD/Margins/Stack/Word" node_paths=PackedStringArray("food_spawner")]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_ykckc")
 theme_override_font_sizes/font_size = 128
 text = "snake"
+justification_flags = 0
 script = ExtResource("6_lmplr")
-food_spawner = NodePath("../../../../FoodSpawner")
+food_spawner = NodePath("../../../../../FoodSpawner")
 
-[node name="Split" type="HSplitContainer" parent="HUD/Stack"]
+[node name="Split" type="HSplitContainer" parent="HUD/Margins/Stack"]
 layout_mode = 2
 
-[node name="Stack" type="VBoxContainer" parent="HUD/Stack/Split"]
+[node name="Stack" type="VBoxContainer" parent="HUD/Margins/Stack/Split"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="Score" type="Label" parent="HUD/Stack/Split/Stack"]
+[node name="Score" type="Label" parent="HUD/Margins/Stack/Split/Stack"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_pr5mj")
 theme_override_font_sizes/font_size = 96
 text = "0"
 script = ExtResource("10_ruwr3")
 
-[node name="Combo" type="Label" parent="HUD/Stack/Split/Stack"]
+[node name="Combo" type="Label" parent="HUD/Margins/Stack/Split/Stack"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_pr5mj")
 theme_override_font_sizes/font_size = 64
 text = "0 combo"
 script = ExtResource("11_rfld5")
 
-[node name="Multiplier" type="Label" parent="HUD/Stack/Split"]
+[node name="Multiplier" type="Label" parent="HUD/Margins/Stack/Split"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -107,6 +127,7 @@ script = ExtResource("12_rj7ui")
 
 [node name="Background" type="ColorRect" parent="."]
 z_index = -5
+offset_top = 768.0
 offset_right = 768.0
 offset_bottom = 1152.0
 color = Color(0, 0, 0, 1)
@@ -183,18 +204,21 @@ initial_node_to_watch = NodePath("../StateChart")
 [connection signal="collided" from="Snake" to="." method="_on_snake_collided"]
 [connection signal="moved_to" from="Snake" to="." method="_on_snake_moved_to"]
 [connection signal="state_entered" from="StateChart/Root/Seeking" to="." method="_on_seeking_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/Stack/Split/Multiplier" method="_on_seeking_state_entered"]
-[connection signal="state_exited" from="StateChart/Root/Seeking" to="HUD/Stack/Word/Cursor" method="_on_seeking_state_exited"]
-[connection signal="state_processing" from="StateChart/Root/Seeking" to="HUD/Stack/Word/Cursor" method="_on_seeking_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Split/Multiplier" method="_on_seeking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/EvalBar" method="_on_seeking_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Word/Cursor" method="_on_seeking_state_exited"]
+[connection signal="state_processing" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Word/Cursor" method="_on_seeking_state_processing"]
 [connection signal="state_entered" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/WordFailed" to="HUD/Stack/Word/PartialWord" method="_on_word_failed_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/WordFailed" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_failed_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/WordFailed" to="HUD/EvalBar" method="_on_word_failed_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_exited"]
-[connection signal="state_exited" from="StateChart/Root/WordFailed" to="HUD/Stack/Word/PartialWord" method="_on_word_failed_state_exited"]
+[connection signal="state_exited" from="StateChart/Root/WordFailed" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_failed_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/WordFinished" to="HUD/Stack/Word/PartialWord" method="_on_word_finished_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/WordFinished" to="HUD/Stack/Split/Multiplier" method="_on_word_finished_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/WordFinished" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_finished_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/WordFinished" to="HUD/Margins/Stack/Split/Multiplier" method="_on_word_finished_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_exited"]
-[connection signal="state_exited" from="StateChart/Root/WordFinished" to="HUD/Stack/Word/PartialWord" method="_on_word_finished_state_exited"]
+[connection signal="state_exited" from="StateChart/Root/WordFinished" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_finished_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/EvalBar" method="_on_game_over_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_processing"]
-[connection signal="state_processing" from="StateChart/Root/GameOver" to="HUD/Stack/Split/Stack/Combo" method="_on_game_over_state_processing"]
+[connection signal="state_processing" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Split/Stack/Combo" method="_on_game_over_state_processing"]
