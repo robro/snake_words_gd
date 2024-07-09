@@ -28,7 +28,7 @@ func _process(_delta: float) -> void:
 	clear()
 	for p in get_tree().get_nodes_in_group("particles"):
 		if p is Particle and contains(p._pos):
-			cells[idx_from_pos(p._pos)]._add_color = p.get_color()
+			cells[idx_from_pos(p._pos)]._add_color += p.get_color()
 
 	var drawables := get_tree().get_nodes_in_group("drawable")
 	drawables.sort_custom(func(a: Node2D, b: Node2D) -> bool: return a.z_index < b.z_index)

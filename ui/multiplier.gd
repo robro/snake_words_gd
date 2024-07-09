@@ -19,3 +19,7 @@ func _on_word_finished_state_entered() -> void:
 
 func _on_seeking_state_entered() -> void:
 	add_theme_color_override("font_color", Palette.color[Palette.SECONDARY])
+
+
+func _on_game_over_state_entered() -> void:
+	add_theme_color_override("font_color", Palette.color[Palette.SECONDARY])

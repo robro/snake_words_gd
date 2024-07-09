@@ -36,16 +36,20 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 
 		snake.append(Cell.new(food._char, food._color))
 		Global.partial_word += food._char
-		food_spawner.remove(food)
 
 		if not Global.target_word.begins_with(Global.partial_word):
 			state_chart.send_event("word_failed")
 
 		elif Global.partial_word == Global.target_word:
+			add_child(Splash.new(grid, food._pos, 2, 24, 0.05, Palette.HIGHLIGHT, 1.0))
 			state_chart.send_event("word_finished")
 
 		else:
+			add_child(Splash.new(grid, food._pos, 1, 4, 0.05, Palette.PRIMARY, 0.5))
 			add_points()
+
+		food_spawner.remove(food)
+		return
 
 
 func _on_snake_collided() -> void:
@@ -77,8 +81,8 @@ func _on_word_finished_state_exited() -> void:
 
 
 func _on_game_over_state_entered() -> void:
-	for p in get_tree().get_nodes_in_group("particles"):
-		p.queue_free()
+	for node in get_tree().get_nodes_in_group("emitters"):
+		node.queue_free()
 
 	snake.alive = false
 	Global.target_word = ""

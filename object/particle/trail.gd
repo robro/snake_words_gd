@@ -18,5 +18,4 @@ func _ready() -> void:
 
 func _on_snake_moved_to(_p: Vector2i) -> void:
 	var particle := Particle.new(snake.positions()[-1], color, 1.0)
-	particle.add_to_group("particles")
 	add_child(particle)

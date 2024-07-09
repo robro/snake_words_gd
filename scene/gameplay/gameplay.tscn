@@ -38,7 +38,7 @@ start_pos = Vector2i(6, 6)
 z_index = 1
 script = ExtResource("5_lgauy")
 
-[node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("snake")]
+[node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("snake") groups=["emitters"]]
 script = ExtResource("6_shy8r")
 lifetime = 1.0
 snake = NodePath("../Snake")
@@ -227,6 +227,7 @@ initial_node_to_watch = NodePath("../StateChart")
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/EvalBar" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Word/PartialWord" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Split/Stack/Score" method="_on_game_over_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Split/Multiplier" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_entered"]
 [connection signal="state_input" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_input"]
 [connection signal="state_processing" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Split/Stack/Combo" method="_on_game_over_state_processing"]
