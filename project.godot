@@ -23,6 +23,8 @@ Global="*res://global.gd"
 
 [debug]
 
+gdscript/warnings/unassigned_variable=2
+gdscript/warnings/untyped_declaration=2
 gdscript/warnings/integer_division=0
 
 [display]

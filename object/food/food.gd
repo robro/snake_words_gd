@@ -7,7 +7,7 @@ var _color : int
 var timer : Timer
 
 
-func _init(pos: Vector2i, text: String, color: int, wait: float):
+func _init(pos: Vector2i, text: String, color: int, wait: float) -> void:
 	assert(len(text) == 1)
 	_pos = pos
 	_char = text

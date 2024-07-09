@@ -17,33 +17,33 @@ extends Node2D
 var grid_color := Palette.SECONDARY
 
 
-func _ready():
+func _ready() -> void:
 	assert(font is Font)
 	for i in range(rows * cols):
-		var cell = Cell.new(empty_char, Palette.SECONDARY)
+		var cell := Cell.new(empty_char, Palette.SECONDARY)
 		add_child(cell)
 
 
-func _process(_delta):
+func _process(_delta: float) -> void:
 	clear()
-	var drawables = get_tree().get_nodes_in_group("drawable")
-	drawables.sort_custom(func(a, b): return a.z_index < b.z_index)
+	var drawables := get_tree().get_nodes_in_group("drawable")
+	drawables.sort_custom(func(a: Node2D, b: Node2D) -> bool: return a.z_index < b.z_index)
 	for node in drawables:
 		node.draw_to(self)
 
 	queue_redraw()
 
 
-func _draw():
+func _draw() -> void:
 	var i: int = 0
 	for cell : Cell in get_children():
-		var pos = pos_from_idx(i) * cell_size
+		var pos := pos_from_idx(i) * cell_size
 		draw_rect(Rect2(pos.x, pos.y, cell_size, cell_size,), Palette.color[Palette.BACKGROUND])
 		draw_char(font, pos + char_offset, cell._char, cell_size, Palette.color[cell._color])
 		i += 1
 
 
-func clear():
+func clear() -> void:
 	for cell : Cell in get_children():
 		cell._char = empty_char
 		cell._color = grid_color
@@ -56,9 +56,10 @@ func contains(pos: Vector2i) -> bool:
 func get_free_pos() -> Vector2i:
 	var occupied : Array[int] = []
 	for node in get_tree().get_nodes_in_group("drawable"):
-		for pos in node.positions():
-			if contains(pos):
-				occupied.append(idx_from_pos(pos))
+		if node.has_method("positions"):
+			for pos : Vector2i in node.positions():
+				if contains(pos):
+					occupied.append(idx_from_pos(pos))
 
 	var free := range(cols * rows)
 	for idx in occupied:
@@ -102,5 +103,5 @@ func set_cell(pos: Vector2i, text: String, color: int) -> void:
 	cell._color = color
 
 
-func _on_game_over_state_entered():
+func _on_game_over_state_entered() -> void:
 	grid_color = Palette.BACKGROUND

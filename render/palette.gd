@@ -58,12 +58,12 @@ const PALETTES := [
 
 signal palette_change
 
-func next_palette():
+func next_palette() -> void:
 	if not palette_index in palette_indices:
 		palette_index = 0
 		palette_indices.shuffle()
 		if palette_indices[0] == shuffled_idx:
-			var i = palette_indices[-1]
+			var i : int = palette_indices[-1]
 			palette_indices[-1] = palette_indices[0]
 			palette_indices[0] = i
 

@@ -33,7 +33,7 @@ signal moved_to(p: Vector2i)
 signal collided
 
 
-func _ready():
+func _ready() -> void:
 	assert(grid is Grid)
 
 	for i in len(text):
@@ -47,10 +47,10 @@ func _ready():
 	add_child(timer)
 
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if not alive:
 		return
-		
+
 	if event.is_action_pressed("Up") and facing != Facing.DOWN:
 		next_facing = Facing.UP
 	elif event.is_action_pressed("Down") and facing != Facing.UP:
@@ -61,14 +61,14 @@ func _input(event):
 		next_facing = Facing.RIGHT
 
 
-func try_to_move():
+func try_to_move() -> void:
 	facing = next_facing
-	var next_pos = _positions[0] + offset[facing]
+	var next_pos : Vector2i = _positions[0] + offset[facing]
 	if not grid.contains(next_pos):
 		emit_signal("collided")
 		return
 
-	for pos in _positions.slice(1, _positions.size()):
+	for pos : Vector2i in _positions.slice(1, _positions.size()):
 		if next_pos == pos:
 			emit_signal("collided")
 			return
@@ -78,12 +78,12 @@ func try_to_move():
 	emit_signal("moved_to", next_pos)
 
 
-func append(cell: Cell):
+func append(cell: Cell) -> void:
 	parts.append(cell)
 	_positions.append(tail)
 
 
-func draw_to(_grid: Grid):
+func draw_to(_grid: Grid) -> void:
 	for i in parts.size():
 		_grid.set_cell(_positions[i], parts[i]._char, parts[i]._color)
 

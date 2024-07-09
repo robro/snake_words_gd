@@ -9,7 +9,7 @@ var game_over_timer := Timer.new()
 var flashing : bool = false
 
 
-func _ready():
+func _ready() -> void:
 	Palette.connect("palette_change", _on_palette_change)
 
 	finished_timer.wait_time = flash_speed
@@ -25,53 +25,53 @@ func _ready():
 	add_child(game_over_timer)
 
 
-func _process(_delta):
+func _process(_delta: float) -> void:
 	text = Global.partial_word.rpad(Global.target_word.length())
 
 
-func _on_palette_change():
+func _on_palette_change() -> void:
 	add_theme_color_override("font_color", Palette.color[Palette.PRIMARY])
 
 
-func _on_finished_timer_timeout():
+func _on_finished_timer_timeout() -> void:
 	flashing = false if flashing else true
-	var color = Palette.HIGHLIGHT if flashing else Palette.BACKGROUND
+	var color := Palette.HIGHLIGHT if flashing else Palette.BACKGROUND
 	add_theme_color_override("font_color", Palette.color[color])
 
 
-func _on_failed_timer_timeout():
+func _on_failed_timer_timeout() -> void:
 	flashing = false if flashing else true
-	var color = Palette.BACKGROUND if flashing else Palette.SECONDARY
+	var color := Palette.BACKGROUND if flashing else Palette.SECONDARY
 	add_theme_color_override("font_color", Palette.color[color])
 
 
-func _on_game_over_timer_timeout():
+func _on_game_over_timer_timeout() -> void:
 	flashing = false if flashing else true
-	var color = Palette.BACKGROUND if flashing else Palette.SECONDARY
+	var color := Palette.BACKGROUND if flashing else Palette.SECONDARY
 	add_theme_color_override("font_color", Palette.color[color])
 
 
-func _on_word_finished_state_entered():
+func _on_word_finished_state_entered() -> void:
 	flashing = true
 	add_theme_color_override("font_color", Palette.color[Palette.HIGHLIGHT])
 	finished_timer.start()
 
 
-func _on_word_failed_state_entered():
+func _on_word_failed_state_entered() -> void:
 	flashing = true
 	add_theme_color_override("font_color", Palette.color[Palette.BACKGROUND])
 	failed_timer.start()
 
 
-func _on_game_over_state_entered():
+func _on_game_over_state_entered() -> void:
 	flashing = true
 	add_theme_color_override("font_color", Palette.color[Palette.BACKGROUND])
 	game_over_timer.start()
 
 
-func _on_word_finished_state_exited():
+func _on_word_finished_state_exited() -> void:
 	finished_timer.stop()
 
 
-func _on_word_failed_state_exited():
+func _on_word_failed_state_exited() -> void:
 	failed_timer.stop()

@@ -1,5 +1,5 @@
 class_name Gameplay
-extends Node2D
+extends Node
 
 @onready var food_spawner : FoodSpawner = $FoodSpawner
 @onready var snake : Snake = $Snake
@@ -9,26 +9,26 @@ extends Node2D
 var game_over_timer := Timer.new()
 
 
-func _ready():
+func _ready() -> void:
 	game_over_timer.wait_time = 0.5
 	game_over_timer.one_shot = true
 	add_child(game_over_timer)
 
 
-func _on_seeking_state_entered():
+func _on_seeking_state_entered() -> void:
 	Global.target_word = "snake"
 	Global.partial_word = ""
 	Palette.next_palette()
 	food_spawner.spawn_food(Global.target_word, grid)
 
 
-func add_points():
+func add_points() -> void:
 	Global.combo += 1
 	Global.max_combo = max(Global.combo, Global.max_combo)
 	Global.score += Global.base_points * Global.multiplier
 
 
-func _on_snake_moved_to(pos: Vector2i):
+func _on_snake_moved_to(pos: Vector2i) -> void:
 	for food : Food in food_spawner.get_children():
 		if not food.is_edible():
 			continue
@@ -49,42 +49,42 @@ func _on_snake_moved_to(pos: Vector2i):
 			add_points()
 
 
-func _on_snake_collided():
+func _on_snake_collided() -> void:
 	state_chart.send_event("game_over")
 
 
-func _on_word_failed_state_entered():
+func _on_word_failed_state_entered() -> void:
 	food_spawner.clear()
 	Global.target_word = "".rpad(Global.target_word.length())
 	Global.multiplier = 1
 	Global.combo = 0
 
 
-func _on_word_failed_state_exited():
+func _on_word_failed_state_exited() -> void:
 	for i in Global.partial_word.length():
 		snake.parts[-i - 1]._color = Palette.SHADOW
 
 
-func _on_word_finished_state_entered():
+func _on_word_finished_state_entered() -> void:
 	food_spawner.clear()
 	Global.target_word = "".rpad(Global.target_word.length())
 	Global.multiplier = min(Global.multiplier * 2, Global.max_multiplier)
 	add_points()
 
 
-func _on_word_finished_state_exited():
+func _on_word_finished_state_exited() -> void:
 	for i in Global.partial_word.length():
 		snake.parts[-i - 1]._color = Palette.HIGHLIGHT
 
 
-func _on_game_over_state_entered():
+func _on_game_over_state_entered() -> void:
 	snake.alive = false
 	Global.target_word = ""
 	Global.partial_word = "udied"
 	game_over_timer.start()
 
 
-func _on_game_over_state_processing(_delta):
+func _on_game_over_state_processing(_delta: float) -> void:
 	for food : Food in food_spawner.get_children():
 		food._char = char(randi_range(0, 25) + 97)
 
@@ -92,7 +92,7 @@ func _on_game_over_state_processing(_delta):
 		cell._char = char(randi_range(0, 25) + 97)
 
 
-func _on_game_over_state_input(event):
+func _on_game_over_state_input(event: InputEvent) -> void:
 	if event is InputEventKey and game_over_timer.time_left == 0:
 		Global.score = 0
 		Global.combo = 0

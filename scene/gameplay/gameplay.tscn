@@ -20,7 +20,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="17_c1peq"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="18_8g61y"]
 
-[node name="Gameplay" type="Node2D"]
+[node name="Gameplay" type="Node"]
 script = ExtResource("1_dewvt")
 
 [node name="Grid" type="Node2D" parent="."]
@@ -29,7 +29,6 @@ font = ExtResource("3_pr5mj")
 
 [node name="Snake" type="Node2D" parent="." groups=["drawable"]]
 script = ExtResource("5_56jgj")
-text = null
 facing = 2
 tick = 0.125
 start_pos = Vector2i(6, 6)
@@ -37,7 +36,6 @@ start_pos = Vector2i(6, 6)
 [node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
 z_index = 1
 script = ExtResource("5_lgauy")
-inedible_time = null
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -205,26 +203,26 @@ initial_node_to_watch = NodePath("../StateChart")
 
 [connection signal="collided" from="Snake" to="." method="_on_snake_collided"]
 [connection signal="moved_to" from="Snake" to="." method="_on_snake_moved_to"]
-[connection signal="state_entered" from="StateChart/Root/Seeking" to="." method="_on_seeking_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Split/Multiplier" method="_on_seeking_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/EvalBar" method="_on_seeking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Split/Multiplier" method="_on_seeking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Seeking" to="." method="_on_seeking_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Word/Cursor" method="_on_seeking_state_exited"]
 [connection signal="state_processing" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Word/Cursor" method="_on_seeking_state_processing"]
-[connection signal="state_entered" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/WordFailed" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_failed_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/WordFailed" to="HUD/EvalBar" method="_on_word_failed_state_entered"]
-[connection signal="state_exited" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/WordFailed" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_failed_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/WordFailed" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_failed_state_exited"]
-[connection signal="state_entered" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/WordFailed" to="." method="_on_word_failed_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/WordFinished" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_finished_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/WordFinished" to="HUD/Margins/Stack/Split/Multiplier" method="_on_word_finished_state_entered"]
-[connection signal="state_exited" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/WordFinished" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_finished_state_exited"]
-[connection signal="state_entered" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="Grid" method="_on_game_over_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/EvalBar" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Word/PartialWord" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Split/Stack/Score" method="_on_game_over_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/EvalBar" method="_on_game_over_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_entered"]
 [connection signal="state_input" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_input"]
-[connection signal="state_processing" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_processing"]
 [connection signal="state_processing" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Split/Stack/Combo" method="_on_game_over_state_processing"]
+[connection signal="state_processing" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_processing"]

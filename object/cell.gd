@@ -5,7 +5,7 @@ var _char : String
 var _color : int
 
 
-func _init(text: String, color: int):
+func _init(text: String, color: int) -> void:
 	assert(len(text) == 1)
 	_char = text
 	_color = color
