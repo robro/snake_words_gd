@@ -7,7 +7,7 @@ enum MyEnum { THIS, IS, AN, ENUM }
 @export var _cols : int = 12
 @export_range(0, 100, 1, "suffix:px") var _cell_size : int = 64
 @export var _empty_text : String = "."
-@export var _color : Palette.Type
+@export var _color : Colors.Type
 @export var _font : Font
 @onready var _offset := Vector2i(_cell_size / 4, _cell_size - _cell_size / 4)
 
@@ -43,7 +43,7 @@ func _draw() -> void:
 			pos_from_idx(i) * _cell_size + _offset,
 			_cells[i]._char,
 			_cell_size,
-			Palette.color[_cells[i]._color] + _cells[i]._add_color
+			Colors.color[_cells[i]._color] + _cells[i]._add_color
 		)
 
 
@@ -85,7 +85,7 @@ func pos_from_idx(idx: int) -> Vector2i:
 func set_cell(
 	pos: Vector2i,
 	text: String,
-	color: Palette.Type,
+	color: Colors.Type,
 	add_color: Color = Color.BLACK
 ) -> void:
 	assert(text.length() == 1)

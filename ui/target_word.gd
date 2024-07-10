@@ -5,7 +5,7 @@ extends Label
 
 func _ready() -> void:
 	assert(food_spawner is FoodSpawner)
-	Palette.connect("palette_change", _on_palette_change)
+	Colors.connect("palette_change", _on_palette_change)
 
 
 func _process(_delta: float) -> void:
@@ -20,4 +20,4 @@ func _process(_delta: float) -> void:
 
 
 func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Palette.color[Palette.Type.SECONDARY])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.SECONDARY])

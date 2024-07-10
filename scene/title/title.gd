@@ -15,7 +15,7 @@ func _ready() -> void:
 	_start_timer.one_shot = true
 	_start_timer.connect("timeout", _on_start_timer_timeout)
 	add_child(_start_timer)
-	Palette.next_palette()
+	Colors.next_palette()
 
 
 func _input(event: InputEvent) -> void:

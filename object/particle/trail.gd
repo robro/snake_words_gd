@@ -1,7 +1,7 @@
 class_name Trail
 extends Node2D
 
-@export var _colors : Array[Palette.Type]
+@export var _colors : Array[Colors.Type]
 @export var _lifetime : float
 @export var _snake : Snake
 

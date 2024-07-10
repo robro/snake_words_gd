@@ -3,13 +3,13 @@ extends Node2D
 
 var _pos : Vector2i
 var _char : String
-var _color : Palette.Type
+var _color : Colors.Type
 var _timer := Timer.new()
 
 
-func _init(pos: Vector2i, text: String, color: Palette.Type, wait: float) -> void:
+func _init(pos: Vector2i, text: String, color: Colors.Type, wait: float) -> void:
 	assert(len(text) == 1)
-	assert(color >= 0 and color < Palette.color.size())
+	assert(color >= 0 and color < Colors.color.size())
 	assert(wait > 0)
 
 	_pos = pos

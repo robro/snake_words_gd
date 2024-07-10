@@ -2,13 +2,13 @@ class_name Particle
 extends Node2D
 
 var _pos: Vector2i
-var _colors: Array[Palette.Type]
+var _colors: Array[Colors.Type]
 var _lifetime: float
 var _timer := Timer.new()
 
 signal is_done
 
-func _init(pos: Vector2i, colors: Array[Palette.Type], lifetime: float) -> void:
+func _init(pos: Vector2i, colors: Array[Colors.Type], lifetime: float) -> void:
 	assert(lifetime > 0)
 
 	_pos = pos
@@ -27,7 +27,7 @@ func get_color() -> Color:
 	var gradient := Gradient.new()
 	var color_count := _colors.size()
 
-	gradient.colors = _colors.map(func(c: int) -> Color: return Palette.color[c])
+	gradient.colors = _colors.map(func(c: int) -> Color: return Colors.color[c])
 	gradient.offsets = range(color_count).map(
 		func(n: int) -> float: return n / float(color_count - 1)
 	)

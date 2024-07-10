@@ -2,7 +2,7 @@ extends Label
 
 
 func _ready() -> void:
-	Palette.connect("palette_change", _on_palette_change)
+	Colors.connect("palette_change", _on_palette_change)
 
 
 func _process(_delta: float) -> void:
@@ -10,16 +10,16 @@ func _process(_delta: float) -> void:
 
 
 func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Palette.color[Palette.Type.SECONDARY])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.SECONDARY])
 
 
 func _on_word_finished_state_entered() -> void:
-	add_theme_color_override("font_color", Palette.color[Palette.Type.PRIMARY])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.PRIMARY])
 
 
 func _on_seeking_state_entered() -> void:
-	add_theme_color_override("font_color", Palette.color[Palette.Type.SECONDARY])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.SECONDARY])
 
 
 func _on_game_over_state_entered() -> void:
-	add_theme_color_override("font_color", Palette.color[Palette.Type.SECONDARY])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.SECONDARY])

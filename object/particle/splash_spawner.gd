@@ -24,7 +24,7 @@ func _ready() -> void:
 func _on_timer_timeout() -> void:
 	_timer.wait_time = _interval
 	_timer.start()
-	Palette.next_palette()
+	Colors.next_palette()
 	add_child(Splash.new(
 		_grid,
 		_title_snake.get_children().filter(

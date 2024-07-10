@@ -1,14 +1,14 @@
 extends Label
 
 @export var blink_speed := 0.5
-@export var _color : Palette.Type
+@export var _color : Colors.Type
 
 var blink_timer := Timer.new()
 var blinking := false
 
 
 func _ready() -> void:
-	Palette.connect("palette_change", _on_palette_change)
+	Colors.connect("palette_change", _on_palette_change)
 	blink_timer.wait_time = blink_speed
 	blink_timer.timeout.connect(_on_timer_timeout)
 	blink_timer.autostart = true
@@ -17,8 +17,8 @@ func _ready() -> void:
 
 
 func set_color() -> void:
-	var color := Palette.Type.BACKGROUND if blinking else _color
-	add_theme_color_override("font_color", Palette.color[color])
+	var color := Colors.Type.BACKGROUND if blinking else _color
+	add_theme_color_override("font_color", Colors.color[color])
 
 
 func _on_timer_timeout() -> void:

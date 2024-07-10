@@ -7,5 +7,5 @@ script = ExtResource("1_0oqbh")
 _start_size = 1
 _max_size = 30
 _tick = 0.1
-_colors = Array[int]([1, 2])
 _lifetime = 1.0
+_colors = Array[int]([1, 2])

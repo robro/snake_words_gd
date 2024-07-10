@@ -10,7 +10,7 @@ var flashing : bool = false
 
 
 func _ready() -> void:
-	Palette.connect("palette_change", _on_palette_change)
+	Colors.connect("palette_change", _on_palette_change)
 
 	finished_timer.wait_time = flash_speed
 	failed_timer.wait_time = flash_speed
@@ -30,42 +30,42 @@ func _process(_delta: float) -> void:
 
 
 func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Palette.color[Palette.Type.PRIMARY])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.PRIMARY])
 
 
 func _on_finished_timer_timeout() -> void:
 	flashing = false if flashing else true
-	var color := Palette.Type.HIGHLIGHT if flashing else Palette.Type.BACKGROUND
-	add_theme_color_override("font_color", Palette.color[color])
+	var color := Colors.Type.HIGHLIGHT if flashing else Colors.Type.BACKGROUND
+	add_theme_color_override("font_color", Colors.color[color])
 
 
 func _on_failed_timer_timeout() -> void:
 	flashing = false if flashing else true
-	var color := Palette.Type.BACKGROUND if flashing else Palette.Type.SECONDARY
-	add_theme_color_override("font_color", Palette.color[color])
+	var color := Colors.Type.BACKGROUND if flashing else Colors.Type.SECONDARY
+	add_theme_color_override("font_color", Colors.color[color])
 
 
 func _on_game_over_timer_timeout() -> void:
 	flashing = false if flashing else true
-	var color := Palette.Type.BACKGROUND if flashing else Palette.Type.SECONDARY
-	add_theme_color_override("font_color", Palette.color[color])
+	var color := Colors.Type.BACKGROUND if flashing else Colors.Type.SECONDARY
+	add_theme_color_override("font_color", Colors.color[color])
 
 
 func _on_word_finished_state_entered() -> void:
 	flashing = true
-	add_theme_color_override("font_color", Palette.color[Palette.Type.HIGHLIGHT])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.HIGHLIGHT])
 	finished_timer.start()
 
 
 func _on_word_failed_state_entered() -> void:
 	flashing = true
-	add_theme_color_override("font_color", Palette.color[Palette.Type.BACKGROUND])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.BACKGROUND])
 	failed_timer.start()
 
 
 func _on_game_over_state_entered() -> void:
 	flashing = true
-	add_theme_color_override("font_color", Palette.color[Palette.Type.BACKGROUND])
+	add_theme_color_override("font_color", Colors.color[Colors.Type.BACKGROUND])
 	game_over_timer.start()
 
 

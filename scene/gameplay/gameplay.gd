@@ -20,7 +20,7 @@ func _ready() -> void:
 
 
 func _on_seeking_state_entered() -> void:
-	Palette.next_palette()
+	Colors.next_palette()
 	Global.target_word = Words.words[_word_idx]
 	Global.partial_word = ""
 	_food_spawner.spawn_food(Global.target_word, _grid)
@@ -72,7 +72,7 @@ func _on_word_failed_state_exited() -> void:
 	for i in Global.partial_word.length():
 		_snake.get_children().filter(
 			func(c: Node) -> bool: return c is SnakePart
-		)[-i - 1]._color = Palette.Type.SHADOW
+		)[-i - 1]._color = Colors.Type.SHADOW
 
 
 func _on_word_finished_state_entered() -> void:
@@ -86,7 +86,7 @@ func _on_word_finished_state_exited() -> void:
 	for i in Global.partial_word.length():
 		_snake.get_children().filter(
 			func(c: Node) -> bool: return c is SnakePart
-		)[-i - 1]._color = Palette.Type.HIGHLIGHT
+		)[-i - 1]._color = Colors.Type.HIGHLIGHT
 
 
 func _on_game_over_state_entered() -> void:

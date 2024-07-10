@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Palette" load_steps=2 format=3 uid="uid://cca5ydeusrwth"]
+
+[ext_resource type="Script" path="res://render/palette.gd" id="1_nd1xd"]
+
+[resource]
+script = ExtResource("1_nd1xd")
+_primary = Color(0.991561, 0, 0.481125, 1)
+_secondary = Color(0.576386, 0, 0.322116, 1)
+_background = Color(0.193881, 8.27007e-05, 0.208025, 1)
+_highlight = Color(0.93408, 0.93408, 0.93408, 1)
+_shadow = Color(0.427493, 0.427493, 0.427493, 1)
