@@ -12,10 +12,11 @@ extends Node2D
 # @export var _facing : Facing = Facing.RIGHT
 @export var _tick : float = 0.5
 @export var _start_pos : Vector2i = Vector2i.ZERO
-@export var _max_moves : int = 3
+@export var _min_moves : int = 3
+@export var _max_moves : int = 5
 @export var _bounds : Rect2i = Rect2i(0, 0, 12, 12)
 @onready var _tail : Vector2i = _start_pos
-@onready var _moves := _max_moves
+@onready var _moves := rand_moves()
 
 var _timer := Timer.new()
 var _turn_right := true
@@ -51,7 +52,9 @@ func try_to_move() -> void:
 	)
 	var next_pos : Vector2i = parts[0]._pos + facing_list[_facing_idx]
 	while not _bounds.has_point(next_pos):
+		_turn_right = true
 		turn()
+		_moves = rand_moves()
 		next_pos = parts[0]._pos + facing_list[_facing_idx]
 
 	_tail = parts[-1]._pos
@@ -63,15 +66,19 @@ func try_to_move() -> void:
 
 	_moves -= 1
 	if _moves == 0:
-		_moves = _max_moves
-		turn(_turn_right)
+		turn()
+		_moves = rand_moves()
 		_turn_right = false if _turn_right else true
 
 
-func turn(turn_right: bool = true) -> void:
-	var direction := 1 if turn_right else -1
+func turn() -> void:
+	var direction := 1 if _turn_right else -1
 	_facing_idx += direction
 	if _facing_idx < 0:
 		_facing_idx = 3
 	else:
 		_facing_idx %= 4
+
+
+func rand_moves() -> int:
+	return randi_range(_min_moves, _max_moves)
