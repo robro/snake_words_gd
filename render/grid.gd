@@ -1,17 +1,13 @@
 class_name Grid
 extends Node2D
 
+enum MyEnum { THIS, IS, AN, ENUM }
+
 @export var _rows : int = 12
 @export var _cols : int = 12
 @export_range(0, 100, 1, "suffix:px") var _cell_size : int = 64
 @export var _empty_text : String = "."
-@export_enum(
-	"primary",
-	"secondary",
-	"background",
-	"highlight",
-	"shadow"
-) var _color : int = 1
+@export var _color : Palette.Type
 @export var _font : Font
 @onready var _offset := Vector2i(_cell_size / 4, _cell_size - _cell_size / 4)
 
@@ -89,7 +85,7 @@ func pos_from_idx(idx: int) -> Vector2i:
 func set_cell(
 	pos: Vector2i,
 	text: String,
-	color: int,
+	color: Palette.Type,
 	add_color: Color = Color.BLACK
 ) -> void:
 	assert(text.length() == 1)
@@ -99,7 +95,3 @@ func set_cell(
 	cell._char = text
 	cell._color = color
 	cell._add_color = add_color
-
-
-func _on_game_over_state_entered() -> void:
-	_color = Palette.BACKGROUND

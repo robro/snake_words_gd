@@ -1,58 +1,60 @@
 extends Node
 
-const PRIMARY = 0
-const SECONDARY = 1
-const BACKGROUND = 2
-const HIGHLIGHT = 3
-const SHADOW = 4
-
-var color := {
-	PRIMARY: Color.RED,
-	SECONDARY: Color.DARK_RED,
-	BACKGROUND: Color.BLACK,
-	HIGHLIGHT: Color.WHITE_SMOKE,
-	SHADOW: Color.DIM_GRAY,
+enum Type {
+	PRIMARY,
+	SECONDARY,
+	BACKGROUND,
+	HIGHLIGHT,
+	SHADOW,
 }
 
-var palette_indices := [0, 1, 2, 3, 4]
+var color := {
+	Type.PRIMARY: Color.RED,
+	Type.SECONDARY: Color.DARK_RED,
+	Type.BACKGROUND: Color.BLACK,
+	Type.HIGHLIGHT: Color.WHITE_SMOKE,
+	Type.SHADOW: Color.DIM_GRAY,
+}
+
+var palette_indices := range(PALETTES.size())
 var palette_index : int = -1
 var shuffled_idx : int = -1
 
 const PALETTES := [
 	{
-		PRIMARY: Color.RED,
-		SECONDARY: Color.DARK_RED,
-		BACKGROUND: Color.BLACK,
-		HIGHLIGHT: Color.WHITE_SMOKE,
-		SHADOW: Color.DIM_GRAY,
+		Type.PRIMARY: Color.RED,
+		Type.SECONDARY: Color.DARK_RED,
+		Type.BACKGROUND: Color.BLACK,
+		Type.HIGHLIGHT: Color.WHITE_SMOKE,
+		Type.SHADOW: Color.DIM_GRAY,
 	},
 	{
-		PRIMARY: Color.PURPLE,
-		SECONDARY: Color.DARK_VIOLET,
-		BACKGROUND: Color.BLACK,
-		HIGHLIGHT: Color.WHITE_SMOKE,
-		SHADOW: Color.DIM_GRAY,
+		Type.PRIMARY: Color.PURPLE,
+		Type.SECONDARY: Color.DARK_VIOLET,
+		Type.BACKGROUND: Color.BLACK,
+		Type.HIGHLIGHT: Color.WHITE_SMOKE,
+		Type.SHADOW: Color.DIM_GRAY,
 	},
 	{
-		PRIMARY: Color.GREEN,
-		SECONDARY: Color.DARK_GREEN,
-		BACKGROUND: Color.BLACK,
-		HIGHLIGHT: Color.WHITE_SMOKE,
-		SHADOW: Color.DIM_GRAY,
+		Type.PRIMARY: Color.GREEN,
+		Type.SECONDARY: Color.DARK_GREEN,
+		Type.BACKGROUND: Color.BLACK,
+		Type.HIGHLIGHT: Color.WHITE_SMOKE,
+		Type.SHADOW: Color.DIM_GRAY,
 	},
 	{
-		PRIMARY: Color.BLUE,
-		SECONDARY: Color.DARK_BLUE,
-		BACKGROUND: Color.BLACK,
-		HIGHLIGHT: Color.WHITE_SMOKE,
-		SHADOW: Color.DIM_GRAY,
+		Type.PRIMARY: Color.BLUE,
+		Type.SECONDARY: Color.DARK_BLUE,
+		Type.BACKGROUND: Color.BLACK,
+		Type.HIGHLIGHT: Color.WHITE_SMOKE,
+		Type.SHADOW: Color.DIM_GRAY,
 	},
 	{
-		PRIMARY: Color.ORANGE,
-		SECONDARY: Color.SADDLE_BROWN,
-		BACKGROUND: Color.BLACK,
-		HIGHLIGHT: Color.WHITE_SMOKE,
-		SHADOW: Color.DIM_GRAY,
+		Type.PRIMARY: Color.ORANGE,
+		Type.SECONDARY: Color.SADDLE_BROWN,
+		Type.BACKGROUND: Color.BLACK,
+		Type.HIGHLIGHT: Color.WHITE_SMOKE,
+		Type.SHADOW: Color.DIM_GRAY,
 	},
 ]
 
@@ -70,10 +72,10 @@ func next_palette() -> void:
 	shuffled_idx = palette_indices[palette_index]
 	palette_index += 1
 
-	color[PRIMARY] = PALETTES[shuffled_idx][PRIMARY]
-	color[SECONDARY] = PALETTES[shuffled_idx][SECONDARY]
-	color[BACKGROUND] = PALETTES[shuffled_idx][BACKGROUND]
-	color[HIGHLIGHT] = PALETTES[shuffled_idx][HIGHLIGHT]
-	color[SHADOW] = PALETTES[shuffled_idx][SHADOW]
+	color[Type.PRIMARY] = PALETTES[shuffled_idx][Type.PRIMARY]
+	color[Type.SECONDARY] = PALETTES[shuffled_idx][Type.SECONDARY]
+	color[Type.BACKGROUND] = PALETTES[shuffled_idx][Type.BACKGROUND]
+	color[Type.HIGHLIGHT] = PALETTES[shuffled_idx][Type.HIGHLIGHT]
+	color[Type.SHADOW] = PALETTES[shuffled_idx][Type.SHADOW]
 
 	emit_signal("palette_change")

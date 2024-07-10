@@ -2,13 +2,13 @@ class_name Particle
 extends Node2D
 
 var _pos: Vector2i
-var _colors: Array[int]
+var _colors: Array[Palette.Type]
 var _lifetime: float
 var _timer := Timer.new()
 
 signal is_done
 
-func _init(pos: Vector2i, colors: Array[int], lifetime: float) -> void:
+func _init(pos: Vector2i, colors: Array[Palette.Type], lifetime: float) -> void:
 	assert(lifetime > 0)
 
 	_pos = pos

@@ -72,7 +72,7 @@ func _on_word_failed_state_exited() -> void:
 	for i in Global.partial_word.length():
 		_snake.get_children().filter(
 			func(c: Node) -> bool: return c is SnakePart
-		)[-i - 1]._color = Palette.SHADOW
+		)[-i - 1]._color = Palette.Type.SHADOW
 
 
 func _on_word_finished_state_entered() -> void:
@@ -86,7 +86,7 @@ func _on_word_finished_state_exited() -> void:
 	for i in Global.partial_word.length():
 		_snake.get_children().filter(
 			func(c: Node) -> bool: return c is SnakePart
-		)[-i - 1]._color = Palette.HIGHLIGHT
+		)[-i - 1]._color = Palette.Type.HIGHLIGHT
 
 
 func _on_game_over_state_entered() -> void:

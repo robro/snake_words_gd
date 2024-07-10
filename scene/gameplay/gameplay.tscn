@@ -56,9 +56,9 @@ script = ExtResource("5_lgauy")
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_top = 780.0
+offset_top = 772.0
 offset_right = 768.0
-offset_bottom = 1152.0
+offset_bottom = 1144.0
 
 [node name="EvalBar" type="ColorRect" parent="HUD"]
 layout_mode = 1
@@ -224,7 +224,6 @@ script = ExtResource("16_1o62w")
 [connection signal="state_exited" from="StateChart/Root/WordFinished" to="." method="_on_word_finished_state_exited"]
 [connection signal="state_exited" from="StateChart/Root/WordFinished" to="HUD/Margins/Stack/Word/PartialWord" method="_on_word_finished_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="." method="_on_game_over_state_entered"]
-[connection signal="state_entered" from="StateChart/Root/GameOver" to="Grid" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/EvalBar" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Word/PartialWord" method="_on_game_over_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/GameOver" to="HUD/Margins/Stack/Split/Stack/Score" method="_on_game_over_state_entered"]

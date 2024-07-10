@@ -5,7 +5,7 @@ extends Resource
 @export var _max_size: int
 @export var _tick: float
 @export var _lifetime: float
-@export var _colors: Array[int]
+@export var _colors: Array[Palette.Type]
 
 
 func _init(
@@ -13,7 +13,7 @@ func _init(
 	max_size: int = 5,
 	tick: float = 0.04,
 	lifetime: float = 0.4,
-	colors: Array[int] = [0, 2],
+	colors: Array[Palette.Type] = [Palette.Type.PRIMARY, Palette.Type.BACKGROUND],
 ) -> void:
 	_start_size = start_size
 	_max_size = max_size

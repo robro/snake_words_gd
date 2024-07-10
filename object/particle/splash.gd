@@ -6,7 +6,7 @@ var _pos : Vector2i
 var _size : int
 var _max_size : int
 var _tick : float
-var _colors : Array[int]
+var _colors : Array[Palette.Type]
 var _lifetime : float
 var _queue : Array[Array]
 var _visited : Dictionary

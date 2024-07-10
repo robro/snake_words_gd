@@ -91,5 +91,5 @@ func try_to_move() -> void:
 	emit_signal("moved_to", next_pos)
 
 
-func append(text: String, color: int) -> void:
+func append(text: String, color: Palette.Type) -> void:
 	add_child(SnakePart.new(_tail, text, color))

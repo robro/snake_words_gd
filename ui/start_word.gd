@@ -1,13 +1,7 @@
 extends Label
 
 @export var flash_speed := 0.075
-@export_enum(
-	"primary",
-	"secondary",
-	"background",
-	"highlight",
-	"shadow"
-) var _color : int
+@export var _color : Palette.Type
 
 var flash_timer := Timer.new()
 var flashing : bool = false
@@ -23,13 +17,13 @@ func _ready() -> void:
 
 func _on_flash_timer_timeout() -> void:
 	flashing = false if flashing else true
-	var color := Palette.HIGHLIGHT if flashing else Palette.BACKGROUND
+	var color := Palette.Type.HIGHLIGHT if flashing else Palette.Type.BACKGROUND
 	add_theme_color_override("font_color", Palette.color[color])
 
 
 func _on_starting_state_entered() -> void:
 	flashing = true
-	add_theme_color_override("font_color", Palette.color[Palette.HIGHLIGHT])
+	add_theme_color_override("font_color", Palette.color[Palette.Type.HIGHLIGHT])
 	flash_timer.start()
 
 

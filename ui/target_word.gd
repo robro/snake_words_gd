@@ -20,4 +20,4 @@ func _process(_delta: float) -> void:
 
 
 func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Palette.color[Palette.SECONDARY])
+	add_theme_color_override("font_color", Palette.color[Palette.Type.SECONDARY])
