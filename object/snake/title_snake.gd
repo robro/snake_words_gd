@@ -12,13 +12,13 @@ extends Node2D
 # @export var _facing : Facing = Facing.RIGHT
 @export var _tick : float = 0.5
 @export var _start_pos : Vector2i = Vector2i.ZERO
-@export var _moves_to_turn : int = 3
-@export var _grid : Grid
+@export var _max_moves : int = 3
+@export var _bounds : Rect2i = Rect2i(0, 0, 12, 12)
 @onready var _tail : Vector2i = _start_pos
-@onready var _moves := _moves_to_turn
+@onready var _moves := _max_moves
 
 var _timer := Timer.new()
-var _turning_right := false
+var _turn_right := true
 var _facing_idx := 0
 
 const facing_list = [
@@ -30,8 +30,7 @@ const facing_list = [
 
 
 func _ready() -> void:
-	assert(_grid is Grid)
-	assert(_moves_to_turn > 0)
+	assert(_max_moves > 0)
 
 	for i in len(_name):
 		add_child(SnakePart.new(
@@ -51,7 +50,7 @@ func try_to_move() -> void:
 		func(c: Node) -> bool: return c is SnakePart
 	)
 	var next_pos : Vector2i = parts[0]._pos + facing_list[_facing_idx]
-	while not _grid.contains(next_pos):
+	while not _bounds.has_point(next_pos):
 		turn()
 		next_pos = parts[0]._pos + facing_list[_facing_idx]
 
@@ -64,9 +63,9 @@ func try_to_move() -> void:
 
 	_moves -= 1
 	if _moves == 0:
-		_moves = _moves_to_turn
-		turn(_turning_right)
-		_turning_right = false if _turning_right else true
+		_moves = _max_moves
+		turn(_turn_right)
+		_turn_right = false if _turn_right else true
 
 
 func turn(turn_right: bool = true) -> void:
@@ -74,5 +73,5 @@ func turn(turn_right: bool = true) -> void:
 	_facing_idx += direction
 	if _facing_idx < 0:
 		_facing_idx = 3
-	_facing_idx %= 4
-	# print("facing " + str(facing_list[_facing_idx]))
+	else:
+		_facing_idx %= 4

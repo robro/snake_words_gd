@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://dq31h23xkadsa"]
+[gd_scene load_steps=14 format=3 uid="uid://dq31h23xkadsa"]
 
 [ext_resource type="Script" path="res://scene/title/title.gd" id="1_0c4bm"]
 [ext_resource type="Script" path="res://object/snake/title_snake.gd" id="1_echnt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="1_jx137"]
+[ext_resource type="Script" path="res://object/particle/splash_spawner.gd" id="2_63tu2"]
 [ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="2_grmfb"]
 [ext_resource type="Script" path="res://ui/start_cursor.gd" id="5_8gx6m"]
 [ext_resource type="Script" path="res://ui/start_word.gd" id="7_6vkq6"]
@@ -18,15 +19,21 @@ script = ExtResource("1_0c4bm")
 _title_snake = NodePath("TitleSnake")
 _state_chart = NodePath("StateChart")
 
+[node name="SplashSpawner" type="Node2D" parent="." node_paths=PackedStringArray("_grid", "_title_snake")]
+script = ExtResource("2_63tu2")
+_grid = NodePath("../Grid")
+_title_snake = NodePath("../TitleSnake")
+
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("1_jx137")
+_rows = 18
 _color = 2
 _font = ExtResource("2_grmfb")
 
-[node name="TitleSnake" type="Node2D" parent="." node_paths=PackedStringArray("_grid")]
+[node name="TitleSnake" type="Node2D" parent="."]
 script = ExtResource("1_echnt")
-_tick = 0.125
-_grid = NodePath("../Grid")
+_tick = 0.2
+_start_pos = Vector2i(2, 0)
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -34,6 +41,14 @@ anchors_preset = 0
 offset_top = 780.0
 offset_right = 768.0
 offset_bottom = 1152.0
+
+[node name="EvalBar" type="ColorRect" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 135.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Margins" type="MarginContainer" parent="HUD"]
 layout_mode = 1
@@ -56,6 +71,7 @@ theme_override_fonts/font = ExtResource("8_7dms6")
 theme_override_font_sizes/font_size = 128
 text = "        █    "
 script = ExtResource("5_8gx6m")
+_color = 1
 
 [node name="StartWord" type="Label" parent="HUD/Margins/Start"]
 z_index = 1
@@ -64,6 +80,7 @@ theme_override_fonts/font = ExtResource("10_snugp")
 theme_override_font_sizes/font_size = 128
 text = "start"
 script = ExtResource("7_6vkq6")
+_color = 1
 
 [node name="Background" type="ColorRect" parent="."]
 z_index = -5
