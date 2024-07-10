@@ -29,6 +29,7 @@ _state_chart = NodePath("StateChart")
 
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("2_6iphj")
+_color = 2
 _font = ExtResource("3_pr5mj")
 
 [node name="Snake" type="Node2D" parent="." node_paths=PackedStringArray("_grid")]
@@ -40,6 +41,7 @@ _grid = NodePath("../Grid")
 
 [node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("_snake") groups=["emitters"]]
 script = ExtResource("6_shy8r")
+_colors = Array[int]([1, 2])
 _lifetime = 1.0
 _snake = NodePath("../Snake")
 

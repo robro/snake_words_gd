@@ -23,6 +23,7 @@ _state_chart = NodePath("StateChart")
 script = ExtResource("2_63tu2")
 _grid = NodePath("../Grid")
 _title_snake = NodePath("../TitleSnake")
+_colors = Array[int]([1, 2])
 
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("1_jx137")

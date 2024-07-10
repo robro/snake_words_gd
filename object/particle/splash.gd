@@ -6,8 +6,9 @@ var _pos : Vector2i
 var _size : int
 var _max_size : int
 var _tick : float
-var _color : int
+var _colors : Array[int]
 var _lifetime : float
+var _slow_down : bool
 var _queue : Array[Array]
 var _visited : Dictionary
 var _active_count : int = 0
@@ -27,20 +28,21 @@ func _init(
 	start_size: int,
 	max_size: int,
 	tick: float,
-	color: int,
-	lifetime: float
+	colors: Array[int],
+	lifetime: float,
+	slow_down: bool = false,
 ) -> void:
 	assert(start_size <= max_size)
 	assert(tick > 0)
-	assert(color >= 0 and color < Palette.color.size())
 
 	_grid = grid
 	_pos = pos
 	_size = start_size
 	_max_size = max_size
 	_tick = tick
-	_color = color
+	_colors = colors
 	_lifetime = lifetime
+	_slow_down = slow_down
 
 	_timer.wait_time = tick
 	_timer.autostart = true
@@ -58,6 +60,9 @@ func _ready() -> void:
 
 
 func _on_timer_timeout() -> void:
+	if _slow_down:
+		_timer.wait_time += _tick / _max_size * 10
+
 	while _size <= _max_size and not _queue.is_empty():
 		if _queue[0][0] > _size:
 			_size += 1
@@ -66,7 +71,7 @@ func _on_timer_timeout() -> void:
 		var current : Array = _queue.pop_front()
 		var size : int = current[0]
 		var pos : Vector2i = current[1]
-		var particle := Particle.new(pos, _color, _lifetime)
+		var particle := Particle.new(pos, _colors, _lifetime)
 		particle.connect("is_done", _on_particle_is_done)
 		add_child(particle)
 		_active_count += 1

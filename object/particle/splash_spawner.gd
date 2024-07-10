@@ -4,13 +4,7 @@ extends Node2D
 @export var _interval : float = 3.0
 @export var _grid : Grid
 @export var _title_snake : TitleSnake
-@export_enum(
-	"primary",
-	"secondary",
-	"background",
-	"highlight",
-	"shadow"
-) var _color : int = 1
+@export var _colors : Array[int]
 
 var _timer := Timer.new()
 
@@ -36,6 +30,6 @@ func _on_timer_timeout() -> void:
 		1,
 		30,
 		0.1,
-		_color,
+		_colors,
 		1
 	))

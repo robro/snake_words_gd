@@ -2,18 +2,17 @@ class_name Particle
 extends Node2D
 
 var _pos: Vector2i
-var _color: int
+var _colors: Array[int]
 var _lifetime: float
 var _timer := Timer.new()
 
 signal is_done
 
-func _init(pos: Vector2i, color: int, lifetime: float) -> void:
+func _init(pos: Vector2i, colors: Array[int], lifetime: float) -> void:
 	assert(lifetime > 0)
-	assert(color >= 0 and color < Palette.color.size())
 
 	_pos = pos
-	_color = color
+	_colors = colors
 	_lifetime = lifetime
 
 	_timer.wait_time = lifetime
@@ -25,7 +24,16 @@ func _init(pos: Vector2i, color: int, lifetime: float) -> void:
 
 
 func get_color() -> Color:
-	return Color.BLACK.lerp(Palette.color[_color], _timer.time_left / _lifetime)
+	var gradient := Gradient.new()
+
+	for i in _colors.size():
+		if i < 2:
+			gradient.set_offset(i, i / float(_colors.size() - 1))
+			gradient.set_color(i, Palette.color[_colors[i]])
+		else:
+			gradient.add_point(i / float(_colors.size() - 1), Palette.color[_colors[i]])
+
+	return gradient.sample(((_timer.time_left / _lifetime) - 1) * -1)
 
 
 func _on_timer_timeout() -> void:

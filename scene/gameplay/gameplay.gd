@@ -44,11 +44,28 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 			_state_chart.send_event("word_failed")
 
 		elif Global.partial_word == Global.target_word:
-			add_child(Splash.new(_grid, food._pos, 2, 24, 0.05, Palette.HIGHLIGHT, 1.0))
+			add_child(Splash.new(
+				_grid,
+				food._pos,
+				1,
+				24,
+				0.05,
+				[Palette.HIGHLIGHT, Palette.PRIMARY, Palette.BACKGROUND],
+				1.0,
+			))
 			_state_chart.send_event("word_finished")
 
 		else:
-			add_child(Splash.new(_grid, food._pos, 1, 4, 0.05, Palette.PRIMARY, 0.5))
+			add_child(Splash.new(
+				_grid,
+				food._pos,
+				1,
+				5,
+				0.02,
+				[Palette.PRIMARY, Palette.BACKGROUND],
+				0.5,
+				true,
+			))
 			add_points()
 
 		food.queue_free()
