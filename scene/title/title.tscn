@@ -1,0 +1,95 @@
+[gd_scene load_steps=13 format=3 uid="uid://dq31h23xkadsa"]
+
+[ext_resource type="Script" path="res://scene/title/title.gd" id="1_0c4bm"]
+[ext_resource type="Script" path="res://object/snake/title_snake.gd" id="1_echnt"]
+[ext_resource type="Script" path="res://render/grid.gd" id="1_jx137"]
+[ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="2_grmfb"]
+[ext_resource type="Script" path="res://ui/start_cursor.gd" id="5_8gx6m"]
+[ext_resource type="Script" path="res://ui/start_word.gd" id="7_6vkq6"]
+[ext_resource type="FontVariation" uid="uid://ks11ym86ydqj" path="res://font/cursor_display.tres" id="8_7dms6"]
+[ext_resource type="FontVariation" uid="uid://b0nb7fckni6g4" path="res://font/word_display.tres" id="10_snugp"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="16_vdet0"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="17_bgg2m"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="18_wj27m"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="19_gt0wy"]
+
+[node name="Title" type="Node" node_paths=PackedStringArray("_title_snake", "_state_chart")]
+script = ExtResource("1_0c4bm")
+_title_snake = NodePath("TitleSnake")
+_state_chart = NodePath("StateChart")
+
+[node name="Grid" type="Node2D" parent="."]
+script = ExtResource("1_jx137")
+_color = 2
+_font = ExtResource("2_grmfb")
+
+[node name="TitleSnake" type="Node2D" parent="." node_paths=PackedStringArray("_grid")]
+script = ExtResource("1_echnt")
+_tick = 0.125
+_grid = NodePath("../Grid")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 780.0
+offset_right = 768.0
+offset_bottom = 1152.0
+
+[node name="Margins" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 321.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 64
+
+[node name="Start" type="CenterContainer" parent="HUD/Margins"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Cursor" type="Label" parent="HUD/Margins/Start"]
+z_index = 2
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_7dms6")
+theme_override_font_sizes/font_size = 128
+text = "        █    "
+script = ExtResource("5_8gx6m")
+
+[node name="StartWord" type="Label" parent="HUD/Margins/Start"]
+z_index = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_snugp")
+theme_override_font_sizes/font_size = 128
+text = "start"
+script = ExtResource("7_6vkq6")
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -5
+offset_right = 768.0
+offset_bottom = 1152.0
+color = Color(0, 0, 0, 1)
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("16_vdet0")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("17_bgg2m")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root"]
+script = ExtResource("18_wj27m")
+
+[node name="ToStarting" type="Node" parent="StateChart/Root/Idle"]
+script = ExtResource("19_gt0wy")
+to = NodePath("../../Starting")
+event = &"press_start"
+delay_in_seconds = "0.0"
+
+[node name="Starting" type="Node" parent="StateChart/Root"]
+script = ExtResource("18_wj27m")
+
+[connection signal="state_entered" from="StateChart/Root/Starting" to="." method="_on_starting_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Starting" to="HUD/Margins/Start/Cursor" method="_on_starting_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Starting" to="HUD/Margins/Start/StartWord" method="_on_starting_state_entered"]
