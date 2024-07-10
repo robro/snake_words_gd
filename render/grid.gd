@@ -4,7 +4,7 @@ extends Node2D
 @export var _rows : int = 12
 @export var _cols : int = 12
 @export_range(0, 100, 1, "suffix:px") var _cell_size : int = 64
-@export var _empty_char : String = '.'
+@export var _empty_text : String = "."
 @export_enum(
 	"primary",
 	"secondary",
@@ -21,11 +21,11 @@ var _cells : Array[Cell]
 func _ready() -> void:
 	assert(_font is Font)
 	for i in range(_rows * _cols):
-		_cells.append(Cell.new(_empty_char, _color))
+		_cells.append(Cell.new(_empty_text[i % _empty_text.length()], _color))
 
 
 func _process(_delta: float) -> void:
-	clear()
+	fill(_empty_text)
 	for p in get_tree().get_nodes_in_group("particles"):
 		if p is Particle and contains(p._pos):
 			_cells[idx_from_pos(p._pos)]._add_color += p.get_color()
@@ -51,11 +51,11 @@ func _draw() -> void:
 		)
 
 
-func clear() -> void:
-	for cell in _cells:
-		cell._char = _empty_char
-		cell._color = _color
-		cell._add_color = Color.BLACK
+func fill(text: String) -> void:
+	for i in _cells.size():
+		_cells[i]._char = text[i % text.length()]
+		_cells[i]._color = _color
+		_cells[i]._add_color = Color.BLACK
 
 
 func contains(pos: Vector2i) -> bool:

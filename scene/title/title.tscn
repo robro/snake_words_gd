@@ -41,9 +41,9 @@ _start_pos = Vector2i(2, 0)
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_top = 780.0
+offset_top = 772.0
 offset_right = 768.0
-offset_bottom = 1152.0
+offset_bottom = 1144.0
 
 [node name="EvalBar" type="ColorRect" parent="HUD"]
 layout_mode = 1
