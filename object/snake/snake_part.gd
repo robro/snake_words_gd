@@ -15,7 +15,6 @@ func _init(pos: Vector2i, text: String, color: int) -> void:
 	_color = color
 
 	add_to_group("drawable")
-	add_to_group("snake_parts")
 
 
 func _ready() -> void:

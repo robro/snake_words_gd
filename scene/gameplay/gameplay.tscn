@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://oun5bmabme7x"]
+[gd_scene load_steps=20 format=3 uid="uid://oun5bmabme7x"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
@@ -19,7 +19,6 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="15_buh1x"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="16_1o62w"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="17_c1peq"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="18_8g61y"]
 
 [node name="Gameplay" type="Node" node_paths=PackedStringArray("_grid", "_snake", "_food_spawner", "_state_chart")]
 script = ExtResource("1_dewvt")
@@ -200,16 +199,6 @@ delay_in_seconds = "0.0"
 
 [node name="GameOver" type="Node" parent="StateChart/Root"]
 script = ExtResource("16_1o62w")
-
-[node name="StateChartDebugger" parent="." instance=ExtResource("18_8g61y")]
-visible = false
-z_index = 4
-offset_left = 326.0
-offset_top = 458.0
-offset_right = 714.0
-offset_bottom = 766.0
-enabled = false
-initial_node_to_watch = NodePath("../StateChart")
 
 [connection signal="collided" from="Snake" to="." method="_on_snake_collided"]
 [connection signal="moved_to" from="Snake" to="." method="_on_snake_moved_to"]

@@ -34,7 +34,7 @@ func add_points() -> void:
 
 func _on_snake_moved_to(pos: Vector2i) -> void:
 	for food in get_tree().get_nodes_in_group("food"):
-		if not food is Food or not food.is_edible() or food._pos != pos:
+		if not food.is_edible() or food._pos != pos:
 			continue
 
 		_snake.append(food._char, food._color)
@@ -98,13 +98,8 @@ func _on_game_over_state_entered() -> void:
 
 
 func _on_game_over_state_processing(_delta: float) -> void:
-	for food in get_tree().get_nodes_in_group("food"):
-		if food is Food:
-			food._char = Global.rand_char()
-
-	for part in get_tree().get_nodes_in_group("snake_parts"):
-		if part is SnakePart:
-			part._char = Global.rand_char()
+	for part in get_tree().get_nodes_in_group("drawable"):
+		part._char = Global.rand_char()
 
 
 func _on_game_over_state_input(event: InputEvent) -> void:
