@@ -34,11 +34,11 @@ func add_points() -> void:
 
 
 func _on_snake_moved_to(pos: Vector2i) -> void:
-	for food in food_spawner.foods:
-		if not food.is_edible() or food._pos != pos:
+	for food in get_tree().get_nodes_in_group("food"):
+		if not food is Food or not food.is_edible() or food._pos != pos:
 			continue
 
-		snake.append(Cell.new(food._char, food._color))
+		snake.append(food._char, food._color)
 		Global.partial_word += food._char
 
 		if not Global.target_word.begins_with(Global.partial_word):
@@ -52,7 +52,7 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 			add_child(Splash.new(grid, food._pos, 1, 4, 0.05, Palette.PRIMARY, 0.5))
 			add_points()
 
-		food_spawner.remove(food)
+		food.queue_free()
 		return
 
 
@@ -69,7 +69,9 @@ func _on_word_failed_state_entered() -> void:
 
 func _on_word_failed_state_exited() -> void:
 	for i in Global.partial_word.length():
-		snake.parts[-i - 1]._color = Palette.SHADOW
+		snake.get_children().filter(
+			func(c: Node) -> bool: return c is SnakePart
+		)[-i - 1]._color = Palette.SHADOW
 
 
 func _on_word_finished_state_entered() -> void:
@@ -81,25 +83,29 @@ func _on_word_finished_state_entered() -> void:
 
 func _on_word_finished_state_exited() -> void:
 	for i in Global.partial_word.length():
-		snake.parts[-i - 1]._color = Palette.HIGHLIGHT
+		snake.get_children().filter(
+			func(c: Node) -> bool: return c is SnakePart
+		)[-i - 1]._color = Palette.HIGHLIGHT
 
 
 func _on_game_over_state_entered() -> void:
 	for node in get_tree().get_nodes_in_group("emitters"):
 		node.queue_free()
 
-	snake.alive = false
+	snake._alive = false
 	Global.target_word = ""
 	Global.partial_word = "udied"
 	game_over_timer.start()
 
 
 func _on_game_over_state_processing(_delta: float) -> void:
-	for food in food_spawner.foods:
-		food._char = Global.rand_char()
+	for food in get_tree().get_nodes_in_group("food"):
+		if food is Food:
+			food._char = Global.rand_char()
 
-	for cell in snake.parts:
-		cell._char = Global.rand_char()
+	for part in get_tree().get_nodes_in_group("snake_parts"):
+		if part is SnakePart:
+			part._char = Global.rand_char()
 
 
 func _on_game_over_state_input(event: InputEvent) -> void:

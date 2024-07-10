@@ -28,13 +28,14 @@ script = ExtResource("1_dewvt")
 script = ExtResource("2_6iphj")
 font = ExtResource("3_pr5mj")
 
-[node name="Snake" type="Node2D" parent="." groups=["drawable"]]
+[node name="Snake" type="Node2D" parent="." node_paths=PackedStringArray("_grid")]
 script = ExtResource("5_56jgj")
-facing = 2
-tick = 0.125
-start_pos = Vector2i(6, 6)
+_facing = 2
+_tick = 0.125
+_start_pos = Vector2i(7, 6)
+_grid = NodePath("../Grid")
 
-[node name="FoodSpawner" type="Node2D" parent="." groups=["drawable"]]
+[node name="FoodSpawner" type="Node2D" parent="."]
 z_index = 1
 script = ExtResource("5_lgauy")
 

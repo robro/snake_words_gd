@@ -33,8 +33,7 @@ func _process(_delta: float) -> void:
 	var drawables := get_tree().get_nodes_in_group("drawable")
 	drawables.sort_custom(func(a: Node2D, b: Node2D) -> bool: return a.z_index < b.z_index)
 	for node in drawables:
-		if node.has_method("draw_to"):
-			node.draw_to(self)
+		node.draw_to(self)
 
 	queue_redraw()
 
@@ -64,10 +63,8 @@ func contains(pos: Vector2i) -> bool:
 func get_free_pos() -> Vector2i:
 	var occupied : Array[int] = []
 	for node in get_tree().get_nodes_in_group("drawable"):
-		if node.has_method("positions"):
-			for pos : Vector2i in node.positions():
-				if contains(pos):
-					occupied.append(idx_from_pos(pos))
+		if contains(node._pos):
+			occupied.append(idx_from_pos(node._pos))
 
 	var free := range(cols * rows)
 	for idx in occupied:

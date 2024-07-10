@@ -10,17 +10,6 @@ extends Node2D
 	"shadow"
 ) var color : int
 
-var foods : Array[Food]
-
-
-func positions() -> Array:
-	return foods.map(func(c: Food) -> Vector2i: return c._pos)
-
-
-func draw_to(grid: Grid) -> void:
-	for food in foods:
-		grid.set_cell(food._pos, food.char(), food._color)
-
 
 func spawn_food(text: String, grid: Grid) -> void:
 	for char_ in text:
@@ -29,20 +18,18 @@ func spawn_food(text: String, grid: Grid) -> void:
 			print("no free space")
 			return
 
-		var food := Food.new(pos, char_, color, inedible_time)
-		foods.append(food)
-		add_child(food)
+		add_child(Food.new(pos, char_, color, inedible_time))
 
 
 func clear() -> void:
-	foods.clear()
-
-
-func remove(food: Food) -> void:
-	var idx : int = foods.find(food)
-	if idx >= 0:
-		foods.remove_at(idx)
+	for node in get_children():
+		if node is Food:
+			node.queue_free()
 
 
 func all_edible() -> bool:
-	return foods.all(func(f: Food) -> bool: return f.is_edible())
+	for node in get_children():
+		if node is Food and not node.is_edible():
+			return false
+
+	return true

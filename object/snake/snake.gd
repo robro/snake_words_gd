@@ -1,15 +1,16 @@
 class_name Snake
 extends Node2D
 
-@export var text : String = "snake"
-@export var facing : Facing = Facing.RIGHT
-@export var tick : float = 0.5
-@export var start_pos : Vector2i = Vector2i.ZERO
-@onready var next_facing := facing
-@onready var tail : Vector2i = start_pos
-@onready var grid : Grid = $"../Grid"
+@export var _text : String = "snake"
+@export var _facing : Facing = Facing.RIGHT
+@export var _tick : float = 0.5
+@export var _start_pos : Vector2i = Vector2i.ZERO
+@export var _grid : Grid
+@onready var _next_facing := _facing
+@onready var _tail : Vector2i = _start_pos
 
-var alive := true
+var _alive := true
+var _timer := Timer.new()
 
 enum Facing {
 	UP,
@@ -25,68 +26,61 @@ const offset = {
 	Facing.RIGHT: Vector2i.RIGHT,
 }
 
-var timer : Timer
-var parts : Array[Cell]
-var _positions : Array[Vector2i]
-
 signal moved_to(p: Vector2i)
 signal collided
 
 
 func _ready() -> void:
-	assert(grid is Grid)
+	assert(_grid is Grid)
 
-	for i in len(text):
-		parts.append(Cell.new(text[i], Palette.HIGHLIGHT))
-		_positions.append(start_pos + offset[facing] * -i)
+	for i in len(_text):
+		add_child(SnakePart.new(
+			_start_pos + offset[_facing] * -i,
+			_text[i],
+			Palette.HIGHLIGHT,
+		))
 
-	timer = Timer.new()
-	timer.wait_time = tick
-	timer.autostart = true
-	timer.timeout.connect(try_to_move)
-	add_child(timer)
+	_timer.wait_time = _tick
+	_timer.autostart = true
+	_timer.timeout.connect(try_to_move)
+	add_child(_timer)
 
 
 func _input(event: InputEvent) -> void:
-	if not alive:
+	if not _alive:
 		return
 
-	if event.is_action_pressed("Up") and facing != Facing.DOWN:
-		next_facing = Facing.UP
-	elif event.is_action_pressed("Down") and facing != Facing.UP:
-		next_facing = Facing.DOWN
-	elif event.is_action_pressed("Left") and facing != Facing.RIGHT:
-		next_facing = Facing.LEFT
-	elif event.is_action_pressed("Right") and facing != Facing.LEFT:
-		next_facing = Facing.RIGHT
+	if event.is_action_pressed("Up") and _facing != Facing.DOWN:
+		_next_facing = Facing.UP
+	elif event.is_action_pressed("Down") and _facing != Facing.UP:
+		_next_facing = Facing.DOWN
+	elif event.is_action_pressed("Left") and _facing != Facing.RIGHT:
+		_next_facing = Facing.LEFT
+	elif event.is_action_pressed("Right") and _facing != Facing.LEFT:
+		_next_facing = Facing.RIGHT
 
 
 func try_to_move() -> void:
-	facing = next_facing
-	var next_pos : Vector2i = _positions[0] + offset[facing]
-	if not grid.contains(next_pos):
+	_facing = _next_facing
+	var parts := get_children().filter(func(c: Node) -> bool: return c is SnakePart)
+	var next_pos : Vector2i = parts[0]._pos + offset[_facing]
+	if not _grid.contains(next_pos):
 		emit_signal("collided")
 		return
 
-	for pos : Vector2i in _positions.slice(1, _positions.size()):
-		if next_pos == pos:
+	for part : SnakePart in parts:
+		if next_pos == part._pos:
 			emit_signal("collided")
 			return
 
-	_positions.insert(0, next_pos)
-	tail = _positions.pop_back()
+	_tail = parts[-1]._pos
+	if parts.size() > 1:
+		for i in range(parts.size() - 2, -1, -1):
+			parts[i + 1]._pos = parts[i]._pos
+
+	parts[0]._pos = next_pos
 	emit_signal("moved_to", next_pos)
 
 
-func append(cell: Cell) -> void:
-	parts.append(cell)
-	_positions.append(tail)
-
-
-func draw_to(_grid: Grid) -> void:
-	for i in parts.size():
-		_grid.set_cell(_positions[i], parts[i]._char, parts[i]._color)
-
-
-func positions() -> Array[Vector2i]:
-	return _positions
+func append(text: String, color: int) -> void:
+	add_child(SnakePart.new(_tail, text, color))
