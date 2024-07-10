@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dq31h23xkadsa"]
+[gd_scene load_steps=17 format=3 uid="uid://dq31h23xkadsa"]
 
 [ext_resource type="Script" path="res://scene/title/title.gd" id="1_0c4bm"]
 [ext_resource type="Script" path="res://object/snake/title_snake.gd" id="1_echnt"]
@@ -8,8 +8,10 @@
 [ext_resource type="Resource" uid="uid://blif4rg51wlvr" path="res://object/particle/title_splash.tres" id="3_sr10y"]
 [ext_resource type="Script" path="res://ui/start_cursor.gd" id="5_8gx6m"]
 [ext_resource type="Script" path="res://ui/start_word.gd" id="7_6vkq6"]
+[ext_resource type="Script" path="res://ui/start_bar.gd" id="7_22wil"]
 [ext_resource type="FontVariation" uid="uid://ks11ym86ydqj" path="res://font/cursor_display.tres" id="8_7dms6"]
 [ext_resource type="FontVariation" uid="uid://b0nb7fckni6g4" path="res://font/word_display.tres" id="10_snugp"]
+[ext_resource type="Script" path="res://ui/background.gd" id="12_8ckxr"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="16_vdet0"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="17_bgg2m"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="18_wj27m"]
@@ -45,13 +47,14 @@ offset_top = 772.0
 offset_right = 768.0
 offset_bottom = 1144.0
 
-[node name="EvalBar" type="ColorRect" parent="HUD"]
+[node name="StartBar" type="ColorRect" parent="HUD"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 135.0
 grow_horizontal = 2
-color = Color(0, 0, 0, 1)
+color = Color(0.815686, 0, 0, 1)
+script = ExtResource("7_22wil")
 
 [node name="Margins" type="MarginContainer" parent="HUD"]
 layout_mode = 1
@@ -90,6 +93,7 @@ z_index = -5
 offset_right = 768.0
 offset_bottom = 1152.0
 color = Color(0, 0, 0, 1)
+script = ExtResource("12_8ckxr")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("16_vdet0")

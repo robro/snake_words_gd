@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://hut38ccsr6lp"]
+[gd_scene load_steps=23 format=3 uid="uid://hut38ccsr6lp"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="15_buh1x"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="16_1o62w"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="17_c1peq"]
+[ext_resource type="Script" path="res://ui/background.gd" id="18_t78ct"]
 
 [node name="Gameplay" type="Node" node_paths=PackedStringArray("_grid", "_snake", "_food_spawner", "_state_chart")]
 script = ExtResource("1_dewvt")
@@ -145,7 +146,8 @@ script = ExtResource("12_rj7ui")
 z_index = -5
 offset_right = 768.0
 offset_bottom = 1152.0
-color = Color(0, 0, 0, 1)
+color = Color(0, 0.580392, 0, 1)
+script = ExtResource("18_t78ct")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("14_ciwxs")
