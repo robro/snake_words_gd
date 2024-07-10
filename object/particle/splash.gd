@@ -22,12 +22,12 @@ const offsets : Array[Vector2i] = [
 
 
 func _init(
-	grid: Grid, 
-	pos: Vector2i, 
-	start_size: int, 
-	max_size: int, 
-	tick: float, 
-	color: int, 
+	grid: Grid,
+	pos: Vector2i,
+	start_size: int,
+	max_size: int,
+	tick: float,
+	color: int,
 	lifetime: float
 ) -> void:
 	assert(start_size <= max_size)

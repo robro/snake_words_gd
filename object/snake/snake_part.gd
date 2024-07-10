@@ -13,9 +13,13 @@ func _init(pos: Vector2i, text: String, color: int) -> void:
 	_pos = pos
 	_char = text
 	_color = color
-	
+
 	add_to_group("drawable")
 	add_to_group("snake_parts")
+
+
+func _ready() -> void:
+	z_index = get_parent().z_index
 
 
 func draw_to(grid: Grid) -> void:

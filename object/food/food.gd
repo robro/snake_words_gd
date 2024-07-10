@@ -19,9 +19,14 @@ func _init(pos: Vector2i, text: String, color: int, wait: float) -> void:
 	_timer.wait_time = wait
 	_timer.autostart = true
 	_timer.one_shot = true
+
 	add_child(_timer)
 	add_to_group("drawable")
 	add_to_group("food")
+
+
+func _ready() -> void:
+	z_index = get_parent().z_index
 
 
 func get_char() -> String:
