@@ -7,15 +7,15 @@ extends Node2D
 	"background",
 	"highlight",
 	"shadow"
-) var color : int
-@export var lifetime : float
-@export var snake : Snake
+) var _color : int
+@export var _lifetime : float
+@export var _snake : Snake
 
 
 func _ready() -> void:
-	snake.connect("moved_to", _on_snake_moved_to)
+	_snake.connect("moved_to", _on_snake_moved_to)
 
 
 func _on_snake_moved_to(_p: Vector2i) -> void:
-	var particle := Particle.new(snake._tail, color, 1.0)
+	var particle := Particle.new(_snake._tail, _color, _lifetime)
 	add_child(particle)

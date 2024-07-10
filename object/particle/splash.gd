@@ -8,10 +8,10 @@ var _max_size : int
 var _tick : float
 var _color : int
 var _lifetime : float
-var _timer := Timer.new()
 var _queue : Array[Array]
 var _visited : Dictionary
 var _active_count : int = 0
+var _timer := Timer.new()
 
 const offsets : Array[Vector2i] = [
 	Vector2i.UP,
@@ -21,7 +21,15 @@ const offsets : Array[Vector2i] = [
 ]
 
 
-func _init(grid: Grid, pos: Vector2i, start_size: int, max_size: int, tick: float, color: int, lifetime: float) -> void:
+func _init(
+	grid: Grid, 
+	pos: Vector2i, 
+	start_size: int, 
+	max_size: int, 
+	tick: float, 
+	color: int, 
+	lifetime: float
+) -> void:
 	assert(start_size <= max_size)
 	assert(tick > 0)
 	assert(color >= 0 and color < Palette.color.size())

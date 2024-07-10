@@ -1,30 +1,29 @@
 class_name Gameplay
 extends Node
 
-@onready var food_spawner : FoodSpawner = $FoodSpawner
-@onready var snake : Snake = $Snake
-@onready var grid : Grid = $Grid
-@onready var trail : Trail = $Trail
-@onready var state_chart : StateChart = $StateChart
+@export var _grid : Grid
+@export var _snake : Snake
+@export var _food_spawner : FoodSpawner
+@export var _state_chart : StateChart
 
-var game_over_timer := Timer.new()
-var word_idx : int = 0
+var _go_timer := Timer.new()
+var _word_idx : int = 0
 
 
 func _ready() -> void:
-	game_over_timer.wait_time = 0.5
-	game_over_timer.one_shot = true
-	add_child(game_over_timer)
+	_go_timer.wait_time = 0.5
+	_go_timer.one_shot = true
+	add_child(_go_timer)
 	Words.words.shuffle()
 
 
 func _on_seeking_state_entered() -> void:
 	Palette.next_palette()
-	Global.target_word = Words.words[word_idx]
+	Global.target_word = Words.words[_word_idx]
 	Global.partial_word = ""
-	food_spawner.spawn_food(Global.target_word, grid)
-	word_idx += 1
-	word_idx %= Words.words.size()
+	_food_spawner.spawn_food(Global.target_word, _grid)
+	_word_idx += 1
+	_word_idx %= Words.words.size()
 
 
 func add_points() -> void:
@@ -38,18 +37,18 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 		if not food is Food or not food.is_edible() or food._pos != pos:
 			continue
 
-		snake.append(food._char, food._color)
+		_snake.append(food._char, food._color)
 		Global.partial_word += food._char
 
 		if not Global.target_word.begins_with(Global.partial_word):
-			state_chart.send_event("word_failed")
+			_state_chart.send_event("word_failed")
 
 		elif Global.partial_word == Global.target_word:
-			add_child(Splash.new(grid, food._pos, 2, 24, 0.05, Palette.HIGHLIGHT, 1.0))
-			state_chart.send_event("word_finished")
+			add_child(Splash.new(_grid, food._pos, 2, 24, 0.05, Palette.HIGHLIGHT, 1.0))
+			_state_chart.send_event("word_finished")
 
 		else:
-			add_child(Splash.new(grid, food._pos, 1, 4, 0.05, Palette.PRIMARY, 0.5))
+			add_child(Splash.new(_grid, food._pos, 1, 4, 0.05, Palette.PRIMARY, 0.5))
 			add_points()
 
 		food.queue_free()
@@ -57,11 +56,11 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 
 
 func _on_snake_collided() -> void:
-	state_chart.send_event("game_over")
+	_state_chart.send_event("game_over")
 
 
 func _on_word_failed_state_entered() -> void:
-	food_spawner.clear()
+	_food_spawner.clear()
 	Global.target_word = "".rpad(Global.target_word.length())
 	Global.multiplier = 1
 	Global.combo = 0
@@ -69,13 +68,13 @@ func _on_word_failed_state_entered() -> void:
 
 func _on_word_failed_state_exited() -> void:
 	for i in Global.partial_word.length():
-		snake.get_children().filter(
+		_snake.get_children().filter(
 			func(c: Node) -> bool: return c is SnakePart
 		)[-i - 1]._color = Palette.SHADOW
 
 
 func _on_word_finished_state_entered() -> void:
-	food_spawner.clear()
+	_food_spawner.clear()
 	Global.target_word = "".rpad(Global.target_word.length())
 	Global.multiplier = min(Global.multiplier * 2, Global.max_multiplier)
 	add_points()
@@ -83,7 +82,7 @@ func _on_word_finished_state_entered() -> void:
 
 func _on_word_finished_state_exited() -> void:
 	for i in Global.partial_word.length():
-		snake.get_children().filter(
+		_snake.get_children().filter(
 			func(c: Node) -> bool: return c is SnakePart
 		)[-i - 1]._color = Palette.HIGHLIGHT
 
@@ -92,10 +91,10 @@ func _on_game_over_state_entered() -> void:
 	for node in get_tree().get_nodes_in_group("emitters"):
 		node.queue_free()
 
-	snake._alive = false
+	_snake._alive = false
 	Global.target_word = ""
 	Global.partial_word = "udied"
-	game_over_timer.start()
+	_go_timer.start()
 
 
 func _on_game_over_state_processing(_delta: float) -> void:
@@ -109,7 +108,7 @@ func _on_game_over_state_processing(_delta: float) -> void:
 
 
 func _on_game_over_state_input(event: InputEvent) -> void:
-	if event is InputEventKey and game_over_timer.time_left == 0:
+	if event is InputEventKey and _go_timer.time_left == 0:
 		Global.score = 0
 		Global.combo = 0
 		Global.max_combo = 0

@@ -26,7 +26,7 @@ script = ExtResource("1_dewvt")
 
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("2_6iphj")
-font = ExtResource("3_pr5mj")
+_font = ExtResource("3_pr5mj")
 
 [node name="Snake" type="Node2D" parent="." node_paths=PackedStringArray("_grid")]
 script = ExtResource("5_56jgj")
@@ -39,10 +39,10 @@ _grid = NodePath("../Grid")
 z_index = 1
 script = ExtResource("5_lgauy")
 
-[node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("snake") groups=["emitters"]]
+[node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("_snake") groups=["emitters"]]
 script = ExtResource("6_shy8r")
-lifetime = 1.0
-snake = NodePath("../Snake")
+_lifetime = 1.0
+_snake = NodePath("../Snake")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3

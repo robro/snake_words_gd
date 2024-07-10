@@ -1,7 +1,14 @@
 class_name Snake
 extends Node2D
 
-@export var _text : String = "snake"
+@export var _name : String = "snake"
+@export_enum(
+	"primary",
+	"secondary",
+	"background",
+	"highlight",
+	"shadow"
+) var _color : int = 3
 @export var _facing : Facing = Facing.RIGHT
 @export var _tick : float = 0.5
 @export var _start_pos : Vector2i = Vector2i.ZERO
@@ -33,11 +40,11 @@ signal collided
 func _ready() -> void:
 	assert(_grid is Grid)
 
-	for i in len(_text):
+	for i in len(_name):
 		add_child(SnakePart.new(
 			_start_pos + offset[_facing] * -i,
-			_text[i],
-			Palette.HIGHLIGHT,
+			_name[i],
+			_color,
 		))
 
 	_timer.wait_time = _tick
@@ -62,7 +69,9 @@ func _input(event: InputEvent) -> void:
 
 func try_to_move() -> void:
 	_facing = _next_facing
-	var parts := get_children().filter(func(c: Node) -> bool: return c is SnakePart)
+	var parts := get_children().filter(
+		func(c: Node) -> bool: return c is SnakePart
+	)
 	var next_pos : Vector2i = parts[0]._pos + offset[_facing]
 	if not _grid.contains(next_pos):
 		emit_signal("collided")
