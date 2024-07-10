@@ -25,14 +25,13 @@ func _init(pos: Vector2i, colors: Array[int], lifetime: float) -> void:
 
 func get_color() -> Color:
 	var gradient := Gradient.new()
+	var color_count := _colors.size()
 
-	for i in _colors.size():
-		if i < 2:
-			gradient.set_offset(i, i / float(_colors.size() - 1))
-			gradient.set_color(i, Palette.color[_colors[i]])
-		else:
-			gradient.add_point(i / float(_colors.size() - 1), Palette.color[_colors[i]])
-
+	gradient.colors = _colors.map(func(c: int) -> Color: return Palette.color[c])
+	gradient.offsets = range(color_count).map(
+		func(n: int) -> float: return n / float(color_count - 1)
+	)
+	gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CUBIC
 	return gradient.sample(((_timer.time_left / _lifetime) - 1) * -1)
 
 

@@ -8,7 +8,6 @@ var _max_size : int
 var _tick : float
 var _colors : Array[int]
 var _lifetime : float
-var _slow_down : bool
 var _queue : Array[Array]
 var _visited : Dictionary
 var _active_count : int = 0
@@ -30,7 +29,6 @@ func _init(
 	tick: float,
 	colors: Array[int],
 	lifetime: float,
-	slow_down: bool = false,
 ) -> void:
 	assert(start_size <= max_size)
 	assert(tick > 0)
@@ -42,7 +40,6 @@ func _init(
 	_tick = tick
 	_colors = colors
 	_lifetime = lifetime
-	_slow_down = slow_down
 
 	_timer.wait_time = tick
 	_timer.autostart = true
@@ -60,9 +57,6 @@ func _ready() -> void:
 
 
 func _on_timer_timeout() -> void:
-	if _slow_down:
-		_timer.wait_time += _tick / _max_size * 10
-
 	while _size <= _max_size and not _queue.is_empty():
 		if _queue[0][0] > _size:
 			_size += 1

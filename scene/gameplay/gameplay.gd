@@ -51,7 +51,7 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 				24,
 				0.05,
 				[Palette.HIGHLIGHT, Palette.PRIMARY, Palette.BACKGROUND],
-				1.0,
+				0.8,
 			))
 			_state_chart.send_event("word_finished")
 
@@ -61,10 +61,9 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 				food._pos,
 				1,
 				5,
-				0.02,
+				0.05,
 				[Palette.PRIMARY, Palette.BACKGROUND],
-				0.5,
-				true,
+				0.4,
 			))
 			add_points()
 
