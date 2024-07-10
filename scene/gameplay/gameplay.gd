@@ -5,6 +5,8 @@ extends Node
 @export var _snake : Snake
 @export var _food_spawner : FoodSpawner
 @export var _state_chart : StateChart
+@export var _small_splash : SplashProperties
+@export var _big_splash : SplashProperties
 
 var _go_timer := Timer.new()
 var _word_idx : int = 0
@@ -44,27 +46,11 @@ func _on_snake_moved_to(pos: Vector2i) -> void:
 			_state_chart.send_event("word_failed")
 
 		elif Global.partial_word == Global.target_word:
-			add_child(Splash.new(
-				_grid,
-				food._pos,
-				1,
-				24,
-				0.05,
-				[Palette.HIGHLIGHT, Palette.PRIMARY, Palette.BACKGROUND],
-				0.8,
-			))
+			add_child(Splash.new(_grid,	food._pos, _big_splash))
 			_state_chart.send_event("word_finished")
 
 		else:
-			add_child(Splash.new(
-				_grid,
-				food._pos,
-				1,
-				5,
-				0.05,
-				[Palette.PRIMARY, Palette.BACKGROUND],
-				0.4,
-			))
+			add_child(Splash.new(_grid, food._pos, _small_splash))
 			add_points()
 
 		food.queue_free()

@@ -1,7 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://hut38ccsr6lp"]
+[gd_scene load_steps=22 format=3 uid="uid://hut38ccsr6lp"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
+[ext_resource type="Resource" uid="uid://n3ys7x4n6j6" path="res://object/particle/small_splash.tres" id="2_w0cjj"]
+[ext_resource type="Resource" uid="uid://dcvyv6hqqlqds" path="res://object/particle/big_splash.tres" id="3_pdpmy"]
 [ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="3_pr5mj"]
 [ext_resource type="Script" path="res://object/snake/snake.gd" id="5_56jgj"]
 [ext_resource type="Script" path="res://object/food/food_spawner.gd" id="5_lgauy"]
@@ -26,6 +28,8 @@ _grid = NodePath("Grid")
 _snake = NodePath("Snake")
 _food_spawner = NodePath("FoodSpawner")
 _state_chart = NodePath("StateChart")
+_small_splash = ExtResource("2_w0cjj")
+_big_splash = ExtResource("3_pdpmy")
 
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("2_6iphj")

@@ -24,24 +24,17 @@ const offsets : Array[Vector2i] = [
 func _init(
 	grid: Grid,
 	pos: Vector2i,
-	start_size: int,
-	max_size: int,
-	tick: float,
-	colors: Array[int],
-	lifetime: float,
+	props: SplashProperties,
 ) -> void:
-	assert(start_size <= max_size)
-	assert(tick > 0)
-
 	_grid = grid
 	_pos = pos
-	_size = start_size
-	_max_size = max_size
-	_tick = tick
-	_colors = colors
-	_lifetime = lifetime
+	_size = props._start_size
+	_max_size = props._max_size
+	_tick = props._tick
+	_colors = props._colors
+	_lifetime = props._lifetime
 
-	_timer.wait_time = tick
+	_timer.wait_time = _tick
 	_timer.autostart = true
 	_timer.connect("timeout", _on_timer_timeout)
 	add_child(_timer)

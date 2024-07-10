@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://dq31h23xkadsa"]
+[gd_scene load_steps=15 format=3 uid="uid://dq31h23xkadsa"]
 
 [ext_resource type="Script" path="res://scene/title/title.gd" id="1_0c4bm"]
 [ext_resource type="Script" path="res://object/snake/title_snake.gd" id="1_echnt"]
 [ext_resource type="Script" path="res://render/grid.gd" id="1_jx137"]
 [ext_resource type="Script" path="res://object/particle/splash_spawner.gd" id="2_63tu2"]
 [ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="2_grmfb"]
+[ext_resource type="Resource" uid="uid://blif4rg51wlvr" path="res://object/particle/title_splash.tres" id="3_sr10y"]
 [ext_resource type="Script" path="res://ui/start_cursor.gd" id="5_8gx6m"]
 [ext_resource type="Script" path="res://ui/start_word.gd" id="7_6vkq6"]
 [ext_resource type="FontVariation" uid="uid://ks11ym86ydqj" path="res://font/cursor_display.tres" id="8_7dms6"]
@@ -23,7 +24,7 @@ _state_chart = NodePath("StateChart")
 script = ExtResource("2_63tu2")
 _grid = NodePath("../Grid")
 _title_snake = NodePath("../TitleSnake")
-_colors = Array[int]([1, 2])
+_title_splash = ExtResource("3_sr10y")
 
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("1_jx137")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SplashProperties" load_steps=2 format=3 uid="uid://n3ys7x4n6j6"]
+
+[ext_resource type="Script" path="res://object/particle/splash_properties.gd" id="1_jq45s"]
+
+[resource]
+script = ExtResource("1_jq45s")
+_start_size = 1
+_max_size = 5
+_tick = 0.05
+_lifetime = 0.4
+_colors = Array[int]([0, 2])
