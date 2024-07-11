@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_nd1xd")
-_primary = Color(0.991561, 0, 0.481125, 1)
-_secondary = Color(0.576386, 0, 0.322116, 1)
-_background = Color(0.193881, 8.27007e-05, 0.208025, 1)
+_primary = Color(0.947526, 0.144614, 0.596019, 1)
+_secondary = Color(0.571228, 0.164921, 0.363904, 1)
+_background = Color(0.0301174, 0.225014, 0.2836, 1)
 _highlight = Color(0.93408, 0.93408, 0.93408, 1)
-_shadow = Color(0.427493, 0.427493, 0.427493, 1)
+_shadow = Color(0.333125, 0.435447, 0.434629, 1)

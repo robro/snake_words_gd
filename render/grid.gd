@@ -24,7 +24,7 @@ func _process(_delta: float) -> void:
 	fill(_empty_text)
 	for p in get_tree().get_nodes_in_group("particles"):
 		if p is Particle and contains(p._pos):
-			_cells[idx_from_pos(p._pos)]._add_color += p.get_color()
+			_cells[idx_from_pos(p._pos)]._alt_color = p.get_color()
 
 	var drawables := get_tree().get_nodes_in_group("drawable")
 	drawables.sort_custom(
@@ -38,12 +38,13 @@ func _process(_delta: float) -> void:
 
 func _draw() -> void:
 	for i in _cells.size():
+		var color := Colors.color[_cells[i]._color] if _cells[i]._alt_color == Color.BLACK else _cells[i]._alt_color
 		draw_char(
 			_font,
 			pos_from_idx(i) * _cell_size + _offset,
 			_cells[i]._char,
 			_cell_size,
-			Colors.color[_cells[i]._color] + _cells[i]._add_color
+			color
 		)
 
 
@@ -51,7 +52,7 @@ func fill(text: String) -> void:
 	for i in _cells.size():
 		_cells[i]._char = text[i % text.length()]
 		_cells[i]._color = _color
-		_cells[i]._add_color = Color.BLACK
+		_cells[i]._alt_color = Color.BLACK
 
 
 func contains(pos: Vector2i) -> bool:
@@ -86,7 +87,7 @@ func set_cell(
 	pos: Vector2i,
 	text: String,
 	color: Colors.Type,
-	add_color: Color = Color.BLACK
+	alt_color: Color = Color.BLACK
 ) -> void:
 	assert(text.length() == 1)
 	if not contains(pos):
@@ -94,4 +95,4 @@ func set_cell(
 	var cell := _cells[idx_from_pos(pos)]
 	cell._char = text
 	cell._color = color
-	cell._add_color = add_color
+	cell._alt_color = alt_color

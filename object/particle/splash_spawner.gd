@@ -14,7 +14,7 @@ func _ready() -> void:
 	assert(_title_snake is TitleSnake)
 	assert(_title_splash is SplashProperties)
 
-	_timer.wait_time = 1.0
+	_timer.wait_time = 2.0
 	_timer.autostart = true
 	_timer.connect("timeout", _on_timer_timeout)
 	add_child(_timer)

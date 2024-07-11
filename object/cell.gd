@@ -3,11 +3,11 @@ extends Node2D
 
 var _char : String
 var _color : Colors.Type
-var _add_color : Color
+var _alt_color : Color
 
 
-func _init(text: String, color: Colors.Type, add_color: Color = Color.BLACK) -> void:
+func _init(text: String, color: Colors.Type, alt_color: Color = Color.BLACK) -> void:
 	assert(text.length() <= 1)
 	_char = text
 	_color = color
-	_add_color = add_color
+	_alt_color = alt_color
