@@ -2,13 +2,7 @@ class_name Snake
 extends Node2D
 
 @export var _name : String = "snake"
-@export_enum(
-	"primary",
-	"secondary",
-	"background",
-	"highlight",
-	"shadow"
-) var _color : int = 3
+@export var _color := Colors.Type.HIGHLIGHT
 @export var _facing : Facing = Facing.RIGHT
 @export var _tick : float = 0.5
 @export var _start_pos : Vector2i = Vector2i.ZERO

@@ -2,14 +2,7 @@ class_name TitleSnake
 extends Node2D
 
 @export var _name : String = "snake_words"
-@export_enum(
-	"primary",
-	"secondary",
-	"background",
-	"highlight",
-	"shadow"
-) var _color : int = 3
-# @export var _facing : Facing = Facing.RIGHT
+@export var _color := Colors.Type.PRIMARY
 @export var _tick : float = 0.5
 @export var _start_pos : Vector2i = Vector2i.ZERO
 @export var _min_moves : int = 3
