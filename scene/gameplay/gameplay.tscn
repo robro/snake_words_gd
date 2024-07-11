@@ -67,7 +67,6 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 135.0
 grow_horizontal = 2
-color = Color(8.66354e-07, 0.556885, 0.55959, 1)
 script = ExtResource("6_76kbb")
 
 [node name="Margins" type="MarginContainer" parent="HUD"]
@@ -94,6 +93,7 @@ theme_override_fonts/font = ExtResource("6_cf0q0")
 theme_override_font_sizes/font_size = 128
 text = "█    "
 script = ExtResource("6_ea0cs")
+off_color = 2
 
 [node name="PartialWord" type="Label" parent="HUD/Margins/Stack/Word"]
 z_index = 1
@@ -146,8 +146,8 @@ script = ExtResource("12_rj7ui")
 z_index = -5
 offset_right = 768.0
 offset_bottom = 1152.0
-color = Color(0, 0.580392, 0, 1)
 script = ExtResource("18_t78ct")
+_color = 2
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("14_ciwxs")
@@ -212,6 +212,7 @@ script = ExtResource("16_1o62w")
 [connection signal="moved_to" from="Snake" to="." method="_on_snake_moved_to"]
 [connection signal="state_entered" from="StateChart/Root/Seeking" to="." method="_on_seeking_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/EvalBar" method="_on_seeking_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Word/PartialWord" method="_on_seeking_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Split/Multiplier" method="_on_seeking_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Word/Cursor" method="_on_seeking_state_exited"]
 [connection signal="state_processing" from="StateChart/Root/Seeking" to="HUD/Margins/Stack/Word/Cursor" method="_on_seeking_state_processing"]

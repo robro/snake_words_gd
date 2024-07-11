@@ -1,17 +1,16 @@
 extends Label
 
+@export var _color := Colors.Type.SECONDARY
+
 
 func _ready() -> void:
-	Colors.connect("palette_change", _on_palette_change)
+	add_theme_color_override("font_color", Colors.color[_color])
 
 
 func _process(_delta: float) -> void:
+	add_theme_color_override("font_color", Colors.color[_color])
 	text = str(Global.combo) + " combo"
 
 
 func _on_game_over_state_processing(_delta: float) -> void:
 	text = str(Global.max_combo) + " combo"
-
-
-func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Colors.color[Colors.Type.SECONDARY])

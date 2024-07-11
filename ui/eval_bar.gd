@@ -1,13 +1,19 @@
 extends ColorRect
 
+@export var _color := Colors.Type.SECONDARY
+
+
+func _process(_delta: float) -> void:
+	color = Colors.color[_color]
+	
 
 func _on_seeking_state_entered() -> void:
-	color = Colors.color[Colors.Type.BACKGROUND]
+	visible = false
 
 
 func _on_word_failed_state_entered() -> void:
-	color = Colors.color[Colors.Type.SECONDARY]
+	visible = true
 
 
 func _on_game_over_state_entered() -> void:
-	color = Colors.color[Colors.Type.SECONDARY]
+	visible = true

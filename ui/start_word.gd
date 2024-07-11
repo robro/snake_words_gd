@@ -1,31 +1,30 @@
 extends Label
 
-@export var flash_speed := 0.075
-@export var _color : Colors.Type
+@export var _flash_speed := 0.075
+@export var _normal_color : Colors.Type
+@export var _flash_color : Colors.Type
+@onready var _color := _normal_color
 
-var flash_timer := Timer.new()
-var flashing : bool = false
+var _flash_timer := Timer.new()
+var _flashing : bool = false
 
 
 func _ready() -> void:
-	Colors.connect("palette_change", _on_palette_change)
+	add_theme_color_override("font_color", Colors.color[_normal_color])
+	_flash_timer.wait_time = _flash_speed
+	_flash_timer.timeout.connect(_on_flash_timer_timeout)
+	add_child(_flash_timer)
+
+
+func _process(_delta: float) -> void:
 	add_theme_color_override("font_color", Colors.color[_color])
-	flash_timer.wait_time = flash_speed
-	flash_timer.timeout.connect(_on_flash_timer_timeout)
-	add_child(flash_timer)
 
 
 func _on_flash_timer_timeout() -> void:
-	flashing = false if flashing else true
-	var color := Colors.Type.HIGHLIGHT if flashing else Colors.Type.BACKGROUND
-	add_theme_color_override("font_color", Colors.color[color])
+	_flashing = false if _flashing else true
+	visible = false if _flashing else true
 
 
 func _on_starting_state_entered() -> void:
-	flashing = true
-	add_theme_color_override("font_color", Colors.color[Colors.Type.HIGHLIGHT])
-	flash_timer.start()
-
-
-func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Colors.color[_color])
+	_color = _flash_color
+	_flash_timer.start()

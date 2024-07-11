@@ -1,77 +1,56 @@
 extends Label
 
-@export var flash_speed := 0.075
-@export var blink_speed := 0.5
+@export var _flash_speed := 0.075
+@export var _blink_speed := 0.5
+@export var _normal_color := Colors.Type.PRIMARY
+@export var _success_color := Colors.Type.HIGHLIGHT
+@export var _failure_color := Colors.Type.BACKGROUND
+@onready var _color := _normal_color
 
-var finished_timer := Timer.new()
-var failed_timer := Timer.new()
-var game_over_timer := Timer.new()
-var flashing : bool = false
+var _timer := Timer.new()
 
 
 func _ready() -> void:
-	Colors.connect("palette_change", _on_palette_change)
-
-	finished_timer.wait_time = flash_speed
-	failed_timer.wait_time = flash_speed
-	game_over_timer.wait_time = blink_speed
-
-	finished_timer.timeout.connect(_on_finished_timer_timeout)
-	failed_timer.timeout.connect(_on_failed_timer_timeout)
-	game_over_timer.timeout.connect(_on_game_over_timer_timeout)
-
-	add_child(finished_timer)
-	add_child(failed_timer)
-	add_child(game_over_timer)
+	add_theme_color_override("font_color", Colors.color[_color])
+	_timer.timeout.connect(_on_timer_timeout)
+	add_child(_timer)
 
 
 func _process(_delta: float) -> void:
 	text = Global.partial_word.rpad(Global.target_word.length())
+	add_theme_color_override("font_color", Colors.color[_color])
 
 
-func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Colors.color[Colors.Type.PRIMARY])
+func _on_seeking_state_entered() -> void:
+	_color = _normal_color
+	visible = true
 
 
-func _on_finished_timer_timeout() -> void:
-	flashing = false if flashing else true
-	var color := Colors.Type.HIGHLIGHT if flashing else Colors.Type.BACKGROUND
-	add_theme_color_override("font_color", Colors.color[color])
-
-
-func _on_failed_timer_timeout() -> void:
-	flashing = false if flashing else true
-	var color := Colors.Type.BACKGROUND if flashing else Colors.Type.SECONDARY
-	add_theme_color_override("font_color", Colors.color[color])
-
-
-func _on_game_over_timer_timeout() -> void:
-	flashing = false if flashing else true
-	var color := Colors.Type.BACKGROUND if flashing else Colors.Type.SECONDARY
-	add_theme_color_override("font_color", Colors.color[color])
+func _on_timer_timeout() -> void:
+	visible = false if visible else true
 
 
 func _on_word_finished_state_entered() -> void:
-	flashing = true
-	add_theme_color_override("font_color", Colors.color[Colors.Type.HIGHLIGHT])
-	finished_timer.start()
+	_color = _success_color
+	_timer.wait_time = _flash_speed
+	_timer.start()
 
 
 func _on_word_failed_state_entered() -> void:
-	flashing = true
-	add_theme_color_override("font_color", Colors.color[Colors.Type.BACKGROUND])
-	failed_timer.start()
+	_color = _failure_color
+	_timer.wait_time = _flash_speed
+	_timer.start()
 
 
 func _on_game_over_state_entered() -> void:
-	flashing = true
-	add_theme_color_override("font_color", Colors.color[Colors.Type.BACKGROUND])
-	game_over_timer.start()
+	_color = _failure_color
+	_timer.wait_time = _blink_speed
+	_timer.start()
 
 
 func _on_word_finished_state_exited() -> void:
-	finished_timer.stop()
+	_timer.stop()
 
 
 func _on_word_failed_state_exited() -> void:
-	failed_timer.stop()
+	_timer.stop()

@@ -1,14 +1,17 @@
 extends Label
 
+@export var _color := Colors.Type.SECONDARY
 @export var food_spawner : FoodSpawner
 
 
 func _ready() -> void:
 	assert(food_spawner is FoodSpawner)
-	Colors.connect("palette_change", _on_palette_change)
+	add_theme_color_override("font_color", Colors.color[_color])
 
 
 func _process(_delta: float) -> void:
+	add_theme_color_override("font_color", Colors.color[_color])
+
 	if food_spawner.all_edible():
 		text = (Global.target_word.substr(Global.partial_word.length())
 			.lpad(Global.target_word.length()))
@@ -17,7 +20,3 @@ func _process(_delta: float) -> void:
 		for _i in Global.target_word.length():
 			scrambled += Global.rand_char()
 		text = scrambled
-
-
-func _on_palette_change() -> void:
-	add_theme_color_override("font_color", Colors.color[Colors.Type.SECONDARY])

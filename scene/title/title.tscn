@@ -53,8 +53,8 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 135.0
 grow_horizontal = 2
-color = Color(0.815686, 0, 0, 1)
 script = ExtResource("7_22wil")
+_color = 2
 
 [node name="Margins" type="MarginContainer" parent="HUD"]
 layout_mode = 1
@@ -77,7 +77,8 @@ theme_override_fonts/font = ExtResource("8_7dms6")
 theme_override_font_sizes/font_size = 128
 text = "        █    "
 script = ExtResource("5_8gx6m")
-_color = 1
+on_color = 1
+off_color = 2
 
 [node name="StartWord" type="Label" parent="HUD/Margins/Start"]
 z_index = 1
@@ -86,14 +87,15 @@ theme_override_fonts/font = ExtResource("10_snugp")
 theme_override_font_sizes/font_size = 128
 text = "start"
 script = ExtResource("7_6vkq6")
-_color = 1
+_normal_color = 1
+_flash_color = 3
 
 [node name="Background" type="ColorRect" parent="."]
 z_index = -5
 offset_right = 768.0
 offset_bottom = 1152.0
-color = Color(0, 0, 0, 1)
 script = ExtResource("12_8ckxr")
+_color = 2
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("16_vdet0")
