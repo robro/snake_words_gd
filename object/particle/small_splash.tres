@@ -6,6 +6,6 @@
 script = ExtResource("1_jq45s")
 _start_size = 1
 _max_size = 5
-_tick = 0.04
-_lifetime = 0.4
-_colors = Array[int]([0, 2])
+_tick = 0.06
+_lifetime = 0.5
+_colors = Array[int]([0, 1])

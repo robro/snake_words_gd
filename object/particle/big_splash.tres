@@ -8,4 +8,4 @@ _start_size = 1
 _max_size = 24
 _tick = 0.04
 _lifetime = 1.0
-_colors = Array[int]([3, 0, 2])
+_colors = Array[int]([3, 0, 1])

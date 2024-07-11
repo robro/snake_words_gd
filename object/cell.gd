@@ -6,7 +6,11 @@ var _color : Colors.Type
 var _alt_color : Color
 
 
-func _init(text: String, color: Colors.Type, alt_color: Color = Color.BLACK) -> void:
+func _init(
+	text: String, 
+	color: Colors.Type, 
+	alt_color: Color = Color(0, 0, 0, 0)
+) -> void:
 	assert(text.length() <= 1)
 	_char = text
 	_color = color

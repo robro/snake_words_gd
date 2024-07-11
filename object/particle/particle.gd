@@ -28,6 +28,7 @@ func get_color() -> Color:
 	var color_count := _colors.size()
 
 	gradient.colors = _colors.map(func(c: int) -> Color: return Colors.color[c])
+	gradient.colors[-1].a = 0.0
 	gradient.offsets = range(color_count).map(
 		func(n: int) -> float: return n / float(color_count - 1)
 	)

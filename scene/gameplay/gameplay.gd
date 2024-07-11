@@ -33,7 +33,7 @@ func _on_seeking_state_entered() -> void:
 	_word_idx += 1
 	_word_idx %= Words.words.size()
 	_mine_timer.wait_time = _mine_interval
-	_mine_timer.start()
+	# _mine_timer.start()
 
 
 func add_points() -> void:
