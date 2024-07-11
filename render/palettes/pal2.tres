@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_d5flj")
 _primary = Color(0.982198, 0.625558, 1.54018e-06, 1)
-_secondary = Color(0.578646, 0.256954, 0.0604176, 1)
-_background = Color(0.0985861, 0.168842, 0.260319, 1)
+_secondary = Color(0.567069, 0.265664, 0.115749, 1)
+_background = Color(0.0727818, 0.168372, 0.284426, 1)
 _highlight = Color(0.93408, 0.93408, 0.93408, 1)
 _shadow = Color(0.362221, 0.434431, 0.526167, 1)
