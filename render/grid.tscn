@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://dd02h5lo12nck"]
-
-[ext_resource type="Script" path="res://render/grid.gd" id="1_3peua"]
-[ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="2_11i8q"]
-
-[node name="Grid" type="Node2D"]
-script = ExtResource("1_3peua")
-_font = ExtResource("2_11i8q")

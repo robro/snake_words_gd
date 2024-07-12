@@ -1,34 +1,34 @@
 class_name SplashSpawner
 extends Node2D
 
-@export var _interval : float = 3.0
-@export var _grid : Grid
-@export var _title_snake : TitleSnake
-@export var _title_splash : SplashProperties
+@export var interval : float = 3.0
+@export var grid : Grid
+@export var title_snake : TitleSnake
+@export var title_splash : SplashProperties
 
-var _timer := Timer.new()
+var splash_timer := Timer.new()
 
 
 func _ready() -> void:
-	assert(_grid is Grid)
-	assert(_title_snake is TitleSnake)
-	assert(_title_splash is SplashProperties)
+	assert(grid is Grid)
+	assert(title_snake is TitleSnake)
+	assert(title_splash is SplashProperties)
 
-	_timer.wait_time = 2.0
-	_timer.autostart = true
-	_timer.connect("timeout", _on_timer_timeout)
-	add_child(_timer)
+	splash_timer.wait_time = 2.0
+	splash_timer.autostart = true
+	splash_timer.connect("timeout", _on_timer_timeout)
+	add_child(splash_timer)
 	add_to_group("emitters")
 
 
 func _on_timer_timeout() -> void:
-	_timer.wait_time = _interval
-	_timer.start()
+	splash_timer.wait_time = interval
+	splash_timer.start()
 	Colors.next_palette()
 	add_child(Splash.new(
-		_grid,
-		_title_snake.get_children().filter(
+		grid,
+		title_snake.get_children().filter(
 			func(c: Node) -> bool: return c is SnakePart
-		)[0]._pos,
-		_title_splash,
+		)[0].position,
+		title_splash,
 	))

@@ -1,44 +1,28 @@
 class_name Food
 extends Node2D
 
-var _pos : Vector2i
-var _char : String
-var _color : Colors.Type
-var _timer := Timer.new()
+var cell : Cell
+var inedible_timer := Timer.new()
 
 
-func _init(pos: Vector2i, text: String, color: Colors.Type, wait: float) -> void:
-	assert(len(text) == 1)
-	assert(color >= 0 and color < Colors.color.size())
-	assert(wait > 0)
+func _init(_position: Vector2, _cell: Cell, _inedible_time: float) -> void:
+	assert(_inedible_time > 0)
 
-	_pos = pos
-	_char = text
-	_color = color
+	position = _position
+	cell = _cell
 
-	_timer.wait_time = wait
-	_timer.autostart = true
-	_timer.one_shot = true
+	inedible_timer.wait_time = _inedible_time
+	inedible_timer.autostart = true
+	inedible_timer.one_shot = true
 
-	add_child(_timer)
-	add_to_group("drawable")
+	add_child(inedible_timer)
+	add_to_group("physical")
 	add_to_group("food")
 
 
-func _ready() -> void:
-	z_index = get_parent().z_index
-
-
 func get_char() -> String:
-	if _timer.time_left:
-		return Global.rand_char()
-	else:
-		return _char
+	return Global.rand_char() if inedible_timer.time_left else cell.ascii
 
 
 func is_edible() -> bool:
-	return false if (_timer.time_left) else true
-
-
-func draw_to(grid: Grid) -> void:
-	grid.set_cell(_pos, get_char(), _color)
+	return false if inedible_timer.time_left else true

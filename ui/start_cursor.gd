@@ -18,7 +18,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	add_theme_color_override(
 		"font_color",
-		Colors.color[off_color if blinking else on_color]
+		Colors.palette[off_color if blinking else on_color]
 	)
 
 

@@ -4,7 +4,7 @@ extends ColorRect
 
 
 func _process(_delta: float) -> void:
-	color = Colors.color[_color]
+	color = Colors.palette[_color]
 	
 
 func _on_seeking_state_entered() -> void:

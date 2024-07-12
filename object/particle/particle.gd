@@ -1,41 +1,46 @@
 class_name Particle
 extends Node2D
 
-var _pos: Vector2i
-var _colors: Array[Colors.Type]
-var _lifetime: float
-var _timer := Timer.new()
+var color_types: Array[Colors.Type]
+var lifetime: float
+var life_timer := Timer.new()
 
 signal is_done
 
-func _init(pos: Vector2i, colors: Array[Colors.Type], lifetime: float) -> void:
-	assert(lifetime > 0)
+func _init(
+	_position: Vector2,
+	_color_types: Array[Colors.Type],
+	_lifetime: float
+) -> void:
+	assert(_lifetime > 0)
 
-	_pos = pos
-	_colors = colors
-	_lifetime = lifetime
+	position = _position
+	color_types = _color_types
+	lifetime = _lifetime
 
-	_timer.wait_time = lifetime
-	_timer.one_shot = true
-	_timer.autostart = true
-	_timer.connect("timeout", _on_timer_timeout)
+	life_timer.wait_time = lifetime
+	life_timer.one_shot = true
+	life_timer.autostart = true
+	life_timer.connect("timeout", _on_life_timer_timeout)
 	add_to_group("particles")
-	add_child(_timer)
+	add_child(life_timer)
 
 
 func get_color() -> Color:
 	var gradient := Gradient.new()
-	var color_count := _colors.size()
+	var color_count := color_types.size()
 
-	gradient.colors = _colors.map(func(c: int) -> Color: return Colors.color[c])
-	gradient.colors[-1].a = 0.0
+	gradient.colors = color_types.map(
+		func(c: int) -> Color: return Colors.palette[c]
+	)
+	gradient.colors[-1].a = 0
 	gradient.offsets = range(color_count).map(
 		func(n: int) -> float: return n / float(color_count - 1)
 	)
 	gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CUBIC
-	return gradient.sample(((_timer.time_left / _lifetime) - 1) * -1)
+	return gradient.sample(((life_timer.time_left / lifetime) - 1) * -1)
 
 
-func _on_timer_timeout() -> void:
+func _on_life_timer_timeout() -> void:
 	emit_signal("is_done")
 	queue_free()

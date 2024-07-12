@@ -1,10 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://hut38ccsr6lp"]
+[gd_scene load_steps=24 format=3 uid="uid://hut38ccsr6lp"]
 
 [ext_resource type="Script" path="res://scene/gameplay/gameplay.gd" id="1_dewvt"]
-[ext_resource type="Script" path="res://render/grid.gd" id="2_6iphj"]
 [ext_resource type="Resource" uid="uid://n3ys7x4n6j6" path="res://object/particle/small_splash.tres" id="2_w0cjj"]
 [ext_resource type="Resource" uid="uid://dcvyv6hqqlqds" path="res://object/particle/big_splash.tres" id="3_pdpmy"]
 [ext_resource type="FontFile" uid="uid://b7sdg80udjhpk" path="res://font/consola.ttf" id="3_pr5mj"]
+[ext_resource type="Script" path="res://render/grid_renderer.gd" id="4_kqgkt"]
 [ext_resource type="Script" path="res://object/snake/snake.gd" id="5_56jgj"]
 [ext_resource type="Script" path="res://object/food/food_spawner.gd" id="5_lgauy"]
 [ext_resource type="Script" path="res://ui/eval_bar.gd" id="6_76kbb"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://object/particle/trail.gd" id="6_shy8r"]
 [ext_resource type="FontVariation" uid="uid://b0nb7fckni6g4" path="res://font/word_display.tres" id="6_ykckc"]
 [ext_resource type="Script" path="res://ui/partial_word.gd" id="7_0cymb"]
+[ext_resource type="Resource" uid="uid://t7nk4hcmj6yn" path="res://render/gameplay_grid.tres" id="7_kul7h"]
 [ext_resource type="Script" path="res://ui/score.gd" id="10_ruwr3"]
 [ext_resource type="Script" path="res://ui/combo.gd" id="11_rfld5"]
 [ext_resource type="Script" path="res://ui/multiplier.gd" id="12_rj7ui"]
@@ -23,41 +24,39 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="17_c1peq"]
 [ext_resource type="Script" path="res://ui/background.gd" id="18_t78ct"]
 
-[node name="Gameplay" type="Node" node_paths=PackedStringArray("_grid", "_snake", "_food_spawner", "_mine_spawner", "_state_chart")]
+[node name="Gameplay" type="Node" node_paths=PackedStringArray("snake", "food_spawner", "state_chart")]
 script = ExtResource("1_dewvt")
-_grid = NodePath("Grid")
-_snake = NodePath("Snake")
-_food_spawner = NodePath("FoodSpawner")
-_mine_spawner = NodePath("MineSpawner")
-_state_chart = NodePath("StateChart")
-_small_splash = ExtResource("2_w0cjj")
-_big_splash = ExtResource("3_pdpmy")
+snake = NodePath("Snake")
+food_spawner = NodePath("FoodSpawner")
+state_chart = NodePath("StateChart")
+small_splash = ExtResource("2_w0cjj")
+big_splash = ExtResource("3_pdpmy")
+grid = ExtResource("7_kul7h")
 
-[node name="Grid" type="Node2D" parent="."]
-script = ExtResource("2_6iphj")
-_color = 2
-_font = ExtResource("3_pr5mj")
+[node name="GridRenderer" type="Node2D" parent="."]
+z_index = 6
+script = ExtResource("4_kqgkt")
+font = ExtResource("3_pr5mj")
+grid = ExtResource("7_kul7h")
 
-[node name="Snake" type="Node2D" parent="." node_paths=PackedStringArray("_grid")]
+[node name="Snake" type="Node2D" parent="."]
 script = ExtResource("5_56jgj")
-_facing = 2
-_tick = 0.125
-_start_pos = Vector2i(7, 6)
-_grid = NodePath("../Grid")
+facing = 2
+init_position = Vector2(8, 6)
+tick_time = 0.125
+grid = ExtResource("7_kul7h")
 
-[node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("_snake") groups=["emitters"]]
+[node name="Trail" type="Node2D" parent="." node_paths=PackedStringArray("snake") groups=["emitters"]]
 script = ExtResource("6_shy8r")
-_colors = Array[int]([1, 1])
-_lifetime = 1.0
-_snake = NodePath("../Snake")
+color_types = Array[int]([0, 1])
+lifetime = 1.0
+snake = NodePath("../Snake")
+grid = ExtResource("7_kul7h")
 
 [node name="FoodSpawner" type="Node2D" parent="."]
 z_index = 1
 script = ExtResource("5_lgauy")
-
-[node name="MineSpawner" type="Node2D" parent="."]
-z_index = 1
-script = ExtResource("5_lgauy")
+grid = ExtResource("7_kul7h")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -151,8 +150,9 @@ script = ExtResource("12_rj7ui")
 z_index = -5
 offset_right = 768.0
 offset_bottom = 1152.0
+color = Color(0, 0, 0, 1)
 script = ExtResource("18_t78ct")
-_color = 2
+color_type = 2
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("14_ciwxs")

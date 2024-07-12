@@ -1,22 +1,22 @@
 class_name SplashProperties
 extends Resource
 
-@export var _start_size: int
-@export var _max_size: int
-@export var _tick: float
-@export var _lifetime: float
-@export var _colors: Array[Colors.Type]
+@export var start_size: int
+@export var max_size: int
+@export var tick_time: float
+@export var lifetime: float
+@export var color_types: Array[Colors.Type]
 
 
 func _init(
-	start_size: int = 1,
-	max_size: int = 5,
-	tick: float = 0.04,
-	lifetime: float = 0.4,
-	colors: Array[Colors.Type] = [Colors.Type.PRIMARY, Colors.Type.BACKGROUND],
+	_start_size: int = 1,
+	_max_size: int = 5,
+	_tick_time: float = 0.04,
+	_lifetime: float = 0.4,
+	_color_types: Array[Colors.Type] = [Colors.Type.PRIMARY, Colors.Type.BACKGROUND],
 ) -> void:
-	_start_size = start_size
-	_max_size = max_size
-	_tick = tick
-	_lifetime = lifetime
-	_colors = colors
+	start_size = _start_size
+	max_size = _max_size
+	tick_time = _tick_time
+	lifetime = _lifetime
+	color_types = _color_types

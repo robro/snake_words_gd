@@ -11,14 +11,14 @@ var _timer := Timer.new()
 
 
 func _ready() -> void:
-	add_theme_color_override("font_color", Colors.color[_color])
+	add_theme_color_override("font_color", Colors.palette[_color])
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
 
 
 func _process(_delta: float) -> void:
 	text = Global.partial_word.rpad(Global.target_word.length())
-	add_theme_color_override("font_color", Colors.color[_color])
+	add_theme_color_override("font_color", Colors.palette[_color])
 
 
 func _on_seeking_state_entered() -> void:

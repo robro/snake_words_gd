@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Grid" load_steps=2 format=3 uid="uid://t7nk4hcmj6yn"]
+
+[ext_resource type="Script" path="res://render/grid.gd" id="1_3w4uo"]
+
+[resource]
+script = ExtResource("1_3w4uo")
+rows = 12
+cols = 12

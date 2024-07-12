@@ -4,11 +4,11 @@ extends Label
 
 
 func _ready() -> void:
-	add_theme_color_override("font_color", Colors.color[_color])
+	add_theme_color_override("font_color", Colors.palette[_color])
 
 
 func _process(_delta: float) -> void:
-	add_theme_color_override("font_color", Colors.color[_color])
+	add_theme_color_override("font_color", Colors.palette[_color])
 	text = str(Global.combo) + " combo"
 
 

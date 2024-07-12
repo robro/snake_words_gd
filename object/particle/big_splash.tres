@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_4xaf5")
-_start_size = 1
-_max_size = 24
-_tick = 0.04
-_lifetime = 1.0
-_colors = Array[int]([3, 0, 1])
+start_size = 1
+max_size = 24
+tick_time = 0.04
+lifetime = 1.0
+color_types = Array[int]([3, 0, 1])

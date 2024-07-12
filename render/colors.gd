@@ -10,9 +10,8 @@ enum Type {
 
 const palettes_path = "res://render/palettes"
 const resource_type = "Palette"
-const transition_time = 0.5
 
-var color : Array[Color] = [
+var palette : Array[Color] = [
 	Color.HOT_PINK,
 	Color.HOT_PINK,
 	Color.HOT_PINK,
@@ -25,7 +24,8 @@ var prev_palette : Palette = null
 var palette_indices := []
 var palette_index : int = -1
 var shuffled_idx : int = -1
-var timer := Timer.new()
+var transition_time := 0.5
+var transition_timer := Timer.new()
 
 
 func _init() -> void:
@@ -47,20 +47,20 @@ func _init() -> void:
 
 	dir.list_dir_end()
 	palette_indices = range(palettes.size())
-	timer.wait_time = transition_time
-	timer.one_shot = true
-	add_child(timer)
+	transition_timer.wait_time = transition_time
+	transition_timer.one_shot = true
+	add_child(transition_timer)
 
 
 func _process(_delta: float) -> void:
-	if timer.is_stopped():
+	if transition_timer.is_stopped():
 		return
 
-	color[0] = curr_palette._primary.lerp(prev_palette._primary, timer.time_left / transition_time)
-	color[1] = curr_palette._secondary.lerp(prev_palette._secondary, timer.time_left / transition_time)
-	color[2] = curr_palette._background.lerp(prev_palette._background, timer.time_left / transition_time)
-	color[3] = curr_palette._highlight.lerp(prev_palette._highlight, timer.time_left / transition_time)
-	color[4] = curr_palette._shadow.lerp(prev_palette._shadow, timer.time_left / transition_time)
+	palette[0] = curr_palette._primary.lerp(prev_palette._primary, transition_timer.time_left / transition_time)
+	palette[1] = curr_palette._secondary.lerp(prev_palette._secondary, transition_timer.time_left / transition_time)
+	palette[2] = curr_palette._background.lerp(prev_palette._background, transition_timer.time_left / transition_time)
+	palette[3] = curr_palette._highlight.lerp(prev_palette._highlight, transition_timer.time_left / transition_time)
+	palette[4] = curr_palette._shadow.lerp(prev_palette._shadow, transition_timer.time_left / transition_time)
 
 
 func next_palette() -> void:
@@ -77,4 +77,5 @@ func next_palette() -> void:
 
 	prev_palette = curr_palette if curr_palette != null else palettes[shuffled_idx]
 	curr_palette = palettes[shuffled_idx]
-	timer.start()
+	transition_timer.wait_time = transition_time
+	transition_timer.start()

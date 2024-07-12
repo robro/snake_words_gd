@@ -11,7 +11,7 @@ var blinking := false
 func _ready() -> void:
 	add_theme_color_override(
 		"font_color", 
-		Colors.color[off_color if blinking else on_color]
+		Colors.palette[off_color if blinking else on_color]
 	)
 	blink_timer.wait_time = blink_speed
 	blink_timer.timeout.connect(_on_timer_timeout)
@@ -22,7 +22,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	add_theme_color_override(
 		"font_color", 
-		Colors.color[off_color if blinking else on_color]
+		Colors.palette[off_color if blinking else on_color]
 	)
 
 

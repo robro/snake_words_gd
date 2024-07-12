@@ -8,11 +8,11 @@ var tally_score : float = 0.0
 
 
 func _ready() -> void:
-	add_theme_color_override("font_color", Colors.color[_color])
+	add_theme_color_override("font_color", Colors.palette[_color])
 
 
 func _process(delta: float) -> void:
-	add_theme_color_override("font_color", Colors.color[_color])
+	add_theme_color_override("font_color", Colors.palette[_color])
 	tally_score = min(Global.score, tally_score + tally_rate * delta)
 	text = str(int(tally_score))
 

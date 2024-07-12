@@ -1,11 +1,11 @@
 extends ColorRect
 
-@export var _color : Colors.Type
+@export var color_type : Colors.Type
 
 
 func _ready() -> void:
-	color = Colors.color[_color]
+	color = Colors.palette[color_type]
 
 
 func _process(_delta: float) -> void:
-	color = Colors.color[_color]
+	color = Colors.palette[color_type]

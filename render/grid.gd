@@ -1,98 +1,54 @@
 class_name Grid
-extends Node2D
+extends Resource
 
-enum MyEnum { THIS, IS, AN, ENUM }
+@export var rows : int:
+	set(v):
+		rows = v
+		cells.resize(rows)
+@export var cols : int:
+	set(v):
+		cols = v
+		for row in cells:
+			row.resize(cols)
 
-@export var _rows : int = 12
-@export var _cols : int = 12
-@export_range(0, 100, 1, "suffix:px") var _cell_size : int = 64
-@export var _empty_text : String = "."
-@export var _color : Colors.Type
-@export var _font : Font
-@onready var _offset := Vector2i(_cell_size / 4, _cell_size - _cell_size / 4)
-
-var _cells : Array[Cell]
-
-
-func _ready() -> void:
-	assert(_font is Font)
-	for i in range(_rows * _cols):
-		_cells.append(Cell.new(_empty_text[i % _empty_text.length()], _color))
+var cells : Array[Array] = []
+signal updated
 
 
-func _process(_delta: float) -> void:
-	fill(_empty_text)
-	for p in get_tree().get_nodes_in_group("particles"):
-		if p is Particle and contains(p._pos):
-			var idx := idx_from_pos(p._pos)
-			_cells[idx]._alt_color = _cells[idx]._alt_color.blend(p.get_color())
-
-	var drawables := get_tree().get_nodes_in_group("drawable")
-	drawables.sort_custom(
-		func(a: Node2D, b: Node2D) -> bool: return a.z_index < b.z_index
-	)
-	for node in drawables:
-		node.draw_to(self)
-
-	queue_redraw()
-
-
-func _draw() -> void:
-	for i in _cells.size():
-		draw_char(
-			_font,
-			pos_from_idx(i) * _cell_size + _offset,
-			_cells[i]._char,
-			_cell_size,
-			Colors.color[_cells[i]._color].blend(_cells[i]._alt_color)
-		)
-
-
-func fill(text: String) -> void:
-	for i in _cells.size():
-		_cells[i]._char = text[i % text.length()]
-		_cells[i]._color = _color
-		_cells[i]._alt_color = Color(0, 0, 0, 0)
-
-
-func contains(pos: Vector2i) -> bool:
-	return Rect2i(0, 0, _cols, _rows).has_point(pos)
-
-
-func get_free_pos() -> Vector2i:
-	var occupied : Array[int] = []
-	for node in get_tree().get_nodes_in_group("drawable"):
-		if contains(node._pos):
-			occupied.append(idx_from_pos(node._pos))
-
-	var free := range(_cols * _rows)
-	for idx in occupied:
-		free.erase(idx)
-
-	if free.is_empty():
-		return Vector2i(-1, -1)
-
-	return pos_from_idx(free[randi_range(0, len(free) - 1)])
-
-
-func idx_from_pos(pos : Vector2i) -> int:
-	return pos.y * _cols + pos.x
-
-
-func pos_from_idx(idx: int) -> Vector2i:
-	return Vector2i(idx % _cols, idx / _cols)
+func fill(cell: Cell) -> void:
+	for y in cells.size():
+		for x in cells[y].size():
+			set_cell(Vector2(x, y), cell.ascii, cell.color_type, cell.blend_color)
 
 
 func set_cell(
-	pos: Vector2i,
-	text: String,
-	color: Colors.Type,
-	alt_color: Color = Color(0, 0, 0, 0)
+	pos: Vector2,
+	ascii: String,
+	color_type: Colors.Type,
+	blend_color: Color,
 ) -> void:
-	assert(text.length() == 1)
 	if not contains(pos):
 		return
-	var cell := _cells[idx_from_pos(pos)]
-	cell._char = text
-	cell._color = color
-	cell._alt_color = alt_color
+
+	if cells[pos.y][pos.x] is Cell:
+		cells[pos.y][pos.x].ascii = ascii
+		cells[pos.y][pos.x].color_type = color_type
+		cells[pos.y][pos.x].blend_color = blend_color
+	else:
+		cells[pos.y][pos.x] = Cell.new(ascii, color_type, blend_color)
+
+	emit_signal("updated")
+
+
+func set_blend_color(pos: Vector2, blend_color: Color) -> void:
+	if not contains(pos) or not cells[pos.y][pos.x] is Cell:
+		return
+
+	cells[pos.y][pos.x].blend_color = cells[pos.y][pos.x].blend_color.blend(blend_color)
+
+
+func contains(point: Vector2) -> bool:
+	if cells.is_empty():
+		return false
+
+	return Rect2(0, 0, cells[0].size(), cells.size()).has_point(point)
