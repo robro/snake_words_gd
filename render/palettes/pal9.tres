@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Palette" load_steps=2 format=3 uid="uid://drogyctvphm7l"]
+
+[ext_resource type="Script" path="res://render/palette.gd" id="1_erpce"]
+
+[resource]
+script = ExtResource("1_erpce")
+_primary = Color(0.944784, 0.362549, 0.158948, 1)
+_secondary = Color(0.570015, 0.290468, 0.136084, 1)
+_background = Color(0.26152, 0.228033, 0.189928, 1)
+_highlight = Color(0.519672, 1, 0.701476, 1)
+_shadow = Color(0.490485, 0.605929, 0.489182, 1)
