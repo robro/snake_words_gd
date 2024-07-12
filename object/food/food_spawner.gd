@@ -50,8 +50,8 @@ func get_free_pos() -> Vector2:
 		func(n: Node) -> Vector2: return n.position
 	)
 	var free : Array[Vector2] = []
-	for x in grid.cols:
-		for y in grid.rows:
+	for y in grid.cells.size():
+		for x in grid.cells[y].size():
 			var try_pos := Vector2(x, y)
 			var try_idx := occupied.find(try_pos)
 			if try_idx == -1:
