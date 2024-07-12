@@ -30,6 +30,7 @@ grid = ExtResource("4_a0jb1")
 
 [node name="SplashSpawner" type="Node2D" parent="." node_paths=PackedStringArray("title_snake")]
 script = ExtResource("2_63tu2")
+transition_delay = 0.5
 grid = ExtResource("4_a0jb1")
 title_snake = NodePath("../TitleSnake")
 title_splash = ExtResource("3_sr10y")

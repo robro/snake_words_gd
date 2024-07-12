@@ -4,13 +4,15 @@ extends Node2D
 var color_types: Array[Colors.Type]
 var lifetime: float
 var life_timer := Timer.new()
+var gradient := Gradient.new()
+@onready var color_count := color_types.size()
 
 signal is_done
 
 func _init(
 	_position: Vector2,
 	_color_types: Array[Colors.Type],
-	_lifetime: float
+	_lifetime: float,
 ) -> void:
 	assert(_lifetime > 0)
 
@@ -26,18 +28,16 @@ func _init(
 	add_child(life_timer)
 
 
-func get_color() -> Color:
-	var gradient := Gradient.new()
-	var color_count := color_types.size()
-
-	gradient.colors = color_types.map(
-		func(c: int) -> Color: return Colors.palette[c]
-	)
-	gradient.colors[-1].a = 0
-	gradient.offsets = range(color_count).map(
-		func(n: int) -> float: return n / float(color_count - 1)
-	)
+func _ready() -> void:
 	gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CUBIC
+	gradient.offsets = range(color_count).map(
+		func(n: int) -> float: return n / float(color_count - 1))
+
+
+func get_color() -> Color:
+	gradient.colors = color_types.map(
+		func(c: int) -> Color: return Colors.palette[c])
+	gradient.colors[-1].a = 0
 	return gradient.sample(((life_timer.time_left / lifetime) - 1) * -1)
 
 
