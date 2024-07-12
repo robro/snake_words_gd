@@ -1,16 +1,16 @@
 extends Label
 
-@export var _color := Colors.Type.SECONDARY
+@export var color_type := Colors.Type.SECONDARY
 @export var food_spawner : FoodSpawner
 
 
 func _ready() -> void:
 	assert(food_spawner is FoodSpawner)
-	add_theme_color_override("font_color", Colors.palette[_color])
+	add_theme_color_override("font_color", Colors.palette[color_type])
 
 
 func _process(_delta: float) -> void:
-	add_theme_color_override("font_color", Colors.palette[_color])
+	add_theme_color_override("font_color", Colors.palette[color_type])
 
 	if food_spawner.all_edible():
 		text = (Global.target_word.substr(Global.partial_word.length())

@@ -1,10 +1,10 @@
 extends ColorRect
 
-@export var _color := Colors.Type.SECONDARY
+@export var color_type := Colors.Type.SECONDARY
 
 
 func _process(_delta: float) -> void:
-	color = Colors.palette[_color]
+	color = Colors.palette[color_type]
 	
 
 func _on_seeking_state_entered() -> void:
